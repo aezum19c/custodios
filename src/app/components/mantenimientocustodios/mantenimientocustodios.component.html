@@ -1,0 +1,331 @@
+<div class="styleMantenimientoCustodios">
+    <br>
+    <div class="row">
+        <div class="col">
+            <img src="/assets/logo_infractor.png" alt="image" style="width: 50px; height: 50px;">
+        </div>
+        <div class="col">
+            <span class="login100-form-title p-b-51" >
+                REGISTRO DE CUSTODIOS
+            </span>
+        </div>
+        <div class="col text-right">
+            <button (click)="cerrarSession()" class="btn btn-secondary" type="button">
+                <i class="fa fa-power"> </i>
+                CERRAR SESIÓN
+            </button>
+        </div>
+        <hr>
+    </div>
+    
+    <h3>Mantenimiento Custodio</h3>
+    
+    <div class="row text-right">
+        <div class="col">
+            <button type="button" (click)="regresar()" class="btn btn-danger">
+                <i class="fa fa-arrow-left"></i>
+                Regresar
+            </button>
+        </div>
+    </div>
+    
+    <form autocomplete="off" [formGroup]="formCustodio" class="formulario">
+        <mat-tab-group >
+            <mat-tab label="Custodio" >
+                <br>
+                <div *ngIf="custodioSelected === '1' ">
+                    <h4>Datos Generales</h4>
+                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                        <div class="col-md-4">
+                            <label class="form_label">Nombres</label>
+                            <input type="text" class="form-control" formControlName="nombres" name="nombres" maxlength="30">
+                        </div>
+            
+                        <div class="col-md-4">
+                            <label class="form_label">Apellidos</label>
+                            <input type="text" class="form-control"   formControlName="apellidos" name="apellidos" maxlength="30">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form_label">DNI o CE</label>
+                            <input type="text" class="form-control" formControlName="dniCe" name="dniCe" maxlength="30">
+                        </div>
+                    </div>
+                    <br>
+                    <h4>Capacitación</h4>
+                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                        <div class="col-md-4">
+                            <label class="form_label">Recibio Capacitación</label>
+                            <input type="text" class="form-control" formControlName="recibioCapacitacion" name="recibioCapacitacion" maxlength="30">
+                        </div>
+            
+                        <div class="col-md-4">
+                            <label class="form_label">Fecha Capacitación</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaCapacitacion" name="fechaCapacitacion" [class.is-invalid]="fechaSesionNoValido">
+                        </div>
+            
+                        <div class="col-md-4">
+                            <label class="form_label">Número de Constancia de capacitación</label>
+                            <input type="text" class="form-control" formControlName="numeroConstanciaCapacitacion" name="numeroConstanciaCapacitacion" maxlength="30">
+                        </div>
+                    </div>
+                    <br>
+                    <h4>Resolución de Acreditación</h4>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-4">
+                            <label class="form_label">Solicitud de renocomientos</label>
+                            <input type="text" class="form-control" formControlName="solicitudReconocimiento"  name="solicitudReconocimiento" maxlength="11">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form_label">Fecha de Solicitud</label>
+                            
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaSolicitud" name="fechaSolicitud" [class.is-invalid]="fechaSesionNoValido">
+                                
+                            <small *ngIf="fechaSesionNoValido" class="text-danger">
+                                Seleccione una fecha
+                            </small>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form_label">Acto Administrativo</label>
+                            <input type="text" class="form-control" formControlName="actoAdministrativo"  name="actoAdministrativo" maxlength="11">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-4">
+                            <label class="form_label">Fecha Acto Administrativo</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaActoAdministrativo" name="fechaActoAdministrativo" [class.is-invalid]="fechaSesionNoValido">
+                                
+                            <small *ngIf="fechaSesionNoValido" class="text-danger">
+                                Seleccione una fecha
+                            </small>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form_label">Vigencia</label>
+                            <input type="text" class="form-control" formControlName="vigencia"  name="vigencia" maxlength="11">
+                        </div>
+                       
+                    </div>
+                
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-4">
+                            <label class="form_label">Periodo de Vigencia</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="inicioVigencia" name="inicioVigencia" [class.is-invalid]="fechaSesionNoValido">
+                                
+                            <small *ngIf="fechaSesionNoValido" class="text-danger">
+                                Seleccione una fecha
+                            </small>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form_label"></label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="finVigencia" name="finVigencia" [class.is-invalid]="fechaSesionNoValido">
+                        </div>
+                       
+                        <div class="col-md-4">
+                            <label class="form_label">Código Carné de acreditación</label>
+                            <input type="text" class="form-control" formControlName="codigoCarneAcreditacion"  name="codigoCarneAcreditacion" maxlength="11">
+                        </div>
+                    </div>
+                    <br>
+                    <h4>Pérdida de Acreditación</h4>
+                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                        <div class="col-md-4">
+                            <label class="form_label">Pérdida de capacitación</label>
+                            <input type="text" class="form-control" formControlName="perdidaAcreditacion" name="perdidaAcreditacion" maxlength="30">
+                        </div>
+            
+                        <div class="col-md-4 small">
+                            <label class="form_label">Motivo</label>
+                            <input type="text" class="form-control" formControlName="motivo" name="motivo" maxlength="30">
+                        </div>
+            
+                        <div class="col-md-4">
+                            <label class="form_label">Fecha Acto Administrativo</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaActoAdminPerdidadAcredi" name="fechaActoAdminPerdidadAcredi" [class.is-invalid]="fechaSesionNoValido">
+                                
+                            <small *ngIf="fechaSesionNoValido" class="text-danger">
+                                Seleccione una fecha
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="custodioSelected === '2' ">
+                    <h4>CUSTODIOS RENOCIDOS</h4>
+                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                        <div class="col-md-4">
+                            <label class="form_label">Nombres</label>
+                            <input type="text" class="form-control" formControlName="nombres" name="nombres" maxlength="30">
+                        </div>
+            
+                        <div class="col-md-4">
+                            <label class="form_label">DNI</label>
+                            <input type="text" class="form-control" formControlName="dniCe" name="dniCe" maxlength="30">
+                        </div>
+    
+                        <div class="col-md-4 small">
+                            <label class="form_label">Cargo</label>
+                            <input type="text" class="form-control"   formControlName="cargo" name="cargo" maxlength="30">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                        <div class="col-md-4">
+                            <label class="form_label">Fecha de Capacitación</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaCapacitacion" name="fechaCapacitacion" [class.is-invalid]="fechaSesionNoValido">
+                                
+                            <small *ngIf="fechaSesionNoValido" class="text-danger">
+                                Seleccione una fecha
+                            </small>
+                        </div>
+            
+                        <div class="col-md-4">
+                            <label class="form_label">Numero Constancia Capacitacion</label>
+                            <input type="text" class="form-control" formControlName="numeroConstanciaCapacitacion" name="numeroConstanciaCapacitacion" maxlength="30">
+                        </div>
+    
+                        <div class="col-md-4 small">
+                            <label class="form_label">Código Carné Acreditación</label>
+                            <input type="text" class="form-control"   formControlName="cargo" name="cargo" maxlength="30">
+                        </div>
+                    </div>
+                </div>
+                
+                <br>
+                <br>
+            </mat-tab>
+    
+            <mat-tab label="Renovacion">
+                <br>
+                <div class="row "><!-- text-right -->
+                    <div class="col">
+                        <div *ngIf="custodioSelected === '1' ">
+                            <h4>RENOVACIONES</h4>
+                        </div>
+                        <div *ngIf="custodioSelected === '2' ">
+                            <h4>RENOVACIONES DE COMITÉ DE VIGILANCIA Y CONTROL</h4>
+                        </div>
+                    </div>
+                    <div class="col text-right">
+                        <button type="button" (click)="nuevoContrato()" class="btn btn-primary">
+                            <i class="fa fa-plus"> </i>
+                            Agregar
+                        </button>
+                    </div>
+                </div>
+                <table class="table mt-3">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ACTO ADMINISTRATIVO</th>
+                            <th scope="col">VIGENCIA</th>
+                            <th scope="col">FECHA ACTO ADMINISTRACION</th>
+                            <th scope="col">ACCIÓN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let contrato of contratos ">
+                            <td>{{ contrato.actoAdministrativo }}</td>
+                            <td>{{ contrato.vigencia }}</td>
+                            <td>{{ contrato.fechaActoAdministrativo | ddMMyyyy }}</td>
+                            <!-- <td>{{ custodio.fechaExpiracion | ddMMyyyy }}</td> -->
+                            <td>
+                                <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
+                                <button class="btn btn-info mr-1" (click)="verContrato(contrato)"> <i class="fa fa-pencil"></i></button>
+                                <button *ngIf="contrato.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarRegistro(contrato)"> <i class="fa fa-trash"></i></button>
+                                <!-- <button *ngIf="contrato.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarRegistro(custodio)"> <i class="fa fa-check"></i></button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <div class="row" style="padding: 10px 10px 10px 10px;">
+                    <div class="col-md-4">
+                        <label class="form_label">Renovaciones</label>
+                        <input type="text" class="form-control" formControlName="renovaciones"  name="renovaciones" maxlength="11">
+                    </div>
+    
+                    <div class="col-md-4">
+                        <label class="form_label">Acto Admnistrativo de renovación</label>
+                        <input type="text" class="form-control" formControlName="actoAdministrativoRenovacion"  name="actoAdministrativoRenovacion" maxlength="11">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form_label">Fecha de Acto Administrativo</label>
+                        
+                        <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaActoAdministrativoRenovacion" name="fechaActoAdministrativoRenovacion" [class.is-invalid]="fechaSesionNoValido">
+                            
+                        <small *ngIf="fechaSesionNoValido" class="text-danger">
+                            Seleccione una fecha
+                        </small>
+                    </div>
+                </div>
+                <div class="row" style="padding: 10px 10px 10px 10px;">
+                    <div class="col-md-4">
+                        <label class="form_label">Vigencia</label>
+                        <input type="text" class="form-control" formControlName="periodoVigencia"  name="periodoVigencia" maxlength="11">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form_label">Periodo de Vigencia</label>
+                        <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="inicioPeriodoVigencia" name="inicioPeriodoVigencia" [class.is-invalid]="fechaSesionNoValido">
+                            
+                        <small *ngIf="fechaSesionNoValido" class="text-danger">
+                            Seleccione una fecha
+                        </small>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" formControlName="finPeriodoVigencia"  name="finVigencia" maxlength="11">
+                    </div>
+                </div> -->
+                <br>
+                <br>
+            </mat-tab>
+            <mat-tab label="Adjuntos Custodio" ><!-- *ngIf="mostrar" -->
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div *ngIf="custodioSelected === '1' ">
+                            <h2>ADJUNTOS TITULO HABILITANTE</h2>
+                        </div>
+                        <div *ngIf="custodioSelected === '2' ">
+                            <h2>ADJUNTOS COMITE</h2>
+                        </div>
+                    </div>
+                    <div class="col text-right">
+                        <button type="button" (click)="nuevoDocumento()" class="btn btn-primary">
+                            <i class="fa fa-paperclip"></i>
+                            Nuevo Adjunto
+                        </button>
+                    </div>
+                </div>
+                <table class="table mt-5">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ASUNTO</th>
+                            <th scope="col">NOMBRE</th>
+                            <th scope="col">ACCIÓN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let adjunto of adjuntos ">
+                            <td>{{ adjunto.descripcion }}</td>
+                            <td>{{ adjunto.nombre }}</td>
+                            <td>
+                                <button class="btn btn-info mr-1" (click)="descargarDocumento(adjunto)"> <i class="fa fa-download"></i></button>
+                                <button class="btn btn-info mr-1" (click)="editarDocumento(adjunto)"> <i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumento(adjunto)"> <i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--mat-paginator [length]="totalAdjuntos" [pageSize]="regxpag" hidePageSize showFirstLastButtons (page)="paginar($event)">
+                </mat-paginator-->
+                <br>
+                <br>
+            </mat-tab> 
+    
+        </mat-tab-group>
+    </form>
+    <div class="col">
+        <div class="form-group text-right">
+            <button type="button" (click)="guardar()" class="btn btn-primary w-25">
+                <i class="fa fa-save"></i>
+                Guardar
+            </button>
+        </div>
+    </div>
+    
+</div>

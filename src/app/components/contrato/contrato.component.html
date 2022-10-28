@@ -1,0 +1,92 @@
+
+<h3 mat-dialog-title style="text-align: center;" *ngIf="tieneRenovacion=='1'">RENOVACIONES</h3>
+<h3 mat-dialog-title style="text-align: center;" *ngIf="tieneRenovacion=='2'">RENOVACIONES DE COMITÉ DE VIGILANCIA Y CONTROL</h3>
+<div mat-dialog-content>
+    <div style="margin-top: 20px; width:750px;">
+        <form autocomplete="off" [formGroup]="formContrato">
+            <!-- <div class="row">
+                <div class="col-md-4">
+                    <label class="form_label">Renovaciones</label>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select" aria-label="" formControlName="elegimosRenovacion"
+                        #teams (change)="onSelected(teams.value)">
+                        <option value="2">No</option>
+                        <option value="1">Si</option>
+                    </select>
+                </div>
+            </div> -->
+            <div *ngIf="tieneRenovacion=='1'">
+                <div class="row" *ngIf="contrato.tipoContrato=='1'">
+                    <div class="col-md-5">
+                        <label for="renovacion">Resolución renovación de:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                            <input type="text" matInput formControlName="renovacion" name="renovacion" [class.is-invalid]="asuntoNoValido">
+                        </mat-form-field>
+                    </div>
+                </div>
+    
+                <div class="row" *ngIf="contrato.tipoContrato=='2'">
+                    <div class="col-md-4">
+                        <label for="actoAdministrativo">Acto Administrativo de renovación de la acreditación:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                            <input type="text" matInput formControlName="actoAdministrativo" name="actoAdministrativo" [class.is-invalid]="asuntoNoValido">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="fechaActo">Fecha Acto Administrativo:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                            <input type="text" matInput formControlName="fechaActo" name="fechaActo" [class.is-invalid]="asuntoNoValido">
+                        </mat-form-field>
+                    </div>
+                </div>
+    
+    
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="vigencia">Vigencia:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                            <input type="text" matInput formControlName="vigencia" name="vigencia" [class.is-invalid]="asuntoNoValido">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="periodo">Periodo Vigilancia:</label>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                            <input type="text" matInput formControlName="periodoInicio" name="periodoInicio" [class.is-invalid]="asuntoNoValido">
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                            <input type="text" matInput formControlName="periodoFin" name="periodoFin" [class.is-invalid]="asuntoNoValido">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            
+            <br/><br/>
+            <div class="row">
+                <div class="col-md-12" style="text-align: center;">
+                    <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
+                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarContrato()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                </div>
+            </div>
+            <input type="button" #btncerrarCont mat-dialog-close class="ocultar">
+        </form>
+    </div>
+</div>

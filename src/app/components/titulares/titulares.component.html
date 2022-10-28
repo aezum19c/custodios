@@ -1,0 +1,242 @@
+<div class="styleTitulares">
+
+    <br>
+    <div class="row">
+        <div class="col">
+            <img src="/assets/logo_infractor.png" alt="image" style="width: 50px; height: 50px;">
+        </div>
+        <div class="col">
+            <span class="login100-form-title p-b-51" >
+                REGISTRO DE CUSTODIOS
+            </span>
+        </div>
+        <div class="col text-right">
+            <button (click)="cerrarSession()" class="btn btn-secondary" type="button">
+                <i class="fa fa-power"> </i>
+                CERRAR SESIÓN
+            </button>
+        </div>
+        <hr>
+    </div>
+    
+    <h2>Titulo Habilitante / Comites de Vigilancia</h2>
+    
+    <div class="row text-right">
+        <div class="col">
+            <button type="button" (click)="regresar()" class="btn btn-danger">
+                <i class="fa fa-arrow-left"></i>
+                Regresar
+            </button>
+        </div>
+    </div>
+    
+    <form autocomplete="off" [formGroup]="formCustodio" class="formulario">
+        <mat-tab-group >
+            <mat-tab label="Titulo Habilitante / Comunidad"> 
+                <br>
+                <div class="row" style="padding: 10px 10px 10px 10px;">
+                    <div class="col-md-6">
+                        <label class="form_label">Tipo de Custodio</label>
+                        <select class="form-select" aria-label="" formControlName="tipoCustodio"
+                        #teams (change)="onSelected(teams.value)">
+                            <!-- <option *ngFor="let observacion of dominioObservacion"
+                            value={{observacion.codigoDetalle}}>
+                                {{observacion.valorDetalle}}
+                            </option> -->
+                            <option value="1">Titulo Habilitante</option>
+                            <option value="2">Comite de Vigilancia</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <div *ngIf="custodioSelected === '1' ">
+                    <h4>Datos del Titulo Habilitante</h4>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-6">
+                            <label class="form_label">Nro. Titulo Habilitante</label>
+                            <input type="text" class="form-control form-imput" formControlName="nroTituloHabilitante" name="nroTituloHabilitante"  maxlength="30">
+                        </div>
+        
+                        <div class="col-md-6">
+                            <label class="form_label">Nombres del Titulo Habilitante</label>
+                            <input type="text" class="form-control" formControlName="nombreTituloHabilitante"  name="nombreTituloHabilitante" maxlength="150">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-6">
+                            <label class="form_label">Nombres del Titular del Titulo Habilitante</label>
+                            <input type="text" class="form-control" formControlName="nombreTitularHabilitante"  name="nombreTitularHabilitante" maxlength="150">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form_label">DNI o RUC</label>
+                            <input type="text" class="form-control" formControlName="dniRuc"  name="dniRuc" maxlength="11">
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="custodioSelected==='2'">
+                    <h2>Datos de la Comunidad</h2>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-4">
+                            <label class="form_label">Nombre de la Comunidad</label>
+                            <input type="text" class="form-control" formControlName="nombreComunidad" name="nombreComunidad"  maxlength="30">
+                        </div>
+        
+                        <div class="col-md-4">
+                            <label class="form_label">Ambito Territorial</label>
+                            <input type="text" class="form-control" formControlName="ambitoTerritorial"  name="ambitoTerritorial" maxlength="150">
+                        </div>
+    
+                        <div class="col-md-4">
+                            <label class="form_label">Provincia</label>
+                            <input type="text" class="form-control" formControlName="provincia"  name="provincia" maxlength="150">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-4">
+                            <label class="form_label">Distrito</label>
+                            <input type="text" class="form-control" formControlName="distrito"  name="distrito" maxlength="11">
+                        </div>
+    
+                        <div class="col-md-4">
+                            <label class="form_label">Extensión</label>
+                            <input type="text" class="form-control" formControlName="extension"  name="extension" maxlength="150">
+                        </div>
+    
+                        <div class="col-md-4">
+                            <label class="form_label">Nro. Titulo Habilitante</label>
+                            <input type="text" class="form-control form-imput" formControlName="nroTituloHabilitante" name="nroTituloHabilitante"  maxlength="30">
+                        </div>
+                    </div>
+    
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-4">
+                            <label class="form_label">Extensión</label>
+                            <input type="text" class="form-control" formControlName="extension"  name="extension" maxlength="150">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form_label">Periodo de Vigencia: Inicio</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="inicioVigencia" name="inicioVigencia" [class.is-invalid]="fechaSesionNoValido">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form_label">Fin</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="finVigencia" name="finVigencia" [class.is-invalid]="fechaSesionNoValido">
+                        </div>
+                    </div>
+    
+                    <br>
+                    <h2>Datos de Comite de Vigilancia y Control Reconocido</h2>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-6">
+                            <label class="form_label">Solicitud de renocomiento de Comité Vigilancia</label>
+                            <input type="text" class="form-control" formControlName="solicitudReconocimiento"  name="extension" maxlength="150">
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form_label">Fecha Solicitud</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaSolicitud" name="fechaSolicitud" [class.is-invalid]="fechaSesionNoValido">
+                        </div>
+                    </div>
+    
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-6">
+                            <label class="form_label">Acto Administrativo de renocimiento del Comite</label>
+                            <input type="text" class="form-control" formControlName="actoAdministrativo"  name="actoAdministrativo" maxlength="150">
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form_label">Fecha de la Resolución de reconocimiento del Comite</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaSolicitud" name="fechaSolicitud" [class.is-invalid]="fechaSesionNoValido">
+                        </div>
+                    </div>
+    
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-4">
+                            <label class="form_label">Vigencia</label>
+                            <input type="text" class="form-control" formControlName="vigencia"  name="vigencia" maxlength="150">
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label class="form_label">Periodo de Vigencia del permiso: Inicio</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="inicioPeriodoVigencia" name="inicioPeriodoVigencia" [class.is-invalid]="fechaSesionNoValido">
+                        </div>
+    
+                        <div class="col-md-4">
+                            <label class="form_label">Fin</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="finPeriodoVigencia" name="finPeriodoVigencia" [class.is-invalid]="fechaSesionNoValido">
+                        </div>
+                    </div>
+    
+                    <table class="table mt-5">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">ASUNTO</th>
+                                <th scope="col">NOMBRE</th>
+                                <th scope="col">ACCIÓN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let adjunto of adjuntos ">
+                                <td>{{ adjunto.descripcion }}</td>
+                                <td>{{ adjunto.nombre }}</td>
+                                <td>
+                                    <button class="btn btn-info mr-1" (click)="descargarDocumento(adjunto)"> <i class="fa fa-download"></i></button>
+                                    <button class="btn btn-info mr-1" (click)="editarDocumento(adjunto)"> <i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumento(adjunto)"> <i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+                <div class="col">
+                    <div class="form-group text-right">
+                        <button type="button" (click)="guardar()" class="btn btn-primary w-25">
+                            <i class="fa fa-save"></i>
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+                <br>
+                <br>
+            </mat-tab>
+    
+            <mat-tab label="Custodio" >
+                <br>
+                <div class="row "><!-- text-right -->
+                    <div class="col text-right">
+                        <button type="button" (click)="nuevoTipoCustodio()" class="btn btn-primary">
+                            <i class="fa fa-plus"> </i>
+                            Nuevo Custodio
+                        </button>
+                    </div>
+                </div>
+                <table class="table mt-3">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Nombres</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">FECHA CAPACITACIÓN</th>
+                            <th scope="col">ACCIÓN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let custodio of custodios ">
+                            <td>{{ custodio.nombres }}</td>
+                            <td>{{ custodio.dniCe }}</td>
+                            <td>{{ custodio.fechaCapacitacion | ddMMyyyy }}</td>
+                            <!-- <td>{{ custodio.fechaExpiracion | ddMMyyyy }}</td> -->
+                            <td>
+                                <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
+                                <button class="btn btn-info mr-1" (click)="verCustodio(custodio)"> <i class="fa fa-pencil"></i></button>
+                                <button *ngIf="custodio.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarRegistro(custodio)"> <i class="fa fa-trash"></i></button>
+                                <!-- <button *ngIf="contrato.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarRegistro(custodio)"> <i class="fa fa-check"></i></button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-tab>
+    
+        </mat-tab-group>
+    </form>
+</div>

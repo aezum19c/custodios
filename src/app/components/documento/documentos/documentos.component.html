@@ -1,0 +1,56 @@
+<h3 mat-dialog-title>{{ (accion === 'I') ? 'Nuevo' : 'Modificar' }} - Documento</h3>
+<div mat-dialog-content>
+    <div style="margin-top: 20px; width:650px;">
+        <form autocomplete="off" [formGroup]="formDocumento">
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="asunto">Asunto:</label>
+                </div>
+                <div class="col-md-10">
+                    <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                        <input type="text" matInput formControlName="asunto" name="asunto" [class.is-invalid]="asuntoNoValido">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row" *ngIf="asuntoNoValido">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-10">
+                    <small *ngIf="asuntoNoValido" class="text-danger">
+                        Ingresar el Asunto del Documento.
+                    </small>
+                </div>
+            </div>
+            <div class="row" *ngIf="accion === 'I'">
+                <div class="col-md-2" style="margin-top: 7px;">
+                    <label for="adjuntodoc">Archivo:</label>
+                </div>
+                <div class="col-md-9">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <input type="text" matInput formControlName="adjuntodoc" name="adjuntodoc" readonly [class.is-invalid]="adjuntodocNoValido">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-1" style="margin-top: 7px;">
+                    <mat-icon (click)="elegirArchivo()" style="font-size: 23px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                    <input #btnselectDoc class="ocultar" (change)="seleccion_archivo($event)" type="file">
+                </div>
+            </div>
+            <div class="row" *ngIf="adjuntodocNoValido">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-10">
+                    <small *ngIf="adjuntodocNoValido" class="text-danger">
+                        Elija un adjunto.
+                    </small>
+                </div>
+            </div><br/><br/>
+            <div class="row">
+                <div class="col-md-12" style="text-align: left;">
+                    <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
+                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumento()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                </div>
+            </div>
+            <input type="button" #btncerrarDoc mat-dialog-close class="ocultar">
+        </form>
+    </div>
+</div>
