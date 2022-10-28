@@ -14,6 +14,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { DocumentosComponent } from '../documento/documentos/documentos.component';
 import { TitularModel } from 'src/app/models/titular.model';
 import { ContratoModel } from 'src/app/models/contrato.model';
+import { ComunidadModel } from 'src/app/models/comunidad.model';
+import { ComunidadService } from 'src/app/service/comunidad.service';
+import { ComunidadComponent } from '../comunidad/comunidad.component';
 /* import { timeStamp } from 'console'; */
 
 @Component({
@@ -34,6 +37,7 @@ export class TitularesComponent implements OnInit {
   usuarioSession : UserModel = new UserModel();
 
   custodios! : CustodioModel[]; 
+  comunidades! : ComunidadModel[];
 
   page: number = 1;
   regxpag: number = 10;
@@ -45,6 +49,7 @@ export class TitularesComponent implements OnInit {
   constructor( 
     private _documentoService: DocumentoService,
     private custodioService: CustodiosService,
+    private comuniddadService: ComunidadService,
     private router: Router,
     private fb: FormBuilder,
     private datePipe: DatePipe,
@@ -58,6 +63,7 @@ export class TitularesComponent implements OnInit {
     //const 
     this.crearFormulario();
     this.obtenerCustodios();
+    this.obtenerComunidades();
     //this.cargarAdjuntos();
   }
 
@@ -374,7 +380,6 @@ export class TitularesComponent implements OnInit {
 
     this.router.navigate(['/mantenimientocustodios/nuevo']);
   }
-
   
   obtenerCustodios(){
     /*this.custodiosServices.getCustodios(0, this.filtro, this.page, this.regxpag).subscribe((data: any) => {
@@ -473,4 +478,89 @@ export class TitularesComponent implements OnInit {
     ];
   }
 
+
+
+  verComunidad(comunidad: ComunidadModel){
+  }
+
+  obtenerComunidades(){
+    /*this.custodiosServices.getCustodios(0, this.filtro, this.page, this.regxpag).subscribe((data: any) => {
+      switch (data.result_code){
+        case 200 : {
+          this.respuestaServicio = data;
+          this.totalRegistros = data.content[0].totalRegistros;
+          this.custodios = this.respuestaServicio.content;
+          break;
+        }
+        default: { 
+          break; 
+       } 
+      }
+    });*/
+
+    this.comunidades = [
+      { comunidadId: 1,
+        nroTituloHabilitante: 'NRTH-7113-ZALOI',
+        extension: 'EXTENSION 1',
+        fechaPeriodoInicio:'11/10/2022',
+        fechaPeriodoFin: '11/10/2022',
+        vigencia: 2,
+        estado: 1,
+        usuarioRegistro: 1,
+        fechaRegistro: '',
+        totalRegistros: '3',
+        totalPaginas: 3,
+      },
+      { comunidadId: 2,
+        nroTituloHabilitante: 'NRTH-7113-ZALOI',
+        extension: 'EXTENSION 2',
+        fechaPeriodoInicio:'11/10/2022',
+        fechaPeriodoFin: '11/10/2022',
+        vigencia: 2,
+        estado: 1,
+        usuarioRegistro: 1,
+        fechaRegistro: '',
+        totalRegistros: '3',
+        totalPaginas: 3,
+      },
+      { comunidadId: 3,
+        nroTituloHabilitante: 'NRTH-7373-ZAHJ',
+        extension: 'EXTENSION 3',
+        fechaPeriodoInicio:'11/10/2022',
+        fechaPeriodoFin: '11/10/2022',
+        vigencia: 2,
+        estado: 1,
+        usuarioRegistro: 1,
+        fechaRegistro: '',
+        totalRegistros: '3',
+        totalPaginas: 3,
+      },
+    ];
+  }
+
+
+  nuevaComunidad(){
+    let comunidad: ComunidadModel = {};
+
+    const dialogRef = this._dialog.open(ComunidadComponent, {
+      disableClose: true
+    });
+
+    dialogRef.componentInstance.comunidad = comunidad;
+    dialogRef.componentInstance.accion = 'I';
+    dialogRef.componentInstance.custodioId = 1;
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.validarAntesDeListarComunidad('cerrarComunidad');
+    });
+  }
+  validarAntesDeListarComunidad(strItem: string){
+    let cerrar: string = localStorage.getItem(strItem) || '';
+    /* if (cerrar === '1'){
+      this.page = 1;
+      this.cargarAdjuntos();
+    } */
+
+    localStorage.removeItem(strItem);
+  }
 }

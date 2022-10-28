@@ -1,0 +1,62 @@
+
+<h3 mat-dialog-title style="text-align: center;">COMUNIDAD</h3>
+<div mat-dialog-content>
+    <div style="margin-top: 20px; width:550px;">
+        <form autocomplete="off" [formGroup]="formComunidad">
+            <!-- <div class="row">
+                <div class="col-md-4">
+                    <label class="form_label">Renovaciones</label>
+                </div>
+                <div class="col-md-6">
+                    <select class="form-select" aria-label="" formControlName="elegimosRenovacion"
+                        #teams (change)="onSelected(teams.value)">
+                        <option value="2">No</option>
+                        <option value="1">Si</option>
+                    </select>
+                </div>
+            </div> -->
+            
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="nroTituloHabilitante">Nro Titulo Habilitante:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                            <input type="text" matInput formControlName="nroTituloHabilitante" name="nroTituloHabilitante" [class.is-invalid]="asuntoNoValido">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="fechaPeriodoInicio">Fecha Periodo Inicio:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <!-- <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;"> -->
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoInicio" name="fechaPeriodoInicio" [class.is-invalid]="asuntoNoValido">
+                        <!-- </mat-form-field> -->
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="fechaPeriodoFin">Fecha Periodo Fin:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <!-- <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;"> -->
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoFin" name="fechaPeriodoFin" [class.is-invalid]="asuntoNoValido">
+                        <!-- </mat-form-field> -->
+                    </div>
+                </div>
+            
+            <br/><br/>
+            <div class="row">
+                <div class="col-md-12" style="text-align: center;">
+                    <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
+                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarComunidad()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                </div>
+            </div>
+            <input type="button" #btncerrarComu mat-dialog-close class="ocultar">
+        </form>
+    </div>
+</div>

@@ -32,7 +32,7 @@
     
     <form autocomplete="off" [formGroup]="formCustodio" class="formulario">
         <mat-tab-group >
-            <mat-tab label="Titulo Habilitante / Comunidad"> 
+            <mat-tab label="Titular"> 
                 <br>
                 <div class="row" style="padding: 10px 10px 10px 10px;">
                     <div class="col-md-6">
@@ -103,13 +103,13 @@
                             <input type="text" class="form-control" formControlName="extension"  name="extension" maxlength="150">
                         </div>
     
-                        <div class="col-md-4">
+                       <!--  <div class="col-md-4">
                             <label class="form_label">Nro. Titulo Habilitante</label>
                             <input type="text" class="form-control form-imput" formControlName="nroTituloHabilitante" name="nroTituloHabilitante"  maxlength="30">
-                        </div>
+                        </div> -->
                     </div>
     
-                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                    <!-- <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Extensión</label>
                             <input type="text" class="form-control" formControlName="extension"  name="extension" maxlength="150">
@@ -122,7 +122,7 @@
                             <label class="form_label">Fin</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="finVigencia" name="finVigencia" [class.is-invalid]="fechaSesionNoValido">
                         </div>
-                    </div>
+                    </div> -->
     
                     <br>
                     <h2>Datos de Comite de Vigilancia y Control Reconocido</h2>
@@ -200,7 +200,41 @@
                 <br>
                 <br>
             </mat-tab>
-    
+            <mat-tab label="Titulos Habilitante" *ngIf="custodioSelected==='2'" >
+                <br>
+                <div class="row "><!-- text-right -->
+                    <div class="col text-right">
+                        <button type="button"  class="btn btn-primary" (click)="nuevaComunidad()">
+                            <i class="fa fa-plus"> </i>
+                            Agregar
+                        </button>
+                    </div>
+                </div>
+                <table class="table mt-3">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Nro Titulo Habilitante</th>
+                            <th scope="col">Periodo Inicio</th>
+                            <th scope="col">Periodo Fin</th>
+                            <th scope="col">ACCIÓN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let comunidad of comunidades ">
+                            <td>{{ comunidad.nroTituloHabilitante }}</td>
+                            <td>{{ comunidad.fechaPeriodoInicio | ddMMyyyy }}</td>
+                            <td>{{ comunidad.fechaPeriodoFin | ddMMyyyy }}</td>
+                            <!-- <td>{{ custodio.fechaExpiracion | ddMMyyyy }}</td> -->
+                            <td>
+                                <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
+                                <button class="btn btn-info mr-1" (click)="verComunidad(comunidad)"> <i class="fa fa-pencil"></i></button>
+                                <!-- <button *ngIf="comunidad.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarRegistro(comunidad)"> <i class="fa fa-trash"></i></button> -->
+                                <!-- <button *ngIf="contrato.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarRegistro(custodio)"> <i class="fa fa-check"></i></button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-tab>
             <mat-tab label="Custodio" >
                 <br>
                 <div class="row "><!-- text-right -->

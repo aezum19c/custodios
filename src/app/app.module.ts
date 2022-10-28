@@ -23,6 +23,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DocumentosComponent } from './components/documento/documentos/documentos.component';
 import { TitularesComponent } from './components/titulares/titulares.component';
 import { ContratoComponent } from './components/contrato/contrato.component';
+import { ComunidadComponent } from './components/comunidad/comunidad.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ContratoComponent } from './components/contrato/contrato.component';
     StringDateToDateFormat,
     DocumentosComponent,
     TitularesComponent,
-    ContratoComponent
+    ContratoComponent,
+    ComunidadComponent
   ],
   imports: [
     BrowserModule,
