@@ -4,18 +4,6 @@
 <div mat-dialog-content>
     <div style="margin-top: 20px; width:750px;">
         <form autocomplete="off" [formGroup]="formContrato">
-            <!-- <div class="row">
-                <div class="col-md-4">
-                    <label class="form_label">Renovaciones</label>
-                </div>
-                <div class="col-md-6">
-                    <select class="form-select" aria-label="" formControlName="elegimosRenovacion"
-                        #teams (change)="onSelected(teams.value)">
-                        <option value="2">No</option>
-                        <option value="1">Si</option>
-                    </select>
-                </div>
-            </div> -->
             <div *ngIf="tieneRenovacion=='1'">
                 <div class="row" *ngIf="contrato.tipoContrato=='1'">
                     <div class="col-md-5">

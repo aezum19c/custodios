@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
 })
 export class ContratoComponent implements OnInit {
   @ViewChild('btncerrarCont') btncerrarCont!: ElementRef<HTMLElement>;
-  //@ViewChild('btnselectCont') btnselectCont!: ElementRef<HTMLElement>;
 
   formContrato: FormGroup = new FormGroup({});
   

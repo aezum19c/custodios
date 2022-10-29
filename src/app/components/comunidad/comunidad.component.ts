@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
 })
 export class ComunidadComponent implements OnInit {
   @ViewChild('btncerrarComu') btncerrarCont!: ElementRef<HTMLElement>;
-  //@ViewChild('btnselectCont') btnselectCont!: ElementRef<HTMLElement>;
 
   formComunidad: FormGroup = new FormGroup({});
   
