@@ -84,13 +84,12 @@ export class DocumentosComponent implements OnInit {
   }
 
   guardarDocumento(){
-
     let extension = '';
     if(this.adjunto!=null) extension = this.adjunto.name.split('.').pop()!;
     let nombre = this.formDocumento.get('asunto')?.value;
     
     if (this.accion === 'I'){
-      this._documentoService.uploadAdjunto(this.adjunto, this.usuarioSession.usuarioId! ,this.custodioId!, this.formDocumento.get('asunto')?.value, extension!, nombre!).subscribe((data: any) => {
+      this._documentoService.uploadAdjunto(this.adjunto, this.custodioId!, this.formDocumento.get('asunto')?.value, extension!, nombre!).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
             this.cerrar_modal(true);

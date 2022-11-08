@@ -21,12 +21,22 @@
     </div>
     <h2> Listado de Custodios</h2>
         <div class="row">
-            <div class="col">
-                <input type="text" [(ngModel)]="filtro"  class="form-control" 
-    
-                 placeholder="Nombre - DNI/RUC" style="margin-right: 10px;">
+            <div class="col-md-1">
+                <label class="form_label">Tipo</label>
             </div>
-            
+            <div class="col-md-2 tex-left">
+                <select class="form-select" (change)="onSelectTipoCustodio($event)">
+                    <option *ngFor="let tipoCustodio of dominioTipoCustodio" value={{tipoCustodio.codigoDetalle}}>
+                        {{tipoCustodio.valorDetalle}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form_label">Nombre titulo habilitante</label>
+            </div>
+            <div class="col-md-2 ">
+                <input type="text" [(ngModel)]="filtro"  class="form-control" placeholder="Nombre Titulo Habilitante" style="margin-right: 10px;">
+            </div>
             <div class="col text-right">
                 <button type="button" (click)="reporte()" class="btn btn-info" style="margin-right: 10px;">
                     <i class="fa fa-table"></i>
@@ -42,14 +52,11 @@
                 </button>
             </div>
         </div>
-       
-    
-    
     <table class="table mt-3">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">NOMBRE TITULO HABILITANTE</th>
-                <th scope="col">NOMBRE DEL TITULAR</th>
+                <th scope="col">CUSTODIO</th>
                 <th scope="col">DNI / RUC</th>
                 <th scope="col">ACCIÓN</th>
             </tr>
@@ -57,8 +64,8 @@
         <tbody>
             <tr *ngFor="let titular of titulares ">
                 <td>{{ titular.nombreTituloHabilitante }}</td>
-                <td>{{ titular.nombreTitularHabilitante }}</td>
-                <td>{{ titular.dniRuc }}</td>
+                <td>{{ titular.custodio }}</td>
+                <td>{{ titular.dniRucTitular }}</td>
                 <!-- <td>{{ custodio.fechaExpiracion | ddMMyyyy }}</td> -->
                 <td>
                     <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->

@@ -1,0 +1,8 @@
+{
+    "/InfraccionesRest/infractores/*": {
+        "target": "http://34.235.20.167",
+        "secure": false,
+        "logLevel": "debug"
+    }
+    
+}

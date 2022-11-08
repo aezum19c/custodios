@@ -23,7 +23,6 @@ export class CustodioModel {
     motivoDes?: string;
     actoAdminPerdidaAcredi?: string;
     fechaActoAdminPerdidadAcredi?: Date;
-
     estado?: number;
     usuarioRegistro?: number;
     fechaRegistro?: string;

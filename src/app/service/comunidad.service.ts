@@ -11,15 +11,15 @@ export class ComunidadService {
 
   constructor( private _http: HttpClient ) { }
 
-  getComunidad( infractorId : Number, pag : Number, regxPag: Number ){
-    let url = URL_API + 'adjuntos?infractorId='+infractorId + '&pagina=' + pag + '&regxpag=' + regxPag;
+  getComunidad( titularId : number){
+    let url = URL_API + 'titulos?titularId='+titularId;
     
     return this._http.get(url);
   }
 
   
   insertarComunidad(comunidad: ComunidadModel){
-    const url = `${ URL_API }regGpaDocumento`;
+    const url = `${ URL_API }crudTitulo`;
     return this._http.post(url, comunidad)
       .pipe(
         map( resp => {
@@ -29,7 +29,7 @@ export class ComunidadService {
     }
 
   updateComunidad(comunidad: ComunidadModel){
-    const url = `${ URL_API }modificarAdjunto`;
+    const url = `${ URL_API }crudTitulo`;
     
     return this._http.post(url, comunidad)
       .pipe(
@@ -39,8 +39,8 @@ export class ComunidadService {
       );
   }
 
-  eliminarDocumento(comunidad: ComunidadModel){
-    const url = `${ URL_API }eliminarAdjunto`;
+  desactivaActivaComunidad(comunidad: ComunidadModel){
+    const url = `${ URL_API }crudTitulo`;
     return this._http.post(url, comunidad)
       .pipe(
         map( resp => {

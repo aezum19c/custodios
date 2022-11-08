@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AdjuntoModel } from 'src/app/models/adjunto.model';
@@ -17,6 +17,10 @@ import { ContratoModel } from 'src/app/models/contrato.model';
 import { ComunidadModel } from 'src/app/models/comunidad.model';
 import { ComunidadService } from 'src/app/service/comunidad.service';
 import { ComunidadComponent } from '../comunidad/comunidad.component';
+import { UbigeoModel } from 'src/app/models/ubigeo.model';
+import { DominiosService } from 'src/app/service/dominio.service';
+import { RespuestaServicio } from 'src/app/models/respuesta_servicio.model';
+import { TituloModel } from 'src/app/models/titulos.model';
 /* import { timeStamp } from 'console'; */
 
 @Component({
@@ -26,12 +30,13 @@ import { ComunidadComponent } from '../comunidad/comunidad.component';
   providers : [DatePipe],
 })
 export class TitularesComponent implements OnInit {
-
+  @ViewChild('btnselectSolicitudReconocimiento') btnselectSolicitudRenocomiento!: ElementRef<HTMLElement>;
+  
   contratos! : ContratoModel[]; 
-  formCustodio! : FormGroup;
+  formTitulares! : FormGroup;
   titular : TitularModel = new TitularModel();
-  dominioCaducidad! : DominioModel[]; 
-  dominioObservacion! : DominioModel[];
+  dominioTipoCustodio! : DominioModel[]; 
+  dominioTipoPersona! : DominioModel[];
   adjuntos! : AdjuntoModel[]; 
   documento : DocumentoModel = new DocumentoModel();
   usuarioSession : UserModel = new UserModel();
@@ -46,14 +51,27 @@ export class TitularesComponent implements OnInit {
   mostrar: boolean = false;
   custodioSelected: string = '1';
 
+  dominioDepartamentos! : UbigeoModel[];
+  dominioProvincias! : UbigeoModel[];
+  dominioDistritos! : UbigeoModel[];
+  respuestaServicio : RespuestaServicio = new RespuestaServicio();
+  tituloServicio : TituloModel = new TituloModel();
+
+  departamentoSelected: string='';
+  selectedTipoPersona: string = '';
+
+  adjuntoModelSolicitudReconomiento : AdjuntoModel = new AdjuntoModel; 
+  adjuntoSolicitudReconomiento!: File;
+
   constructor( 
     private _documentoService: DocumentoService,
     private custodioService: CustodiosService,
-    private comuniddadService: ComunidadService,
+    private comunidadService: ComunidadService,
     private router: Router,
     private fb: FormBuilder,
     private datePipe: DatePipe,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private dominiosService: DominiosService,
 
     ) { 
       this.adjuntos = [{adjuntoId:1, nombre:'nuevo adjunto file', descripcion :'Traer adjunto', fecha:'2022-05-16'}];
@@ -62,78 +80,55 @@ export class TitularesComponent implements OnInit {
   ngOnInit(): void {
     //const 
     this.crearFormulario();
-    this.obtenerCustodios();
     this.obtenerComunidades();
+    this.obtenerCustodios();
     //this.cargarAdjuntos();
   }
-
-  onSelected(value:string): void {
-		this.custodioSelected = value;
-	}
 
   crearFormulario(){
 
     this.titular = JSON.parse( localStorage.getItem('titular') || '{}' );
-    this.dominioCaducidad = JSON.parse( localStorage.getItem('caducidad') || '[]' );
-    this.dominioObservacion = JSON.parse( localStorage.getItem('observacion') || '[]' );
-
+    this.dominioTipoCustodio = JSON.parse( localStorage.getItem('tipoCustodio') || '[]' );
+    this.dominioTipoPersona = JSON.parse( localStorage.getItem('tipoPersona') || '[]' );
     this.accion_titular = JSON.parse( localStorage.getItem('accion_titular') || '' );
   
+    this.titular.nombreAdjunto = this.titular.nombreAdjunto ?? '';
+    this.titular.titularId = this.titular.titularId ?? 0;
+    this.custodioSelected = '01';
 
     if(this.accion_titular == 'N' ){ this.mostrar =false; } else { this.mostrar = true}; 
 
-    this.formCustodio = this.fb.group({
-      
+    this.formTitulares = this.fb.group({
+      tipoCustodio : [this.titular.tipoCustodio],
+      /* tipoCustodioDes : [this.titular.tipoCustodioDes], */
       nroTituloHabilitante : [this.titular.nroTituloHabilitante],
       nombreTituloHabilitante : [this.titular.nombreTituloHabilitante],
-      nombreTitularHabilitante : [this.titular.nombreTitularHabilitante],
-      dniRuc : [this.titular.dniRuc],
-      nombres : '',
-      apellidos : '',
-      dniCe : '',
-      recibioCapacitacion : '',
-      fechaCapacitacion : new Date,
-      numeroConstanciaCapacitacion : '',
-      solicitudReconocimiento: '',
-      fechaSolicitud: '',
-      actoAdministrativo: '',
-      fechaActoAdministrativo: new Date,
-      vigencia: '',
-      inicioVigencia: '',
-      finVigencia: '',
-      codigoCarneAcreditacion: '',
-      perdidaAcreditacion: '',
-      motivo: '',
-      fechaActoAdminPerdidadAcredi : '',
-      renovaciones : '',
-      actoAdministrativoRenovacion : '',
-      fechaActoAdministrativoRenovacion: '',
-      periodoVigencia: '',
-      inicioPeriodoVigencia: '',
-      finPeriodoVigencia: '',
-      tipoCustodio:'',
-      nombreComunidad: '',
-      ambitoTerritorial: '',
-      provincia:'',
-      distrito:'',
-      extension:'',
-      cargo:'',
-
-      /* nombreComunidad: [this.titular.nombreComunidad], */
-
-       
-      /* atributoCustorioAcreditado: [this.titular.custodio?],
-      nroTituloHabilitante: [this.titular.nroTituloHabilitante],
-      tipoTituloHabilitante: [this.titular.tipoTituloHabilitante],
-      tipoConcesion: [this.titular.tipoConcesion],
-      ubigeoHabilitante: [this.titular.ubigeoHabilitante],
-      nroOcurrenciaDetectada: [this.titular.nroOcurrenciaDetectada],
-      fechaExpiracion: [this.titular.fechaExpiracion],
+      tipoPersona: [this.titular.tipoPersona],
+      /* tipoPersonaDes: [this.titular.tipoPersonaDes], */
+      dniRucTitular : [this.titular.dniRucTitular],
+      nombreRepLegal : [this.titular.nombreRepLegal],
+      dniRucRepLegal : [this.titular.dniRucRepLegal],
+      nombreTitularComunidad : [this.titular.nombreTitularComunidad],
+      ambitoTerritorial: [this.titular.ambitoTerritorial],
+      extension: [this.titular.extension],
+      departamento: [this.titular.departamento],
+      /* departamentoNombre : [this.titular.departamentoNombre], */
+      provincia:[this.titular.provincia],
+      /* provinciaNombre :[this.titular.provinciaNombre], */
+      distrito: [this.titular.distrito],
+      /* distritoNombre : [this.titular.distritoNombre], */
+      adjuntodocprimera:[this.titular.nombreAdjunto],
+      /* rutaAdjunto:[this.titular.rutaAdjunto], */
+      fechaSolicitud:[this.titular.fechaSolicitud],
+      comiteActoReconocimiento: [this.titular.comiteActoReconocimiento],
+      fechaActoReconocimiento: [this.titular.fechaActoReconocimiento],
       vigencia: [this.titular.vigencia],
-      fichaTituloHabilitante: [this.titular.fichaTituloHabilitante],
-      alertaCorreoElectronico : [this.titular.alertaCorreoElectronico],
-      estado : [this.titular.estado], */
-
+      vigenciaInicio : [this.titular.vigenciaInicio],
+      vigenciaFin: [this.titular.vigenciaFin],
+      /* ubigeoId: [this.titular.ubigeoId],  
+      nombreUbigeo: [this.titular.nombreUbigeo],
+      periodoDesde: [this.titular.periodoDesde],
+      periodoHasta: [this.titular.periodoHasta], */
     });
   }
 
@@ -150,46 +145,46 @@ export class TitularesComponent implements OnInit {
   }
 
   guardar(){
-    Swal.fire({
+    /* Swal.fire({
       title: '¿Quieres guardar los cambios?',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      /* if (result.isConfirmed) {
-        this.custodio.area = this.formCustodio.get('area')?.value;
-        this.custodio.nombresApellido = this.formCustodio.get('nombresApellido')?.value;
-        this.custodio.dniCarnetExtranjeria = this.formCustodio.get('dniCarnetExtranjeria')?.value;
-        this.custodio.actoAdministrativo = this.formCustodio.get('actoAdministrativo')?.value;
-        this.custodio.credenciales = this.formCustodio.get('credenciales')?.value;
-        this.custodio.atributoCustorioAcreditado = this.formCustodio.get('atributoCustorioAcreditado')?.value;
-        this.custodio.nroTituloHabilitante = this.formCustodio.get('nroTituloHabilitante')?.value;
-        this.custodio.tipoTituloHabilitante = this.formCustodio.get('tipoTituloHabilitante')?.value;
-        this.custodio.tipoConcesion = this.formCustodio.get('tipoConcesion')?.value;
-        this.custodio.ubigeoHabilitante = this.formCustodio.get('ubigeoHabilitante')?.value;
-        this.custodio.nroOcurrenciaDetectada = this.formCustodio.get('nroOcurrenciaDetectada')?.value;
-        this.custodio.fechaExpiracion = this.formCustodio.get('fechaExpiracion')?.value;
-        this.custodio.vigencia = this.formCustodio.get('vigencia')?.value;
-        this.custodio.fichaTituloHabilitante = this.formCustodio.get('fichaTituloHabilitante')?.value;
-        this.custodio.alertaCorreoElectronico = this.formCustodio.get('alertaCorreoElectronico')?.value;
-        this.custodio.estado = this.formCustodio.get('estado')?.value;
+      
+      if (result.isConfirmed) {
+        this.titular.area = this.formCustodio.get('area')?.value;
+        this.titular.nombresApellido = this.formCustodio.get('nombresApellido')?.value;
+        this.titular.dniCarnetExtranjeria = this.formCustodio.get('dniCarnetExtranjeria')?.value;
+        this.titular.actoAdministrativo = this.formCustodio.get('actoAdministrativo')?.value;
+        this.titular.credenciales = this.formCustodio.get('credenciales')?.value;
+        this.titular.atributoCustorioAcreditado = this.formCustodio.get('atributoCustorioAcreditado')?.value;
+        this.titular.nroTituloHabilitante = this.formCustodio.get('nroTituloHabilitante')?.value;
+        this.titular.tipoTituloHabilitante = this.formCustodio.get('tipoTituloHabilitante')?.value;
+        this.titular.tipoConcesion = this.formCustodio.get('tipoConcesion')?.value;
+        this.titular.ubigeoHabilitante = this.formCustodio.get('ubigeoHabilitante')?.value;
+        this.titular.nroOcurrenciaDetectada = this.formCustodio.get('nroOcurrenciaDetectada')?.value;
+        this.titular.fechaExpiracion = this.formCustodio.get('fechaExpiracion')?.value;
+        this.titular.vigencia = this.formCustodio.get('vigencia')?.value;
+        this.titular.fichaTituloHabilitante = this.formCustodio.get('fichaTituloHabilitante')?.value;
+        this.titular.alertaCorreoElectronico = this.formCustodio.get('alertaCorreoElectronico')?.value;
+        this.titular.estado = this.formCustodio.get('estado')?.value;
 
-        if(this.custodio.custodioId == 0){
-          this.custodioService.crearCustodio(this.custodio).subscribe((data: any) => {
+        if(this.titular.custodioId == 0){
+          this.custodioService.crearTitular(this.custodio).subscribe((data: any) => {
             switch (data.result_code){
               case 200 : {
                 this.mostrar = true;
-                localStorage.removeItem('custodio');
+                localStorage.removeItem('titular');
                 Swal.fire('Guardado!', '', 'success');
                 this.router.navigate(['/custodios']);
               }
             }
           });
         } else {
-          this.custodioService.modificarCustodio(this.custodio).subscribe((data: any) => {
+          this.custodioService.modificarTitular(this.custodio).subscribe((data: any) => {
             switch (data.result_code){
               case 200 : {
-                localStorage.removeItem('custodio');
+                localStorage.removeItem('titular');
                 Swal.fire('Guardado!', '', 'success');
                 this.router.navigate(['/custodios']);
               }
@@ -200,13 +195,13 @@ export class TitularesComponent implements OnInit {
         
       } else if (result.isDenied) {
         Swal.fire('Volver a cargar', '', 'info')
-      } */
-    })
+      }
+    }) */
 
   }
 
   get fechaSesionNoValido() {
-    return this.formCustodio.get('fecha')?.invalid && this.formCustodio.get('fecha')?.touched;
+    return this.formTitulares.get('fecha')?.invalid && this.formTitulares.get('fecha')?.touched;
   }
 
   regresar(){
@@ -232,8 +227,6 @@ export class TitularesComponent implements OnInit {
     //this.cargarAdjuntos();
   }
 
-
-
   descargarDocumento(adjunto: AdjuntoModel){
     Swal.fire({
           allowOutsideClick: false,
@@ -243,7 +236,7 @@ export class TitularesComponent implements OnInit {
     });
     
     const filename = adjunto.nombre || '';
-    this._documentoService.downloadAdjunto(adjunto.custodioId!, adjunto.adjuntoId!).subscribe(resp => {
+    this._documentoService.downloadAdjunto(adjunto.titularId!, '').subscribe(resp => {
       const blobdata = new Blob([resp], { type: 'application/octet-stream' });
       const blob = new Blob([blobdata], { type: 'application/octet-stream' });
       const url = window.URL.createObjectURL(blob);
@@ -260,7 +253,7 @@ export class TitularesComponent implements OnInit {
   }
 
   cargarAdjuntos(){
-    this._documentoService.getListadoAdjuntos(this.titular.tituloId!, this.page, 1000).subscribe((data: any) => {
+    this._documentoService.getListadoAdjuntos(this.titular.titularId!, this.page, 1000).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
           this.documento = data;
@@ -288,7 +281,7 @@ export class TitularesComponent implements OnInit {
 
     dialogRef.componentInstance.documento = doc;
     dialogRef.componentInstance.accion = 'I';
-    dialogRef.componentInstance.custodioId = this.titular.tituloId!;
+    dialogRef.componentInstance.custodioId = this.titular.titularId!;
 
     dialogRef.afterClosed().subscribe(result => {
       this.validarAntesDeListar('cerrarDocumento');
@@ -301,7 +294,7 @@ export class TitularesComponent implements OnInit {
     });
 
     dialogRef.componentInstance.documento = adjunto;
-    dialogRef.componentInstance.custodioId = this.titular.tituloId!;
+    dialogRef.componentInstance.custodioId = this.titular.titularId!;
     dialogRef.componentInstance.accion = 'M';
 
     dialogRef.afterClosed().subscribe(result => {
@@ -340,9 +333,6 @@ export class TitularesComponent implements OnInit {
   verCustodio(custodio: CustodioModel){
 
   }
-  desactivarRegistro(custodio: CustodioModel){
-
-  }
   validarAntesDeListar(strItem: string){
     let cerrar: string = localStorage.getItem(strItem) || '';
     if (cerrar === '1'){
@@ -370,7 +360,7 @@ export class TitularesComponent implements OnInit {
   /* *********************** */
   nuevoTipoCustodio(){
     let custodio : TitularModel = {};
-    custodio.tituloId = 0;
+    custodio.titularId = 0;
     custodio.tipoCustodio =  this.custodioSelected;
     localStorage.removeItem('custodio');
     localStorage.removeItem('accion_custodio');
@@ -478,66 +468,21 @@ export class TitularesComponent implements OnInit {
     ];
   }
 
-
-
-  verComunidad(comunidad: ComunidadModel){
-  }
-
   obtenerComunidades(){
-    /*this.custodiosServices.getCustodios(0, this.filtro, this.page, this.regxpag).subscribe((data: any) => {
+    this.comunidadService.getComunidad(this.titular.titularId!).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
-          this.respuestaServicio = data;
-          this.totalRegistros = data.content[0].totalRegistros;
-          this.custodios = this.respuestaServicio.content;
+          this.tituloServicio = data;
+          console.log(this.tituloServicio);
+          this.comunidades = this.tituloServicio.content;
           break;
         }
         default: { 
           break; 
        } 
       }
-    });*/
-
-    this.comunidades = [
-      { comunidadId: 1,
-        nroTituloHabilitante: 'NRTH-7113-ZALOI',
-        extension: 'EXTENSION 1',
-        fechaPeriodoInicio:'11/10/2022',
-        fechaPeriodoFin: '11/10/2022',
-        vigencia: 2,
-        estado: 1,
-        usuarioRegistro: 1,
-        fechaRegistro: '',
-        totalRegistros: '3',
-        totalPaginas: 3,
-      },
-      { comunidadId: 2,
-        nroTituloHabilitante: 'NRTH-7113-ZALOI',
-        extension: 'EXTENSION 2',
-        fechaPeriodoInicio:'11/10/2022',
-        fechaPeriodoFin: '11/10/2022',
-        vigencia: 2,
-        estado: 1,
-        usuarioRegistro: 1,
-        fechaRegistro: '',
-        totalRegistros: '3',
-        totalPaginas: 3,
-      },
-      { comunidadId: 3,
-        nroTituloHabilitante: 'NRTH-7373-ZAHJ',
-        extension: 'EXTENSION 3',
-        fechaPeriodoInicio:'11/10/2022',
-        fechaPeriodoFin: '11/10/2022',
-        vigencia: 2,
-        estado: 1,
-        usuarioRegistro: 1,
-        fechaRegistro: '',
-        totalRegistros: '3',
-        totalPaginas: 3,
-      },
-    ];
+    });
   }
-
 
   nuevaComunidad(){
     let comunidad: ComunidadModel = {};
@@ -548,19 +493,243 @@ export class TitularesComponent implements OnInit {
 
     dialogRef.componentInstance.comunidad = comunidad;
     dialogRef.componentInstance.accion = 'I';
-    dialogRef.componentInstance.custodioId = 1;
+    dialogRef.componentInstance.titularId = this.titular.titularId!;
 
     dialogRef.afterClosed().subscribe(result => {
       this.validarAntesDeListarComunidad('cerrarComunidad');
     });
   }
+
+  verComunidad(comunidad: ComunidadModel){
+    const dialogRef = this._dialog.open(ComunidadComponent, {
+      disableClose: true
+    });
+
+    dialogRef.componentInstance.comunidad = comunidad;
+    dialogRef.componentInstance.accion = 'M';
+    dialogRef.componentInstance.titularId = this.titular.titularId!;
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.validarAntesDeListarComunidad('cerrarComunidad');
+    });
+  }
+  
   validarAntesDeListarComunidad(strItem: string){
     let cerrar: string = localStorage.getItem(strItem) || '';
-    /* if (cerrar === '1'){
-      this.page = 1;
-      this.cargarAdjuntos();
-    } */
+    if (cerrar === '1'){
+      this.obtenerComunidades();
+    }
 
     localStorage.removeItem(strItem);
   }
+
+
+  activarComunidad(comunidad: ComunidadModel){
+    comunidad.accion = 'E'
+    Swal.fire({
+      title: '¿Seguro de ACTIVAR el registro?',
+      showCancelButton: true,
+      icon: 'error',
+      confirmButtonText: 'SI',
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.comunidadService.desactivaActivaComunidad(comunidad).subscribe((data: any) => {
+          switch (data.result_code){
+            case 200 : {
+              this.obtenerComunidades();
+              break;
+            }
+            default: { 
+              break; 
+          } 
+          }
+        })
+      }
+    })
+  }
+
+
+  desactivarComunidad(comunidad: ComunidadModel){
+    comunidad.accion = 'D'
+    Swal.fire({
+      title: '¿Seguro de ACTIVAR el registro?',
+      showCancelButton: true,
+      icon: 'error',
+      confirmButtonText: 'SI',
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.comunidadService.desactivaActivaComunidad(comunidad).subscribe((data: any) => {
+          switch (data.result_code){
+            case 200 : {
+              this.obtenerComunidades();
+              break;
+            }
+            default: { 
+              break; 
+          } 
+          }
+        })
+      }
+    })
+  }
+
+
+  cargarDepartamentos(){
+    this.dominiosService.getDepartamentos('D').subscribe((data: any) => {
+      switch (data.result_code){
+        case 200 : {
+          this.respuestaServicio = data;
+          this.dominioDepartamentos = this.respuestaServicio.ubigeos;
+          break;
+        }
+        default: { 
+          //statements; 
+          break; 
+       } 
+      }
+    })
+  }
+
+  cargarProvincias(event: Event){
+    this.dominiosService.getProvincias('P', (event.target as HTMLInputElement).value).subscribe((data: any) => {
+      switch (data.result_code){
+        case 200 : {
+          this.respuestaServicio = data;
+          this.dominioProvincias = this.respuestaServicio.ubigeos;
+          break;
+        }
+        default: { 
+          //statements; 
+          break; 
+       } 
+      }
+    })
+  }
+
+  cargarDistritos(event: Event){
+    this.dominiosService.getDistritos('I', this.departamentoSelected,  (event.target as HTMLInputElement).value).subscribe((data: any) => {
+      switch (data.result_code){
+        case 200 : {
+          this.respuestaServicio = data;
+          this.dominioDistritos = this.respuestaServicio.ubigeos;
+
+          //localStorage.removeItem('caducidad');
+          //localStorage.setItem('caducidad', JSON.stringify(this.dominioCaducidad));
+          break;
+        }
+        default: { 
+          //statements; 
+          break; 
+       } 
+      }
+    })
+  }
+
+  onSelectDepartamento(event:Event):void{
+    this.departamentoSelected = (event.target as HTMLInputElement).value;
+    this.cargarProvincias(event);
+  }
+
+  onSelectProvincia(event:Event):void{
+    this.cargarDistritos(event);
+  }
+
+  onSelectDistrito(event:Event):void{
+    this.titular.ubigeoId = (event.target as HTMLInputElement).value;
+  }
+
+  onSelectTipoCustodio(event:Event):void{
+    this.custodioSelected = (event.target as HTMLInputElement).value;
+    console.log(this.custodioSelected);
+  }
+
+  onSelectTipoPersona(event:Event):void{
+    this.selectedTipoPersona = (event.target as HTMLInputElement).value;
+    console.log(this.selectedTipoPersona);
+  }
+
+/*********** ARCHIVO ADJUNTO DE LA PRIMERA PESTAÑA ************/
+elegirArchivoSolicitudRenococimiento() {
+  this.btnselectSolicitudRenocomiento.nativeElement.click();
+}
+
+seleccion_archivo_solicitud_reconocimiento(event: any){
+  if (event && event.target.files && event.target.files[0]) {
+      this.adjuntoSolicitudReconomiento = event.target.files[0]; 
+      this.formTitulares.get('adjuntodocsolicitud')?.setValue(this.adjuntoSolicitudReconomiento.name);
+  }
+}
+
+guardarDocumentoSolicitudRenococimiento(){
+  let extension = '';
+  if(this.adjuntoSolicitudReconomiento!=null) extension = this.adjuntoSolicitudReconomiento.name.split('.').pop()!;
+  this.titular.nombreAdjunto = this.adjuntoSolicitudReconomiento.name;
+                                                                                                 /* 1 = origen = primera instancia */
+    this._documentoService.uploadAdjunto(this.adjuntoSolicitudReconomiento, this.titular.titularId!, '1', extension!, this.titular.nombreAdjunto!).subscribe((data: any) => {
+                                          
+      switch (data.result_code){
+        case 200 : {
+          console.log('guardado adjunto primera instancia');
+          /* this.cargarAdjuntoPrimeraInstancia(); */
+          break;
+        }
+          default: { 
+            /* this.cargarAdjuntoPrimeraInstancia(); */
+            break; 
+        } 
+      }
+    });
+}
+
+eliminarDocumentoSolicitudRenococimiento(){
+  this.adjuntoModelSolicitudReconomiento.titularId = this.titular.titularId;
+  this.adjuntoModelSolicitudReconomiento.origen = '1';
+
+  Swal.fire({
+    text: '¿Está seguro(a) de eliminar los datos?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, ¡Eliminar!',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+     
+      this._documentoService.eliminarDocumento(this.adjuntoModelSolicitudReconomiento).subscribe((data: any) => {
+          this.titular.nombreAdjunto = '';
+      },
+      (error) => {
+        this.mostrarMsjError('Ocurrió un error al eliminar el documento', true);
+        return;
+      });
+    }
+  });
+}
+
+descargarDocumentoSolicitudRenococimiento(){
+  Swal.fire({
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        icon: 'info',
+        text: 'Descargando documento. Espere por favor...'
+  });
+  
+  const filename = this.titular.nombreAdjunto|| '';
+  this._documentoService.downloadAdjunto(this.titular.titularId!, '1').subscribe(resp => {
+    const blobdata = new Blob([resp], { type: 'application/octet-stream' });
+    const blob = new Blob([blobdata], { type: 'application/octet-stream' });
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.download = filename;
+    anchor.href = url;
+    anchor.click();
+
+    Swal.close();
+  },
+  (error) => {
+    this.mostrarMsjError('No se puede descargar el archivo.', true);
+  });
+}
+
 }

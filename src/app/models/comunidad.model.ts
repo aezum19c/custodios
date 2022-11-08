@@ -1,16 +1,12 @@
 import { TitularModel } from "./titular.model";
 
 export class ComunidadModel {
-    comunidadId?: number;
+    accion?: string;
+    titularId?: number;
+    secuenciaId?: number;
     nroTituloHabilitante?: string;
-    extension?: string;
-    fechaPeriodoInicio?: string;
-    fechaPeriodoFin?: string;
-    vigencia?: number;
+    vigenciaInicio?: string;
+    vigenciaFin?: string;
     estado?: number;
     usuarioRegistro?: number;
-    fechaRegistro?: string;
-    totalRegistros?: string;
-    totalPaginas?: number;
-    titular?: TitularModel[];
 }

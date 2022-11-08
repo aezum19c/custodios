@@ -20,16 +20,14 @@ export class DocumentoService {
     return this._http.get(url);
   }
 
-  uploadAdjunto(adjunto: File, usuarioId: number,custodioId: number, asunto: string, extension: string, nombre: string){
+  uploadAdjunto(adjunto: File, titularId: number, asunto: string, extension: string, nombre: string){
     const url = `${ URL_API }uploadAdjunto`;
 
     const headers = new HttpHeaders({
       'Content-Type': 'multipart/form-data;',
       'asunto': asunto,
-      //'adjuntoId':adjuntoId
       'extension': extension,
-      'custodioId': custodioId+'',
-      'usuarioId': usuarioId+'',
+      'titularId': titularId+'',
       'nombre': nombre,//sin extension
     });
 
@@ -41,12 +39,12 @@ export class DocumentoService {
       );
   }
 
-  downloadAdjunto(infractorId: number, adjuntoId: number){
+  downloadAdjunto(infractorId: number, origen: string){
       const url = `${ URL_API }downloadAdjunto`;
 
       const headers = new HttpHeaders({
         'infractorId': infractorId+'',
-        'adjuntoId': adjuntoId+'',
+        'origen': origen+'',
       });
 
       return this._http.get(url, {headers, responseType: 'arraybuffer'});

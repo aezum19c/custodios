@@ -26,13 +26,15 @@ export class CustodiosComponent implements OnInit {
   respuestaServicio : RespuestaServicio = new RespuestaServicio();
   
   titulares! : TitularModel[]; 
-  dominioCaducidad! : DominioModel[]; 
+  dominioTipoCustodio! : DominioModel[]; 
   dominioObservacion! : DominioModel[]; 
   usuarioSession : UserModel = new UserModel();
   
   page: number = 1;
   regxpag: number = 3;
   totalRegistros: number = 0;
+  /* filtro: string=''; */
+  selectedTipoCustodio: string = '';
   filtro: string='';
 
   constructor( 
@@ -42,8 +44,8 @@ export class CustodiosComponent implements OnInit {
     private datePipe: DatePipe,
     private _documentoService: DocumentoService
   ) {
-    this.crearFormulario();
     this.obtenerDominios();
+    this.crearFormulario();
    }
 
   ngOnInit(): void {
@@ -68,97 +70,23 @@ export class CustodiosComponent implements OnInit {
   }
 
   obtenerTitulares(){
-    /*this.custodiosServices.getCustodios(0, this.filtro, this.page, this.regxpag).subscribe((data: any) => {
+    this.custodiosServices.getTitulares(0, this.filtro,  this.selectedTipoCustodio, this.page, this.regxpag).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
+          
           this.respuestaServicio = data;
-          this.totalRegistros = data.content[0].totalRegistros;
-          this.custodios = this.respuestaServicio.content;
+          /* this.totalRegistros = data.content[0].totalRegistros; */
+          this.titulares = this.respuestaServicio.content;
+
+          console.log('Titulares');
+          console.log(this.titulares);
           break;
         }
         default: { 
           break; 
        } 
       }
-    });*/
-
-    this.titulares = [
-      { tituloId: 1,
-        nroTituloHabilitante: '0JDK96',
-        nombreTituloHabilitante: 'NOMBRE TITULO',
-        nombreTitularHabilitante: 'TITULAR',
-        dniRuc: '828632836',
-        nombreComunidad: 'COMUNIDAD',
-        ambitoTerritorial: '',
-        provincia: '',
-        distrito: '',
-        extension: '',
-        inicioVigencia: new Date,
-        finVigencia: new Date,
-        solicitudReconocimientoComite:'',
-        fechaSolicitudComite:'',
-        actoAdministrativoComite:'',
-        fechaResolucionComite:'',
-        vigenciaComite:'',
-        inicioVigenciaPermiso:'',
-        finVigenciaPermiso:'',
-        estado: 1,
-        usuarioRegistro: 1,
-        fechaRegistro: '',
-        totalRegistros: '3',
-        totalPaginas: 3,
-      },
-      { tituloId: 2,
-        nroTituloHabilitante: '0JDK97',
-        nombreTituloHabilitante: 'NOMBRE TITULO',
-        nombreTitularHabilitante: 'TITULAR',
-        dniRuc: '828632837',
-        nombreComunidad: 'COMUNIDAD',
-        ambitoTerritorial: '',
-        provincia: '',
-        distrito: '',
-        extension: '',
-        inicioVigencia: new Date,
-        finVigencia: new Date,
-        solicitudReconocimientoComite:'',
-        fechaSolicitudComite:'',
-        actoAdministrativoComite:'',
-        fechaResolucionComite:'',
-        vigenciaComite:'',
-        inicioVigenciaPermiso:'',
-        finVigenciaPermiso:'',
-        estado: 1,
-        usuarioRegistro: 1,
-        fechaRegistro: '',
-        totalRegistros: '3',
-        totalPaginas: 3,
-      },
-      { tituloId: 3,
-        nroTituloHabilitante: '0JDK98',
-        nombreTituloHabilitante: 'NOMBRE TITULO',
-        nombreTitularHabilitante: 'TITULAR',
-        dniRuc: '828632838',
-        nombreComunidad: 'COMUNIDAD',
-        ambitoTerritorial: '',
-        provincia: '',
-        distrito: '',
-        extension: '',
-        inicioVigencia: new Date,
-        finVigencia: new Date,
-        solicitudReconocimientoComite:'',
-        fechaSolicitudComite:'',
-        actoAdministrativoComite:'',
-        fechaResolucionComite:'',
-        vigenciaComite:'',
-        inicioVigenciaPermiso:'',
-        finVigenciaPermiso:'',
-        estado: 1,
-        usuarioRegistro: 1,
-        fechaRegistro: '',
-        totalRegistros: '3',
-        totalPaginas: 3,
-      },
-    ];
+    });
   }
 
   formatearFecha(fecha?: Date): any {
@@ -173,7 +101,7 @@ export class CustodiosComponent implements OnInit {
 
   nuevoCustodio(){
     let titular : TitularModel = {};
-    titular.tituloId = 0;
+    //titular.titularId = 0;
     localStorage.removeItem('titular');
     localStorage.removeItem('accion_titular');
 
@@ -184,55 +112,51 @@ export class CustodiosComponent implements OnInit {
   }
 
   verDatosCustodio(titular: TitularModel){
-    /* PRUEBA INICIO */
-    titular = new TitularModel;
-    titular.tituloId = 0;
-    /* PRUEBA INICIO */
-
-
     localStorage.removeItem('titular');
     localStorage.removeItem('accion_titular');
 
     localStorage.setItem('titular', JSON.stringify(titular));
-    localStorage.setItem('accion_titular', JSON.stringify('N'));
-    /* localStorage.setItem('accion_custodior', JSON.stringify('U')); */
+    localStorage.setItem('accion_titular', JSON.stringify('U'));
 
     this.router.navigate(['/titulares/nuevo']);
   }
 
-  desactivarRegistro(titular: CustodioModel){
-    /*Swal.fire({
+  desactivarRegistro(titular: TitularModel){
+    titular.accion ='D';
+    console.log('Titular:Descativar');
+    console.log(titular);
+    Swal.fire({
       title: '¿Seguro de DESACTIVAR el registro?',
       showCancelButton: true,
       icon: 'error',
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
-        this.custodiosServices.desactivarCustodio( { custodioId: custodio.custodioId!, usuarioRegistro: this.usuarioSession.usuarioId! } ).subscribe((data: any) => {
+        this.custodiosServices.activaDesactivarTitular(titular).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.crearFormulario();
               break;
             }
             default: { 
-              //statements; 
               break; 
           } 
           }
         })
       }
-    })*/
+    })
   }
 
-  activarRegistro(infractor: CustodioModel){
-    /*Swal.fire({
+  activarRegistro(titular: TitularModel){
+    titular.accion ='E';
+    Swal.fire({
       title: '¿Seguro de ACTIVAR el registro?',
       showCancelButton: true,
       icon: 'error',
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
-        this.custodiosServices.activarCustodio({ custodioId: infractor.custodioId!, usuarioRegistro: this.usuarioSession.usuarioId! }).subscribe((data: any) => {
+        this.custodiosServices.activaDesactivarTitular(titular).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.crearFormulario();
@@ -244,7 +168,7 @@ export class CustodiosComponent implements OnInit {
           }
         })
       }
-    })*/
+    })
   }
 
   reporte(){
@@ -260,14 +184,18 @@ export class CustodiosComponent implements OnInit {
   }
 
   obtenerDominios(){
-    /*this.dominiosServices.getDominioCaducidad().subscribe((data: any) => {
+
+    this.dominiosServices.getDominioTiposCustodio().subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
           this.respuestaServicio = data;
-          this.dominioCaducidad = this.respuestaServicio.detalle;
+          this.dominioTipoCustodio = this.respuestaServicio.detalle;
 
-          localStorage.removeItem('caducidad');
-          localStorage.setItem('caducidad', JSON.stringify(this.dominioCaducidad));
+          localStorage.removeItem('tipoCustodio');
+          localStorage.setItem('tipoCustodio', JSON.stringify(this.dominioTipoCustodio));
+
+          this.selectedTipoCustodio = '01';
+          this.crearFormulario();
           break;
         }
         default: { 
@@ -277,14 +205,14 @@ export class CustodiosComponent implements OnInit {
       }
     })
 
-    this.dominiosServices.getDominioObservacion().subscribe((data: any) => {
+    this.dominiosServices.getDominioTiposPersona().subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
           this.respuestaServicio = data;
           this.dominioObservacion = this.respuestaServicio.detalle;
 
-          localStorage.removeItem('observacion');
-          localStorage.setItem('observacion', JSON.stringify(this.dominioObservacion));
+          localStorage.removeItem('tipoPersona');
+          localStorage.setItem('tipoPersona', JSON.stringify(this.dominioObservacion));
           break;
         }
         default: { 
@@ -292,7 +220,11 @@ export class CustodiosComponent implements OnInit {
           break; 
        } 
       }
-    })*/
+    })
+  }
+
+  onSelectTipoCustodio(event:Event):void{
+    this.selectedTipoCustodio = (event.target as HTMLInputElement).value;
   }
 
   cerrarSession(){

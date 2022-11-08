@@ -9,33 +9,59 @@
                     </div>
                     <div class="col-md-8">
                         <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
-                            <input type="text" matInput formControlName="nroTituloHabilitante" name="nroTituloHabilitante" [class.is-invalid]="asuntoNoValido">
+                            <input type="text" matInput formControlName="nroTituloHabilitante" name="nroTituloHabilitante" [class.is-invalid]="nroTituloNoValido">
                         </mat-form-field>
                     </div>
                 </div>
 
+                <div class="row" *ngIf="nroTituloNoValido">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-10">
+                        <small *ngIf="nroTituloNoValido" class="text-danger">
+                            Ingresar el Asunto del Documento.
+                        </small>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-4">
                         <label for="fechaPeriodoInicio">Fecha Periodo Inicio:</label>
                     </div>
                     <div class="col-md-8">
                         <!-- <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;"> -->
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoInicio" name="fechaPeriodoInicio" [class.is-invalid]="asuntoNoValido">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoInicio" name="fechaPeriodoInicio"  [class.is-invalid]="fechPeriodoInicioNoValido">
                         <!-- </mat-form-field> -->
                     </div>
                 </div>
     
+                <div class="row" *ngIf="fechPeriodoInicioNoValido">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-10">
+                        <small *ngIf="fechPeriodoInicioNoValido" class="text-danger">
+                            Ingresar el Asunto del Documento.
+                        </small>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-4">
                         <label for="fechaPeriodoFin">Fecha Periodo Fin:</label>
                     </div>
                     <div class="col-md-8">
                         <!-- <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;"> -->
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoFin" name="fechaPeriodoFin" [class.is-invalid]="asuntoNoValido">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoFin" name="fechaPeriodoFin"  [class.is-invalid]="fechPeriodoFinNoValido">
                         <!-- </mat-form-field> -->
                     </div>
                 </div>
-            
+                <div class="row" *ngIf="fechPeriodoFinNoValido">
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-10">
+                        <small *ngIf="fechPeriodoFinNoValido" class="text-danger">
+                            Ingresar el Asunto del Documento.
+                        </small>
+                    </div>
+                </div>
             <br/><br/>
             <div class="row">
                 <div class="col-md-12" style="text-align: center;">

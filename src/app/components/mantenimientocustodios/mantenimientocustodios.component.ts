@@ -79,8 +79,8 @@ export class MantenimientocustodiosComponent implements OnInit {
       
       nroTituloHabilitante : [this.titular.nroTituloHabilitante],
       nombreTituloHabilitante : [this.titular.nombreTituloHabilitante],
-      nombreTitularHabilitante : [this.titular.nombreTitularHabilitante],
-      dniRuc : [this.titular.dniRuc],
+      /* nombreTitularHabilitante : [this.titular.nombreTitularHabilitante], */
+      dniRuc : [this.titular.dniRucTitular],
       nombres : '',
       apellidos : '',
       dniCe : '',
@@ -304,7 +304,7 @@ export class MantenimientocustodiosComponent implements OnInit {
     });
     
     const filename = adjunto.nombre || '';
-    this._documentoService.downloadAdjunto(adjunto.custodioId!, adjunto.adjuntoId!).subscribe(resp => {
+    this._documentoService.downloadAdjunto(adjunto.custodioId!, '').subscribe(resp => {
       const blobdata = new Blob([resp], { type: 'application/octet-stream' });
       const blob = new Blob([blobdata], { type: 'application/octet-stream' });
       const url = window.URL.createObjectURL(blob);
@@ -321,7 +321,7 @@ export class MantenimientocustodiosComponent implements OnInit {
   }
 
   cargarAdjuntos(){
-    this._documentoService.getListadoAdjuntos(this.titular.tituloId!, this.page, 1000).subscribe((data: any) => {
+    this._documentoService.getListadoAdjuntos(this.titular.titularId!, this.page, 1000).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
           this.documento = data;
@@ -349,7 +349,7 @@ export class MantenimientocustodiosComponent implements OnInit {
 
     dialogRef.componentInstance.documento = doc;
     dialogRef.componentInstance.accion = 'I';
-    dialogRef.componentInstance.custodioId = this.titular.tituloId!;
+    dialogRef.componentInstance.custodioId = this.titular.titularId!;
 
     dialogRef.afterClosed().subscribe(result => {
       this.validarAntesDeListar('cerrarDocumento');
@@ -362,7 +362,7 @@ export class MantenimientocustodiosComponent implements OnInit {
     });
 
     dialogRef.componentInstance.documento = adjunto;
-    dialogRef.componentInstance.custodioId = this.titular.tituloId!;
+    dialogRef.componentInstance.custodioId = this.titular.titularId!;
     dialogRef.componentInstance.accion = 'M';
 
     dialogRef.afterClosed().subscribe(result => {

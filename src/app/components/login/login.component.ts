@@ -28,19 +28,7 @@ export class LoginComponent implements OnInit {
     
     if( form.invalid ) { return; }
 
-    localStorage.removeItem( 'usuariosession' );
-    localStorage.setItem( 'usuariosession', JSON.stringify( this.respuestaServicio.usuario ) );
-
-    this.router.navigate( ['/custodios']) ;
-
-    Swal.fire({
-      title: '¡Bienvenido!',
-      text:'Bienvenido al Sistema de Custodios',
-      icon: 'success',
-      allowOutsideClick: false
-    });
-
-    /*this.usarioService.getUsuario( this.usermodel ).subscribe( ( data: any ) => {
+    this.usarioService.getUsuario( this.usermodel ).subscribe( ( data: any ) => {
   
       switch( data.result_code ) { 
         case 200: { 
@@ -91,7 +79,7 @@ export class LoginComponent implements OnInit {
            break; 
         } 
      } 
-    } );*/
+    } );
   }
 
 }

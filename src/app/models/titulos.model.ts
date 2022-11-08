@@ -1,9 +1,9 @@
-import { AdjuntoModel } from "./adjunto.model";
+import { ComunidadModel } from "./comunidad.model";
 
-export class DocumentoModel {
+export class TituloModel {
     result_code?: Number;
     error_description?: String;
     response_date?: String;
     accessToken?:String;
-    content?:AdjuntoModel[];
+    content!: ComunidadModel[];
 }

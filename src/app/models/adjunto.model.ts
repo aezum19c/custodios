@@ -7,4 +7,6 @@ export class AdjuntoModel {
     estado?: string;
     totalRegistros?: string;
     totalPaginas?: number;
+    titularId?: number;
+    origen?: string;
 }

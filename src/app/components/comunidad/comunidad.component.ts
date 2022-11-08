@@ -18,8 +18,7 @@ export class ComunidadComponent implements OnInit {
   correlativo!: string;
   accion: string = '';
   usuarioSession: UserModel = {};
-  custodioId: number=0;
-  
+  titularId!: number;
   tieneRenovacion: string = '1';
 
   constructor(private _comunidadService: ComunidadService) { }
@@ -35,21 +34,27 @@ export class ComunidadComponent implements OnInit {
 
     if (this.accion === 'M') {
       this.formComunidad.get('nroTituloHabilitante')?.setValue(this.comunidad.nroTituloHabilitante);
-      this.formComunidad.get('extension')?.setValue(this.comunidad.extension);
+      this.formComunidad.get('fechaPeriodoInicio')?.setValue(this.comunidad.vigenciaInicio);
+      this.formComunidad.get('fechaPeriodoFin')?.setValue(this.comunidad.vigenciaFin);
     }
   }
 
-
   crearFormulario() {
     this.formComunidad = new FormGroup({
-      asunto: new FormControl('', [Validators.required]),
-      adjuntodoc: new FormControl('', [Validators.required])
+      nroTituloHabilitante: new FormControl('', [Validators.required]),
+      fechaPeriodoInicio: new FormControl('', [Validators.required]),
+      fechaPeriodoFin: new FormControl('', [Validators.required]),
     });
   }
 
-
-  get asuntoNoValido() {
+  get nroTituloNoValido() {
     return this.formComunidad.get('nroTituloHabilitante')?.invalid && this.formComunidad.get('nroTituloHabilitante')?.touched;
+  }
+  get fechPeriodoInicioNoValido() {
+    return this.formComunidad.get('fechaPeriodoInicio')?.invalid && this.formComunidad.get('fechaPeriodoInicio')?.touched;
+  }
+  get fechPeriodoFinNoValido() {
+    return this.formComunidad.get('fechaPeriodoFin')?.invalid && this.formComunidad.get('fechaPeriodoFin')?.touched;
   }
 
   preGuardarContrato(){
@@ -64,14 +69,17 @@ export class ComunidadComponent implements OnInit {
     }
   }
 
-  guardarComunidad(){
+  guardarComunidad(){  
+    this.comunidad.nroTituloHabilitante = this.formComunidad.get('nroTituloHabilitante')?.value;
+    this.comunidad.vigenciaInicio = this.formComunidad.get('fechaPeriodoInicio')?.value;
+    this.comunidad.vigenciaFin = this.formComunidad.get('fechaPeriodoFin')?.value;
 
-    let extension = '';
-    //if(this.contrato!=null) extension = this.contrato..split('.').pop()!;
-    let nombre = this.formComunidad.get('nroTituloHabilitante')?.value;
-    
     if (this.accion === 'I'){
-      /*this._contratoService.uploadAdjunto(this.adjunto, this.usuarioSession.usuarioId! ,this.custodioId!, this.formDocumento.get('asunto')?.value, extension!, nombre!).subscribe((data: any) => {
+      this.comunidad.accion = 'I';
+      this.comunidad.secuenciaId = 0;
+      this.comunidad.titularId = this.titularId;
+      
+      this._comunidadService.insertarComunidad(this.comunidad).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
             this.cerrar_modal(true);
@@ -82,16 +90,18 @@ export class ComunidadComponent implements OnInit {
               break; 
           } 
         }
-      });*/
+      });
     }
 
     if (this.accion === 'M'){
+      this.comunidad.accion = 'U';
       this.comunidad.nroTituloHabilitante = this.formComunidad.get('nroTituloHabilitante')?.value;
-      /* this._contratoService.updateDocumento(this.contrato).subscribe((data: any) => {
-      
+      this.comunidad.vigenciaInicio = this.formComunidad.get('fechaPeriodoInicio')?.value;
+      this.comunidad.vigenciaFin = this.formComunidad.get('fechaPeriodoFin')?.value;
+
+      this._comunidadService.updateComunidad(this.comunidad).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
-
             //this.mostrarMsjError('Actualización exitosa', false);
             this.cerrar_modal(true);
             break;
@@ -101,7 +111,7 @@ export class ComunidadComponent implements OnInit {
               break; 
           } 
         }
-      }); */
+      });
     }
   }
 

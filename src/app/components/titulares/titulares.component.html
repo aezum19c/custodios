@@ -30,26 +30,22 @@
         </div>
     </div>
     
-    <form autocomplete="off" [formGroup]="formCustodio" class="formulario">
+    <form autocomplete="off" [formGroup]="formTitulares" class="formulario">
         <mat-tab-group >
             <mat-tab label="Titular"> 
                 <br>
                 <div class="row" style="padding: 10px 10px 10px 10px;">
                     <div class="col-md-6">
                         <label class="form_label">Tipo de Custodio</label>
-                        <select class="form-select" aria-label="" formControlName="tipoCustodio"
-                        #teams (change)="onSelected(teams.value)">
-                            <!-- <option *ngFor="let observacion of dominioObservacion"
-                            value={{observacion.codigoDetalle}}>
-                                {{observacion.valorDetalle}}
-                            </option> -->
-                            <option value="1">Titulo Habilitante</option>
-                            <option value="2">Comite de Vigilancia</option>
+                        <select class="form-select" (change)="onSelectTipoCustodio($event)" formControlName="tipoCustodio" name="tipoCustodio"> 
+                            <option *ngFor="let tipoCustodio of dominioTipoCustodio" value={{tipoCustodio.codigoDetalle}}>
+                                {{tipoCustodio.valorDetalle}}
+                            </option>
                         </select>
                     </div>
                 </div>
                 <br>
-                <div *ngIf="custodioSelected === '1' ">
+                <div *ngIf="custodioSelected === '01' ">
                     <h4>Datos del Titulo Habilitante</h4>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-6">
@@ -65,21 +61,38 @@
                     <br>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-6">
-                            <label class="form_label">Nombres del Titular del Titulo Habilitante</label>
-                            <input type="text" class="form-control" formControlName="nombreTitularHabilitante"  name="nombreTitularHabilitante" maxlength="150">
+                            <label class="form_label">Tipo Persona</label>
+                            <select class="form-select" (change)="onSelectTipoPersona($event)" formControlName="tipoPersona" name="tipoPersona"> 
+                                <option *ngFor="let tipoPersona of dominioTipoPersona" value={{tipoPersona.codigoDetalle}}>
+                                    {{tipoPersona.valorDetalle}}
+                                </option>
+                            </select>
+                            
                         </div>
                         <div class="col-md-6">
                             <label class="form_label">DNI o RUC</label>
-                            <input type="text" class="form-control" formControlName="dniRuc"  name="dniRuc" maxlength="11">
+                            <input type="text" class="form-control" formControlName="dniRucTitular"  name="dniRucTitular" maxlength="11">
+                        </div>
+                    </div>
+                    
+                    <div class="row" style="padding: 10px 10px 10px 10px;" *ngIf="selectedTipoPersona==='02'">
+                        <div class="col-md-6">
+                            <label class="form_label">Nombre Representante Legal</label>
+                            <input type="text" class="form-control form-imput" formControlName="nombreRepLegal" name="nombreRepLegal"  maxlength="30">
+                        </div>
+        
+                        <div class="col-md-6">
+                            <label class="form_label">Ruc Representante Legal</label>
+                            <input type="text" class="form-control" formControlName="dniRucRepLegal"  name="dniRucRepLegal" maxlength="150">
                         </div>
                     </div>
                 </div>
-                <div *ngIf="custodioSelected==='2'">
+                <div *ngIf="custodioSelected==='02'">
                     <h2>Datos de la Comunidad</h2>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Nombre de la Comunidad</label>
-                            <input type="text" class="form-control" formControlName="nombreComunidad" name="nombreComunidad"  maxlength="30">
+                            <input type="text" class="form-control" formControlName="nombreTitularComunidad" name="nombreTitularComunidad"  maxlength="30">
                         </div>
         
                         <div class="col-md-4">
@@ -88,65 +101,82 @@
                         </div>
     
                         <div class="col-md-4">
-                            <label class="form_label">Provincia</label>
-                            <input type="text" class="form-control" formControlName="provincia"  name="provincia" maxlength="150">
+                            <label class="form_label">Extensión</label>
+                            <input type="text" class="form-control" formControlName="extension"  name="extension" maxlength="150">
                         </div>
                     </div>
+                    <br>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
+                            <label class="form_label">Departamento</label>
+                            <select class="form-select" (change)="onSelectDepartamento($event)" formControlName="departamento" name="departamento" >
+                                <option *ngFor="let departamento of dominioDepartamentos" value={{departamento.departamento}}>
+                                    {{departamento.nombre}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form_label">Provincia</label>
+                            <select class="form-select"  (change)="onSelectProvincia($event)" formControlName="provincia" name="provincia" >
+                                <option *ngFor="let provincias of dominioProvincias" value={{provincias.provincia}}>
+                                    {{provincias.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-4" >
                             <label class="form_label">Distrito</label>
-                            <input type="text" class="form-control" formControlName="distrito"  name="distrito" maxlength="11">
+                            <select class="form-select" (change)="onSelectDistrito($event)" formControlName="distrito" name="distrito" > 
+                                <option *ngFor="let distritos of dominioDistritos" value={{distritos.ubigeoId}}>
+                                    {{distritos.nombre}}
+                                </option>
+                            </select>
                         </div>
-    
-                        <div class="col-md-4">
-                            <label class="form_label">Extensión</label>
-                            <input type="text" class="form-control" formControlName="extension"  name="extension" maxlength="150">
-                        </div>
-    
-                       <!--  <div class="col-md-4">
-                            <label class="form_label">Nro. Titulo Habilitante</label>
-                            <input type="text" class="form-control form-imput" formControlName="nroTituloHabilitante" name="nroTituloHabilitante"  maxlength="30">
-                        </div> -->
                     </div>
-    
-                    <!-- <div class="row" style="padding: 10px 10px 10px 10px;">
-                        <div class="col-md-4">
-                            <label class="form_label">Extensión</label>
-                            <input type="text" class="form-control" formControlName="extension"  name="extension" maxlength="150">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form_label">Periodo de Vigencia: Inicio</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="inicioVigencia" name="inicioVigencia" [class.is-invalid]="fechaSesionNoValido">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form_label">Fin</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="finVigencia" name="finVigencia" [class.is-invalid]="fechaSesionNoValido">
-                        </div>
-                    </div> -->
-    
                     <br>
                     <h2>Datos de Comite de Vigilancia y Control Reconocido</h2>
-                    <div class="row" style="padding: 10px 10px 10px 10px;">
-                        <div class="col-md-6">
-                            <label class="form_label">Solicitud de renocomiento de Comité Vigilancia</label>
-                            <input type="text" class="form-control" formControlName="solicitudReconocimiento"  name="extension" maxlength="150">
+                    <div class="row" *ngIf="titular.nombreAdjunto === ''">
+                        <div class="col-md-1">
+                            <label class="form_label">Archivo:</label>
                         </div>
-                        
-                        <div class="col-md-6">
-                            <label class="form_label">Fecha Solicitud</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaSolicitud" name="fechaSolicitud" [class.is-invalid]="fechaSesionNoValido">
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" formControlName="adjuntodocprimera" name="adjuntodocprimera">
+                        </div>
+                        <div class="col-md-5">
+                            <div style="display: grid; grid-template-columns: 50px 500px ">
+                                <div>
+                                    <mat-icon (click)="elegirArchivoSolicitudRenococimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                                <input #btnselectPrimeraInstancia style="display: none;" (change)="seleccion_archivo_solicitud_reconocimiento($event)" type="file">
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoSolicitudRenococimiento()">Subir Archivo</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="titular.nombreAdjunto != ''">
+                        <div class="col-md-6" style="background: #8A9597;">
+                            {{ titular.nombreAdjunto }}
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-info mr-1" (click)="descargarDocumentoSolicitudRenococimiento()"> <i class="fa fa-download"></i></button>
+                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoSolicitudRenococimiento()"> <i class="fa fa-trash"></i></button>
                         </div>
                     </div>
     
                     <div class="row" style="padding: 10px 10px 10px 10px;">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label class="form_label">Fecha Solicitud</label>
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaSolicitud" name="fechaSolicitud">
+                        </div>
+                        <div class="col-md-4">
                             <label class="form_label">Acto Administrativo de renocimiento del Comite</label>
-                            <input type="text" class="form-control" formControlName="actoAdministrativo"  name="actoAdministrativo" maxlength="150">
+                            <input type="text" class="form-control" formControlName="comiteActoReconocimiento"  name="comiteActoReconocimiento" maxlength="150">
                         </div>
                         
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form_label">Fecha de la Resolución de reconocimiento del Comite</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaSolicitud" name="fechaSolicitud" [class.is-invalid]="fechaSesionNoValido">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaActoReconocimiento" name="fechaActoReconocimiento">
                         </div>
                     </div>
     
@@ -158,16 +188,16 @@
                         
                         <div class="col-md-4">
                             <label class="form_label">Periodo de Vigencia del permiso: Inicio</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="inicioPeriodoVigencia" name="inicioPeriodoVigencia" [class.is-invalid]="fechaSesionNoValido">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaInicio" name="vigenciaInicio" >
                         </div>
     
                         <div class="col-md-4">
                             <label class="form_label">Fin</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="finPeriodoVigencia" name="finPeriodoVigencia" [class.is-invalid]="fechaSesionNoValido">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaFin" name="vigenciaFin" >
                         </div>
                     </div>
     
-                    <table class="table mt-5">
+                    <!-- <table class="table mt-5">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">ASUNTO</th>
@@ -186,7 +216,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
                     <br>
                 </div>
                 <div class="col">
@@ -200,7 +230,7 @@
                 <br>
                 <br>
             </mat-tab>
-            <mat-tab label="Titulos Habilitante" *ngIf="custodioSelected==='2'" >
+            <mat-tab label="Titulos Habilitante" *ngIf="custodioSelected==='01' && titular.titularId!=0" >
                 <br>
                 <div class="row "><!-- text-right -->
                     <div class="col text-right">
@@ -222,20 +252,20 @@
                     <tbody>
                         <tr *ngFor="let comunidad of comunidades ">
                             <td>{{ comunidad.nroTituloHabilitante }}</td>
-                            <td>{{ comunidad.fechaPeriodoInicio | ddMMyyyy }}</td>
-                            <td>{{ comunidad.fechaPeriodoFin | ddMMyyyy }}</td>
+                            <td>{{ comunidad.vigenciaInicio | ddMMyyyy }}</td>
+                            <td>{{ comunidad.vigenciaFin | ddMMyyyy }}</td>
                             <!-- <td>{{ custodio.fechaExpiracion | ddMMyyyy }}</td> -->
                             <td>
                                 <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
                                 <button class="btn btn-info mr-1" (click)="verComunidad(comunidad)"> <i class="fa fa-pencil"></i></button>
-                                <!-- <button *ngIf="comunidad.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarRegistro(comunidad)"> <i class="fa fa-trash"></i></button> -->
-                                <!-- <button *ngIf="contrato.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarRegistro(custodio)"> <i class="fa fa-check"></i></button> -->
+                                <button *ngIf="comunidad.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarComunidad(comunidad)"> <i class="fa fa-trash"></i></button>
+                                <button *ngIf="comunidad.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarComunidad(comunidad)"> <i class="fa fa-check"></i></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </mat-tab>
-            <mat-tab label="Custodio" >
+            <mat-tab label="Custodio" *ngIf="titular.titularId!=0" >
                 <br>
                 <div class="row "><!-- text-right -->
                     <div class="col text-right">
@@ -244,6 +274,7 @@
                             Nuevo Custodio
                         </button>
                     </div>
+
                 </div>
                 <table class="table mt-3">
                     <thead class="thead-dark">
@@ -263,7 +294,7 @@
                             <td>
                                 <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
                                 <button class="btn btn-info mr-1" (click)="verCustodio(custodio)"> <i class="fa fa-pencil"></i></button>
-                                <button *ngIf="custodio.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarRegistro(custodio)"> <i class="fa fa-trash"></i></button>
+                                <!-- <button *ngIf="custodio.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarRegistro(custodio)"> <i class="fa fa-trash"></i></button> -->
                                 <!-- <button *ngIf="contrato.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarRegistro(custodio)"> <i class="fa fa-check"></i></button> -->
                             </td>
                         </tr>
