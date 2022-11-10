@@ -2,24 +2,31 @@
     <br>
     <div class="row">
         <div class="col">
-            <img src="./assets/logo_infractor.png" alt="image" style="width: 50px; height: 50px;">
+            <img src="./assets/logo_infractor.png" alt="image" style="width: 130px; height: 130px;">
         </div>
         <div class="col">
-            <span class="login100-form-title p-b-51" >
-                REGISTRO DE CUSTODIOS
+            <span class="login100-form-title p-b-51">
+                REGISTRO DE CUSTODIOS DEL PATRIMONIO FORESTAL Y DE FAUNA SILVESTRE DE UCAYALI
             </span>
         </div>
+        <div class="col text-right">
+            <img src="./assets/logo_ucayali.png" alt="image" style="width: 250px; height: 100px;">
+        </div>
+    </div>
+    <div class="row">
         <div class="col text-right">
             <button (click)="cerrarSession()" class="btn btn-secondary" type="button">
                 <i class="fa fa-power"> </i>
                 CERRAR SESIÓN
             </button>
+
         </div>
         <hr>
+
     </div>
     <hr>
     <!-- <h3>Mantenimiento Custodio</h3> -->
-    
+
     <div class="row text-right">
         <div class="col">
             <button type="button" (click)="regresar()" class="btn btn-danger">
@@ -28,22 +35,22 @@
             </button>
         </div>
     </div>
-    
+
     <form autocomplete="off" [formGroup]="formCustodio" class="formulario">
-        <mat-tab-group >
-            <mat-tab label="Custodio" >
+        <mat-tab-group>
+            <mat-tab label="Custodio">
                 <br>
                 <div *ngIf="custodioSelected === '01' ">
                     <h4>Datos Generales</h4>
-                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Nombres</label>
                             <input type="text" class="form-control" formControlName="nombre" name="nombre">
                         </div>
-            
+
                         <div class="col-md-4">
                             <label class="form_label">Apellidos</label>
-                            <input type="text" class="form-control"   formControlName="apellidos" name="apellidos">
+                            <input type="text" class="form-control" formControlName="apellidos" name="apellidos">
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">DNI o CE</label>
@@ -52,21 +59,20 @@
                     </div>
                     <br>
                     <h4>Capacitación</h4>
-                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Recibio Capacitación</label>
-                            <select class="form-select" aria-label="" formControlName="capacitacionFlag" name="capacitacionFlag"
-                            #teamscapacitacion (change)="onSelectedRecibioCapacitacion(teamscapacitacion.value)">
+                            <select class="form-select" aria-label="" formControlName="capacitacionFlag" name="capacitacionFlag" #teamscapacitacion (change)="onSelectedRecibioCapacitacion(teamscapacitacion.value)">
                                 <option value=1>Si</option>
                                 <option value=0>No</option>
                             </select>
                         </div>
-            
+
                         <div class="col-md-4">
                             <label class="form_label">Fecha Capacitación</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="capacitacionFecha" name="capacitacionFecha" >
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="capacitacionFecha" name="capacitacionFecha">
                         </div>
-            
+
                         <div class="col-md-4">
                             <label class="form_label">Número de Constancia de capacitación</label>
                             <input type="text" class="form-control" formControlName="capacitacionNumero" name="capacitacionNumero">
@@ -86,10 +92,11 @@
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoReconocimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                <input #btnselectReconocimiento style="display: none;" (change)="seleccion_archivo_reconocimiento($event)" type="file">
+                                    <input #btnselectReconocimiento style="display: none;" (change)="seleccion_archivo_reconocimiento($event)" type="file">
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoReconocimiento()">Subir Archivo</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoReconocimiento()">Subir Archivo</button>
+                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
                                 </div>
                             </div>
                         </div>
@@ -111,21 +118,21 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">Acto Administrativo</label>
-                            <input type="text" class="form-control" formControlName="actoAdministrativo"  name="actoAdministrativo">
+                            <input type="text" class="form-control" formControlName="actoAdministrativo" name="actoAdministrativo">
                         </div>
                     </div>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Fecha Acto Administrativo</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="actoAdministrativoFecha" name="actoAdministrativoFecha" >
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="actoAdministrativoFecha" name="actoAdministrativoFecha">
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">Vigencia</label>
-                            <input type="number" class="form-control" formControlName="actoAdministrativoVigencia"  name="actoAdministrativoVigencia">
+                            <input type="number" class="form-control" formControlName="actoAdministrativoVigencia" name="actoAdministrativoVigencia">
                         </div>
-                       
+
                     </div>
-                
+
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Periodo de Vigencia</label>
@@ -137,7 +144,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">Código Carné de acreditación</label>
-                            <input type="text" class="form-control" formControlName="carneCodigo"  name="carneCodigo">
+                            <input type="text" class="form-control" formControlName="carneCodigo" name="carneCodigo">
                         </div>
                     </div>
 
@@ -153,10 +160,11 @@
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoCarnet()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                <input #btnselectCarnet style="display: none;" (change)="seleccion_archivo_carnet($event)" type="file">
+                                    <input #btnselectCarnet style="display: none;" (change)="seleccion_archivo_carnet($event)" type="file">
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCarnet()">Subir Archivo</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCarnet()">Subir Archivo</button>
+                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
                                 </div>
                             </div>
                         </div>
@@ -172,16 +180,15 @@
                     </div>
                     <br>
                     <h4>Pérdida de Acreditación</h4>
-                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
-                            <label class="form_label">Pérdida de Acreditacion</label>
-                            <select class="form-select" aria-label="" formControlName="perdidaFlag" name="perdidaFlag"
-                            #teamsperdida (change)="onSelectedPerdidaAcreditacion(teamsperdida.value)">
+                            <label class="form_label">Pérdida de Acreditación</label>
+                            <select class="form-select" aria-label="" formControlName="perdidaFlag" name="perdidaFlag" #teamsperdida (change)="onSelectedPerdidaAcreditacion(teamsperdida.value)">
                                 <option value=1>Si</option>
                                 <option value=0>No</option>
                             </select>
                         </div>
-            
+
                         <div class="col-md-4 small">
                             <label class="form_label">Motivo</label>
                             <select class="form-select" (change)="onSelectMotivoPerdida($event)" formControlName="perdidaMotivo" name="perdidaMotivo"> 
@@ -190,9 +197,9 @@
                                 </option>
                             </select>
                         </div>
-            
+
                         <div class="col-md-4">
-                            <label class="form_label">Fecha Acto Administrativo</label>
+                            <label class="form_label">Fecha pérdida de acreditación</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="perdidaFecha" name="perdidaFecha">
                         </div>
                     </div>
@@ -200,7 +207,7 @@
                     <br>
                     <div class="row" *ngIf="custodio.perdidaActoNombreAdjunto === ''">
                         <div class="col-md-2">
-                            <label class="form_label">Acto Administrativo perdida Acreditación:</label>
+                            <label class="form_label">Fecha perdida Acreditación:</label>
                         </div>
                         <div class="col-md-4">
                             <input type="text" class="form-control" formControlName="adjuntodocperdidaacto" name="adjuntodocperdidaacto">
@@ -209,10 +216,11 @@
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoPerdidaActo()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                <input #btnselectPerdidaActo style="display: none;" (change)="seleccion_archivo_perdida_acto($event)" type="file">
+                                    <input #btnselectPerdidaActo style="display: none;" (change)="seleccion_archivo_perdida_acto($event)" type="file">
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoPerdidaActo()">Subir Archivo</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoPerdidaActo()">Subir Archivo</button>
+                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
                                 </div>
                             </div>
                         </div>
@@ -230,33 +238,33 @@
                 </div>
                 <div *ngIf="custodioSelected === '02' ">
                     <h4>CUSTODIOS RENOCIDOS</h4>
-                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Nombres</label>
-                            <input type="text" class="form-control" formControlName="nombre" name="nombre" >
+                            <input type="text" class="form-control" formControlName="nombre" name="nombre">
                         </div>
-            
+
                         <div class="col-md-4">
                             <label class="form_label">DNI</label>
                             <input type="text" class="form-control" formControlName="dni" name="dni">
                         </div>
-    
+
                         <div class="col-md-4 small">
                             <label class="form_label">Cargo</label>
-                            <input type="text" class="form-control"   formControlName="cargo" name="cargo">
+                            <input type="text" class="form-control" formControlName="cargo" name="cargo">
                         </div>
                     </div>
-                    <div class="row" style="padding: 10px 10px 10px 10px;" >
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Fecha de Capacitación</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="capacitacionFecha" name="capacitacionFecha">
                         </div>
-            
+
                         <div class="col-md-4">
                             <label class="form_label">Numero Constancia Capacitacion</label>
                             <input type="text" class="form-control" formControlName="capacitacionNumero" name="capacitacionNumero">
                         </div>
-    
+
                         <div class="col-md-4 small">
                             <label class="form_label">Código Carné Acreditación</label>
                             <input type="text" class="form-control" formControlName="carneCodigo" name="carneCodigo">
@@ -274,10 +282,11 @@
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoCapacitacion()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                <input #btnselectCapacitacion style="display: none;" (change)="seleccion_archivo_capacitacion($event)" type="file">
+                                    <input #btnselectCapacitacion style="display: none;" (change)="seleccion_archivo_capacitacion($event)" type="file">
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCapacitacion()">Subir Archivo</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCapacitacion()">Subir Archivo</button>
+                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
                                 </div>
                             </div>
                         </div>
@@ -292,14 +301,15 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <br>
                 <br>
             </mat-tab>
-    
+
             <mat-tab label="Renovacion" *ngIf="mostrar">
                 <br>
-                <div class="row "><!-- text-right -->
+                <div class="row ">
+                    <!-- text-right -->
                     <div class="col">
                         <div *ngIf="custodioSelected === '01' ">
                             <h4>RENOVACIONES</h4>
@@ -342,8 +352,8 @@
                 <br>
                 <br>
             </mat-tab>
-            
-    
+
+
         </mat-tab-group>
     </form>
     <div class="col">
@@ -354,5 +364,5 @@
             </button>
         </div>
     </div>
-    
+
 </div>

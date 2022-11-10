@@ -3,24 +3,31 @@
     <br>
     <div class="row">
         <div class="col">
-            <img src="./assets/logo_infractor.png" alt="image" style="width: 50px; height: 50px;">
+            <img src="./assets/logo_infractor.png" alt="image" style="width: 130px; height: 130px;">
         </div>
         <div class="col">
-            <span class="login100-form-title p-b-51" >
-                REGISTRO DE CUSTODIOS
+            <span class="login100-form-title p-b-51">
+                REGISTRO DE CUSTODIOS DEL PATRIMONIO FORESTAL Y DE FAUNA SILVESTRE DE UCAYALI
             </span>
         </div>
+        <div class="col text-right">
+            <img src="./assets/logo_ucayali.png" alt="image" style="width: 250px; height: 100px;">
+        </div>
+    </div>
+    <div class="row">
         <div class="col text-right">
             <button (click)="cerrarSession()" class="btn btn-secondary" type="button">
                 <i class="fa fa-power"> </i>
                 CERRAR SESIÓN
             </button>
+
         </div>
         <hr>
+
     </div>
-    
+
     <h2>Titulo Habilitante / Comites de Vigilancia</h2>
-    
+
     <div class="row text-right">
         <div class="col">
             <button type="button" (click)="regresar()" class="btn btn-danger">
@@ -29,10 +36,10 @@
             </button>
         </div>
     </div>
-    
+
     <form autocomplete="off" [formGroup]="formTitulares" class="formulario">
-        <mat-tab-group >
-            <mat-tab label="Titular"> 
+        <mat-tab-group>
+            <mat-tab label="Titular">
                 <br>
                 <div class="row" style="padding: 10px 10px 10px 10px;">
                     <div class="col-md-6">
@@ -50,12 +57,12 @@
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-6">
                             <label class="form_label">Nro. Titulo Habilitante</label>
-                            <input type="text" class="form-control form-imput" formControlName="nroTituloHabilitante" name="nroTituloHabilitante"  maxlength="30">
+                            <input type="text" class="form-control form-imput" formControlName="nroTituloHabilitante" name="nroTituloHabilitante" maxlength="30">
                         </div>
-        
+
                         <div class="col-md-6">
                             <label class="form_label">Nombres del Titulo Habilitante</label>
-                            <input type="text" class="form-control" formControlName="nombreTituloHabilitante"  name="nombreTituloHabilitante" maxlength="150">
+                            <input type="text" class="form-control" formControlName="nombreTituloHabilitante" name="nombreTituloHabilitante" maxlength="150">
                         </div>
                     </div>
                     <br>
@@ -67,23 +74,23 @@
                                     {{tipoPersona.valorDetalle}}
                                 </option>
                             </select>
-                            
+
                         </div>
                         <div class="col-md-6">
                             <label class="form_label">DNI o RUC</label>
-                            <input type="text" class="form-control" formControlName="dniRucTitular"  name="dniRucTitular" maxlength="11">
+                            <input type="text" class="form-control" formControlName="dniRucTitular" name="dniRucTitular" maxlength="11">
                         </div>
                     </div>
-                    
+
                     <div class="row" style="padding: 10px 10px 10px 10px;" *ngIf="selectedTipoPersona==='02'">
                         <div class="col-md-6">
                             <label class="form_label">Nombre Representante Legal</label>
-                            <input type="text" class="form-control form-imput" formControlName="nombreRepLegal" name="nombreRepLegal"  maxlength="30">
+                            <input type="text" class="form-control form-imput" formControlName="nombreRepLegal" name="nombreRepLegal" maxlength="30">
                         </div>
-        
+
                         <div class="col-md-6">
                             <label class="form_label">Ruc Representante Legal</label>
-                            <input type="text" class="form-control" formControlName="dniRucRepLegal"  name="dniRucRepLegal" maxlength="150">
+                            <input type="text" class="form-control" formControlName="dniRucRepLegal" name="dniRucRepLegal" maxlength="150">
                         </div>
                     </div>
                 </div>
@@ -92,24 +99,24 @@
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Nombre de la Comunidad</label>
-                            <input type="text" class="form-control" formControlName="nombreTitularComunidad" name="nombreTitularComunidad"  maxlength="30">
+                            <input type="text" class="form-control" formControlName="nombreTitularComunidad" name="nombreTitularComunidad" maxlength="30">
                         </div>
-        
+
                         <div class="col-md-4">
                             <label class="form_label">Ambito Territorial</label>
-                            <input type="text" class="form-control" formControlName="ambitoTerritorial"  name="ambitoTerritorial" maxlength="150">
+                            <input type="text" class="form-control" formControlName="ambitoTerritorial" name="ambitoTerritorial" maxlength="150">
                         </div>
-    
+
                         <div class="col-md-4">
                             <label class="form_label">Extensión</label>
-                            <input type="text" class="form-control" formControlName="extension"  name="extension" maxlength="150">
+                            <input type="text" class="form-control" formControlName="extension" name="extension" maxlength="150">
                         </div>
                     </div>
                     <br>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Departamento</label>
-                            <select class="form-select" (change)="onSelectDepartamento($event)" formControlName="departamento" name="departamento" >
+                            <select class="form-select" (change)="onSelectDepartamento($event)" formControlName="departamento" name="departamento">
                                 <option *ngFor="let departamento of dominioDepartamentos" value={{departamento.departamento}}>
                                     {{departamento.nombre}}
                                 </option>
@@ -118,15 +125,15 @@
 
                         <div class="col-md-4">
                             <label class="form_label">Provincia</label>
-                            <select class="form-select"  (change)="onSelectProvincia($event)" formControlName="provincia" name="provincia" >
+                            <select class="form-select" (change)="onSelectProvincia($event)" formControlName="provincia" name="provincia">
                                 <option *ngFor="let provincias of dominioProvincias" value={{provincias.provincia}}>
                                     {{provincias.nombre}}
                                 </option>
                             </select>
                         </div>
-                        <div class="col-md-4" >
+                        <div class="col-md-4">
                             <label class="form_label">Distrito</label>
-                            <select class="form-select" (change)="onSelectDistrito($event)" formControlName="distrito" name="distrito" > 
+                            <select class="form-select" (change)="onSelectDistrito($event)" formControlName="distrito" name="distrito"> 
                                 <option *ngFor="let distritos of dominioDistritos" value={{distritos.ubigeoId}}>
                                     {{distritos.nombre}}
                                 </option>
@@ -146,10 +153,11 @@
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoSolicitudRenococimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                <input #btnselectSolicitudRenocomiento style="display: none;" (change)="seleccion_archivo_solicitud_reconocimiento($event)" type="file">
+                                    <input #btnselectSolicitudRenocomiento style="display: none;" (change)="seleccion_archivo_solicitud_reconocimiento($event)" type="file">
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoSolicitudRenococimiento()">Subir Archivo</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoSolicitudRenococimiento()">Subir Archivo</button>
+                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
                                 </div>
                             </div>
                         </div>
@@ -163,7 +171,7 @@
                             <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoSolicitudRenococimiento()"> <i class="fa fa-trash"></i></button>
                         </div>
                     </div>
-    
+
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Fecha Solicitud</label>
@@ -171,29 +179,29 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">Acto Administrativo de renocimiento del Comite</label>
-                            <input type="text" class="form-control" formControlName="comiteActoReconocimiento"  name="comiteActoReconocimiento" maxlength="150">
+                            <input type="text" class="form-control" formControlName="comiteActoReconocimiento" name="comiteActoReconocimiento" maxlength="150">
                         </div>
-                        
+
                         <div class="col-md-4">
                             <label class="form_label">Fecha de la Resolución de reconocimiento del Comite</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaActoReconocimiento" name="fechaActoReconocimiento">
                         </div>
                     </div>
-    
+
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Vigencia</label>
-                            <input type="text" class="form-control" formControlName="vigencia"  name="vigencia" maxlength="150">
+                            <input type="text" class="form-control" formControlName="vigencia" name="vigencia" maxlength="150">
                         </div>
-                        
+
                         <div class="col-md-4">
                             <label class="form_label">Periodo de Vigencia del permiso: Inicio</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaInicio" name="vigenciaInicio" >
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaInicio" name="vigenciaInicio">
                         </div>
-    
+
                         <div class="col-md-4">
                             <label class="form_label">Fin</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaFin" name="vigenciaFin" >
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaFin" name="vigenciaFin">
                         </div>
                     </div>
                     <br>
@@ -209,11 +217,12 @@
                 <br>
                 <br>
             </mat-tab>
-            <mat-tab label="Titulos Habilitante" *ngIf="custodioSelected==='02' && titular.titularId!=0" >
+            <mat-tab label="Titulos Habilitante" *ngIf="custodioSelected==='02' && titular.titularId!=0">
                 <br>
-                <div class="row "><!-- text-right -->
+                <div class="row ">
+                    <!-- text-right -->
                     <div class="col text-right">
-                        <button type="button"  class="btn btn-primary" (click)="nuevaComunidad()">
+                        <button type="button" class="btn btn-primary" (click)="nuevaComunidad()">
                             <i class="fa fa-plus"> </i>
                             Agregar
                         </button>
@@ -244,9 +253,10 @@
                     </tbody>
                 </table>
             </mat-tab>
-            <mat-tab label="Custodio" *ngIf="titular.titularId!=0" >
+            <mat-tab label="Custodio" *ngIf="titular.titularId!=0">
                 <br>
-                <div class="row "><!-- text-right -->
+                <div class="row ">
+                    <!-- text-right -->
                     <div class="col text-right">
                         <button type="button" (click)="nuevoCustodio()" class="btn btn-primary">
                             <i class="fa fa-plus"> </i>
@@ -269,7 +279,7 @@
                             <td>{{ custodio.nombre + ' ' + custodio.apellidos }}</td>
                             <td>{{ custodio.dni }}</td>
                             <!-- <td>{{ custodio.capacitacionFecha | ddMMyyyy }}</td> -->
-                            
+
                             <td>
                                 <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
                                 <button class="btn btn-info mr-1" (click)="verCustodio(custodio)"> <i class="fa fa-pencil"></i></button>
@@ -280,7 +290,7 @@
                     </tbody>
                 </table>
             </mat-tab>
-    
+
         </mat-tab-group>
     </form>
 </div>

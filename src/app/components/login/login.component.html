@@ -40,39 +40,32 @@
 
 <div class="wrapper fadeInDown" style="background-color: #56baed ;">
     <div id="formContent">
-      <!-- Tabs Titles -->
-      <h2 class="active"> Login </h2>
-  
-      <!---Icon -->
-      <div class="fadeIn first">
-        <!--img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /-->
-        <img src="./assets/logo_infractor.png" alt="image" id="icon" style="width: 125px; height: 125px;">
-      </div>
-      <span class="fadeIn first">
-        REGISTRO DE CUSTODIOS
+        <!---Icon -->
+        <div class="fadeIn first">
+            <img src="./assets/logo_ucayali.png" alt="image" style="width: 300px;">
+        </div>
+        <div class="fadeIn first">
+            <!--img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /-->
+            <img src="./assets/logo_infractor.png" alt="image" id="icon" style="width: 125px; height: 125px;">
+        </div>
+        <span class="fadeIn first text">
+            REGISTRO DE CUSTODIOS DEL PATRIMONIO FORESTAL Y DE FAUNA SILVESTRE DE UCAYALI
     </span>
-      <!-- Login Form -->
-      <form (ngSubmit)="login( f )" #f="ngForm">
+        <!-- Login Form -->
+        <form (ngSubmit)="login( f )" #f="ngForm">
 
-        <span *ngIf="f.submitted && f.controls['username'].errors" class="text-danger animated fadeIn">
+            <span *ngIf="f.submitted && f.controls['username'].errors" class="text-danger animated fadeIn">
             El usuario es obligatorio
             </span>
-        <input id="login" class="fadeIn second" required
-            type="text" name="username" required placeholder="Username" [(ngModel)]="usermodel.usuario">
+            <input id="login" class="fadeIn second" required type="text" name="username" required placeholder="Username" [(ngModel)]="usermodel.usuario">
 
             <br>
             <span *ngIf="f.submitted && f.controls['pass'].errors" class="text-danger animated fadeIn">
                 La clave es obligatoria
             </span>
-        <input type="text" id="password" class="fadeIn third" name="pass" required placeholder="Password" [(ngModel)]="usermodel.clave">
+            <input type="password" id="password" class="fadeIn third" name="pass" required placeholder="Password" [(ngModel)]="usermodel.clave">
 
-        <input type="submit" class="fadeIn fourth" value="INGRESAR">
-      </form>
-  
-      <!-- Remind Passowrd -->
-      <div id="formFooter">
-        <a class="underlineHover">@Custodios</a>
-      </div>
-  
+            <input type="submit" class="fadeIn fourth" value="INGRESAR">
+        </form>
     </div>
-  </div>
+</div>

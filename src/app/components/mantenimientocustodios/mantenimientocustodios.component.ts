@@ -179,6 +179,7 @@ export class MantenimientocustodiosComponent implements OnInit {
         this.custodio.carneCodigo = this.formCustodio.get('carneCodigo')?.value;
         this.custodio.perdidaFlag = this.formCustodio.get('perdidaFlag')?.value;
         this.custodio.perdidaMotivo = this.formCustodio.get('perdidaMotivo')?.value;
+        this.custodio.perdidaFecha = this.formCustodio.get('perdidaFecha')?.value;
         this.custodio.estado = this.formCustodio.get('estado')?.value;
         this.custodio.cargo = this.formCustodio.get('cargo')?.value;
 

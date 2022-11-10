@@ -181,6 +181,18 @@ export class CustodiosComponent implements OnInit {
     });*/
   }
 
+  ficha(titular: TitularModel){
+    /*this._documentoService.getFicha(infractor.infractorId!).subscribe((data: any) => {
+      const blobdata = new Blob([data], { type: 'application/octet-stream' });
+      const blob = new Blob([blobdata], { type: 'application/octet-stream' });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.download = 'Ficha_RIFFS.pdf';
+      anchor.href = url;
+      anchor.click();
+    });*/
+  }
+
   obtenerDominios(){
 
     this.dominiosServices.getDominioTiposCustodio().subscribe((data: any) => {
@@ -188,11 +200,14 @@ export class CustodiosComponent implements OnInit {
         case 200 : {
           this.respuestaServicio = data;
           this.dominioTipoCustodio = this.respuestaServicio.detalle;
-
+          this.dominioTipoCustodio.unshift({
+            codigoDetalle: '00',
+            valorDetalle: '-- Todos --'
+          });
           localStorage.removeItem('tipoCustodio');
           localStorage.setItem('tipoCustodio', JSON.stringify(this.dominioTipoCustodio));
 
-          this.selectedTipoCustodio = '01';
+          this.selectedTipoCustodio = '00';
           this.crearFormulario();
           break;
         }

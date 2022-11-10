@@ -32,6 +32,10 @@ export class TitularModel {
     fechaSolicitud?: string;
     nombreAdjunto?: string;
     rutaAdjunto?: string;
+    custodioNombres?: string;
+    custodioCarne?: string;
+    custodioActoAdministrativo?: string;
+    custodioActoAdministrativoFecha?: string;
     estado?: number;
     usuarioRegistro?: number;
     fechaRegistro?: string;
