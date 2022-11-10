@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
             Swal.fire({
               title: '¡Bienvenido!',
-              text:'Bienvenido al Sistema de Infractores',
+              text:'Bienvenido al Sistema de Custodios',
               icon: 'success',
               allowOutsideClick: false
             });

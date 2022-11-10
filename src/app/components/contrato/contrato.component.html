@@ -1,39 +1,51 @@
 
-<h3 mat-dialog-title style="text-align: center;" *ngIf="tieneRenovacion=='1'">RENOVACIONES</h3>
-<h3 mat-dialog-title style="text-align: center;" *ngIf="tieneRenovacion=='2'">RENOVACIONES DE COMITÉ DE VIGILANCIA Y CONTROL</h3>
+<h3 mat-dialog-title style="text-align: center;" *ngIf="contrato.tipoCustodio==='01'">RENOVACIONES</h3>
+<h3 mat-dialog-title style="text-align: center;" *ngIf="contrato.tipoCustodio==='02'">RENOVACIONES DE COMITÉ DE VIGILANCIA Y CONTROL</h3>
 <div mat-dialog-content>
     <div style="margin-top: 20px; width:750px;">
         <form autocomplete="off" [formGroup]="formContrato">
+            <div class="row">
+                <div class="col-md-5">
+                    <label for="flagRenovacion">Renovaciones:</label>
+                </div>
+                <div class="col-md-7">
+                    <select class="form-select" aria-label="" formControlName="flagRenovacion" name="flagRenovacion"
+                        #teams (change)="onSelected(teams.value)">
+                        <option value=1>Si</option>
+                        <option value=0>No</option>
+                    </select>
+                </div>
+            </div>
             <div *ngIf="tieneRenovacion=='1'">
-                <div class="row" *ngIf="contrato.tipoContrato=='1'">
-                    <div class="col-md-5">
-                        <label for="renovacion">Resolución renovación de:</label>
+                <div class="row" *ngIf="contrato.tipoCustodio=='01'">
+                    <div class="col-md-4">
+                        <label for="resolucion">Resolución renovación de:</label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-8">
                         <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
-                            <input type="text" matInput formControlName="renovacion" name="renovacion" [class.is-invalid]="asuntoNoValido">
+                            <input type="text" matInput formControlName="resolucion" name="resolucion">
                         </mat-form-field>
                     </div>
                 </div>
     
-                <div class="row" *ngIf="contrato.tipoContrato=='2'">
+                <div class="row" *ngIf="contrato.tipoCustodio=='02'">
                     <div class="col-md-4">
-                        <label for="actoAdministrativo">Acto Administrativo de renovación de la acreditación:</label>
+                        <label for="resolucion">Acto Administrativo de renovación de la acreditación:</label>
                     </div>
                     <div class="col-md-8">
                         <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
-                            <input type="text" matInput formControlName="actoAdministrativo" name="actoAdministrativo" [class.is-invalid]="asuntoNoValido">
+                            <input type="text" matInput formControlName="resolucion" name="resolucion">
                         </mat-form-field>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="fechaActo">Fecha Acto Administrativo:</label>
+                        <label for="resolucionFecha">Fecha Acto Administrativo:</label>
                     </div>
                     <div class="col-md-8">
                         <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
-                            <input type="text" matInput formControlName="fechaActo" name="fechaActo" [class.is-invalid]="asuntoNoValido">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="resolucionFecha" name="resolucionFecha" >
                         </mat-form-field>
                     </div>
                 </div>
@@ -41,27 +53,27 @@
     
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="vigencia">Vigencia:</label>
+                        <label for="resolucionVigencia">Vigencia:</label>
                     </div>
                     <div class="col-md-8">
                         <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
-                            <input type="text" matInput formControlName="vigencia" name="vigencia" [class.is-invalid]="asuntoNoValido">
+                            <input type="number" matInput formControlName="resolucionVigencia" name="resolucionVigencia">
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="periodo">Periodo Vigilancia:</label>
+                        <label for="vigenciaDesde">Periodo de Vigencia:</label>
                     </div>
                     <div class="col-md-4">
                         <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
-                            <input type="text" matInput formControlName="periodoInicio" name="periodoInicio" [class.is-invalid]="asuntoNoValido">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="vigenciaDesde" name="vigenciaDesde" >
                         </mat-form-field>
                     </div>
     
                     <div class="col-md-4">
                         <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
-                            <input type="text" matInput formControlName="periodoFin" name="periodoFin" [class.is-invalid]="asuntoNoValido">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="vigenciaHasta" name="vigenciaHasta" >
                         </mat-form-field>
                     </div>
                 </div>

@@ -51,4 +51,46 @@ export class CustodiosService {
         })
       );
   }
+
+  /* CUSTODIOS */
+  getCustodios( titularId : Number, filtro:string,  pag : Number, regxPag: Number ){
+    let url = URL_API + 'custodios?titularId=' + titularId + '&buscar='+filtro + '&desde='  + '' + '&hasta=' + '' + '&pagina=' + pag + '&regxpag=' + regxPag;
+    
+    return this.http.get(url);
+  }
+
+  crearCustodio(custodio: CustodioModel){
+    const url = `${ URL_API }crudCustodio`;
+    return this.http.post(url, custodio)
+      .pipe(
+        map( resp => {
+          return resp;
+        })
+      );
+  }
+
+  modificarCustodio(custodio: CustodioModel){
+    const url = `${ URL_API }crudCustodio`;
+    return this.http.post(url, custodio)
+      .pipe(
+        map( resp => {
+          return resp;
+        })
+      );
+  }
+
+  activaDesactivarCustodio(custodio: CustodioModel){
+    const url = `${ URL_API }crudCustodio`;
+    let obj = {
+      titularId: custodio.titularId,
+      custodioId: custodio.custodioId,
+      accion: custodio.accion
+    }
+    return this.http.post(url, obj)
+      .pipe(
+        map( resp => {
+          return resp;
+        })
+      );
+  }
 }

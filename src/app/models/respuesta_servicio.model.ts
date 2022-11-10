@@ -1,5 +1,4 @@
 import { DominioModel } from "./dominio.model";
-import { CustodioModel } from "./custodio.model";
 import { UserModel } from "./user.model";
 import { TitularModel } from "./titular.model";
 import { UbigeoModel } from "./ubigeo.model";

@@ -3,31 +3,47 @@ import { ContratoModel } from "./contrato.model";
 
 export class CustodioModel {
     custodioId?: number;
-    nombres?: string;
+    titularId?: number;
+    nombre?: string;
     apellidos?: string;
-    dniCe?: string;
-    cargo?: string;
-    recibioCapacitacion?: string;
-    fechaCapacitacion?: string;
-    numeroConstanciaCapacitacion?: string;
-    solicitudReconocimiento?: string;
+    dni?: string;
+    capacitacionFlag?: number;
+    capacitacionFecha?: string;
+    capacitacionNumero?: string;
     fechaSolicitud?: Date;
     actoAdministrativo?: string;
-    fechaActoAdministrativo?: Date;
-    vigencia?: number;
-    inicioVigencia?: Date;
-    finVigencia?: Date;
-    codigoCarneAcreditacion?: string;
-    perdidaAcreditacion?: string;
-    motivo?: string;
-    motivoDes?: string;
-    actoAdminPerdidaAcredi?: string;
-    fechaActoAdminPerdidadAcredi?: Date;
+    actoAdministrativoFecha?: Date;
+    actoAdministrativoVigencia?: number;
+    vigenciaDesde?: Date;
+    vigenciaHasta?: Date;
+    carneCodigo?: string;
+    perdidaFlag?: number;
+    perdidaMotivo?: string;
+    perdidaFecha?: string;
+    cargo?: string;
     estado?: number;
     usuarioRegistro?: number;
+    accion?: string;
     fechaRegistro?: string;
     totalRegistros?: string;
     totalPaginas?: number;
-    contrato?: ContratoModel[];
-    adjunto?: AdjuntoModel;
+
+    /*contrato?: ContratoModel[];
+    adjunto?: AdjuntoModel; */
+
+    capacitacionFlagAdjunto?: number;
+    capacitacionNombreAdjunto?: string;
+    capacitacionRutaAdjunto?: string;
+
+    reconocimientoFlagAdjunto?: number;
+    reconocimientoNombreAdjunto?: string;
+    reconocimientoRutaAdjunto?: string;
+
+    carnetFlagAdjunto?: number;
+    carnetNombreAdjunto?: string;
+    carnetRutaAdjunto?: string;
+
+    perdidaActoFlagAdjunto?: number;
+    perdidaActoNombreAdjunto?: string;
+    perdidaActoRutaAdjunto?: string;
 }

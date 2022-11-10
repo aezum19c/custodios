@@ -89,4 +89,91 @@ export class DocumentoService {
 
     return this._http.get(url, {headers, responseType: 'arraybuffer'});
   }
+
+
+  /* ADJUNTO PARA TITULAR */
+  uploadAdjuntoTitular(adjunto: File, titularId: number, extension: string, nombre: string){
+    const url = `${ URL_API }uploadTitular`;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'multipart/form-data;',
+      'extension': extension,
+      'titularId': titularId+'',
+      'nombre': nombre,//sin extension
+    });
+
+    return this._http.post(url, adjunto, {headers})
+      .pipe(
+        map( resp => {
+          return resp;
+        })
+      );
+  }
+
+
+  downloadAdjuntoTitular(titularId: number){
+    const url = `${ URL_API }downloadAdjuntoTitular`;
+
+    const headers = new HttpHeaders({
+      'titularId': titularId+'',
+    });
+
+    return this._http.get(url, {headers, responseType: 'arraybuffer'});
+  }
+
+  eliminarAdjuntoTitular(doc: AdjuntoModel){
+    const url = `${ URL_API }eliminarAdjuntoTitular`;
+    return this._http.post(url, doc)
+      .pipe(
+        map( resp => {
+          return resp;
+        })
+      );
+  }
+
+  /* ADJUNTOS PARA CUSTODIOS */
+  uploadAdjuntoCustodio(adjunto: File, titularId: number, asunto: string, extension: string, nombre: string){
+    const url = `${ URL_API }uploadAdjuntoCustodio`;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'multipart/form-data;',
+      'asunto': asunto,
+      'extension': extension,
+      'titularId': titularId+'',
+      'nombre': nombre,//sin extension
+    });
+
+    return this._http.post(url, adjunto, {headers})
+      .pipe(
+        map( resp => {
+          return resp;
+        })
+      );
+  }
+
+  downloadAdjuntoCustodio(custodioId: number, origen: string){
+      const url = `${ URL_API }downloadAdjuntoCustodio`;
+
+      const headers = new HttpHeaders({
+        'custodioId': custodioId+'',
+        'origen': origen+'',
+      });
+
+      return this._http.get(url, {headers, responseType: 'arraybuffer'});
+  }
+
+  eliminarDocumentoCustodio(docAdj: AdjuntoModel){
+    const url = `${ URL_API }eliminarAdjuntoCustodio`;
+
+    let obj = {
+      custodioId: docAdj.custodioId,
+      origen: docAdj.origen
+    }
+    return this._http.post(url, obj)
+      .pipe(
+        map( resp => {
+          return resp;
+        })
+      );
+}
 }

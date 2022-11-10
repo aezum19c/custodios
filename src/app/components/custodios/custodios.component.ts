@@ -28,6 +28,7 @@ export class CustodiosComponent implements OnInit {
   titulares! : TitularModel[]; 
   dominioTipoCustodio! : DominioModel[]; 
   dominioObservacion! : DominioModel[]; 
+  dominioMotivos! : DominioModel[]; 
   usuarioSession : UserModel = new UserModel();
   
   page: number = 1;
@@ -56,7 +57,7 @@ export class CustodiosComponent implements OnInit {
   }
 
   crearFormulario(){
-    //this.usuarioSession = JSON.parse( localStorage.getItem('usuariosession') || '{}' );
+    this.usuarioSession = JSON.parse( localStorage.getItem('usuariosession') || '{}' );
     this.obtenerTitulares();
   }
 
@@ -97,11 +98,8 @@ export class CustodiosComponent implements OnInit {
     }
   }
 
- 
-
   nuevoCustodio(){
     let titular : TitularModel = {};
-    //titular.titularId = 0;
     localStorage.removeItem('titular');
     localStorage.removeItem('accion_titular');
 
@@ -213,6 +211,24 @@ export class CustodiosComponent implements OnInit {
 
           localStorage.removeItem('tipoPersona');
           localStorage.setItem('tipoPersona', JSON.stringify(this.dominioObservacion));
+          break;
+        }
+        default: { 
+          //statements; 
+          break; 
+       } 
+      }
+    })
+
+
+    this.dominiosServices.getDominioMotivosPerdida().subscribe((data: any) => {
+      switch (data.result_code){
+        case 200 : {
+          this.respuestaServicio = data;
+          this.dominioMotivos = this.respuestaServicio.detalle;
+
+          localStorage.removeItem('motivosPerdida');
+          localStorage.setItem('motivosPerdida', JSON.stringify(this.dominioMotivos));
           break;
         }
         default: { 

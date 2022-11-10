@@ -21,6 +21,12 @@ export class DominiosService {
     return this.http.get(url);
   }
 
+  getDominioMotivosPerdida(){
+    let url= URL_API + 'motivosPerdida';
+
+    return this.http.get(url);
+  }
+
   getDepartamentos(tipo: string ){
     let url = URL_API + 'ubigeos?tipo=' + tipo;
     return this.http.get(url);

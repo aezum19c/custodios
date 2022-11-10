@@ -11,15 +11,15 @@ export class ContratoService {
 
   constructor( private _http: HttpClient ) { }
 
-  getContrato( infractorId : Number, pag : Number, regxPag: Number ){
-    let url = URL_API + 'adjuntos?infractorId='+infractorId + '&pagina=' + pag + '&regxpag=' + regxPag;
+  getContrato( custodioId : Number ){
+    let url = URL_API + 'renovaciones?custodioId='+custodioId;
     
     return this._http.get(url);
   }
 
   
   insertarContrato(contrato: ContratoModel){
-    const url = `${ URL_API }regGpaDocumento`;
+    const url = `${ URL_API }crudRenovacion`;
     return this._http.post(url, contrato)
       .pipe(
         map( resp => {
@@ -29,7 +29,7 @@ export class ContratoService {
     }
 
   updateContrato(contrato: ContratoModel){
-    const url = `${ URL_API }modificarAdjunto`;
+    const url = `${ URL_API }crudRenovacion`;
     
     return this._http.post(url, contrato)
       .pipe(
@@ -39,8 +39,8 @@ export class ContratoService {
       );
   }
 
-  eliminarDocumento(contrato: ContratoModel){
-    const url = `${ URL_API }eliminarAdjunto`;
+  desactivaActivaContrato(contrato: ContratoModel){
+    const url = `${ URL_API }crudRenovacion`;
     return this._http.post(url, contrato)
       .pipe(
         map( resp => {

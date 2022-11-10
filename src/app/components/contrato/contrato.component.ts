@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContratoModel } from 'src/app/models/contrato.model';
 import { UserModel } from 'src/app/models/user.model';
 import { ContratoService } from 'src/app/service/contrato.service';
@@ -22,10 +22,17 @@ export class ContratoComponent implements OnInit {
   
   tieneRenovacion: string = '1';
 
-  constructor(private _contratoService: ContratoService,) { }
+  constructor(
+    private _contratoService: ContratoService,
+    private fb: FormBuilder,
+    ) { }
 
   ngOnInit(): void {
     this.usuarioSession = JSON.parse( localStorage.getItem('usuariosession') || '{}' );
+    this.contrato.flagRenovacion = this.contrato.flagRenovacion ?? 0;
+    if(this.contrato.flagRenovacion == 0){
+      this.tieneRenovacion = '0';
+    }
     
     //this.inicio = JSON.parse( localStorage.getItem('inicio') || '{}' );
     //this.usuario = JSON.parse( localStorage.getItem('usuario') || '{}' );
@@ -34,25 +41,42 @@ export class ContratoComponent implements OnInit {
     this.crearFormulario();
 
     if (this.accion === 'M') {
-      this.formContrato.get('renovacion')?.setValue(this.contrato.renovaciones);
-      this.formContrato.get('actoAdministrativo')?.setValue(this.contrato.actoAdministrativo);
+      this.formContrato.get('flagRenovacion')?.setValue(this.contrato.flagRenovacion);
+      this.formContrato.get('resolucion')?.setValue(this.contrato.resolucion);
+      this.formContrato.get('resolucionFecha')?.setValue(this.contrato.resolucionFecha);
+      this.formContrato.get('resolucionVigencia')?.setValue(this.contrato.resolucionVigencia);
+      this.formContrato.get('vigenciaDesde')?.setValue(this.contrato.vigenciaDesde);
+      this.formContrato.get('vigenciaHasta')?.setValue(this.contrato.vigenciaHasta);
     }
   }
 
 
   crearFormulario() {
-    this.formContrato = new FormGroup({
+    /* this.formContrato = new FormGroup({
       asunto: new FormControl('', [Validators.required]),
       adjuntodoc: new FormControl('', [Validators.required])
+    }); */
+
+    this.formContrato = this.fb.group({
+      flagRenovacion : [this.contrato.flagRenovacion],
+      resolucion : [this.contrato.resolucion],
+      resolucionFecha : [this.contrato.resolucionFecha],
+      resolucionVigencia : [this.contrato.resolucionVigencia],
+      vigenciaDesde : [this.contrato.vigenciaDesde],
+      vigenciaHasta : [this.contrato.vigenciaHasta],
     });
+
+    console.log('contrato');
+      console.log(this.contrato);
+      console.log('contratoFIN');
   }
 
 
-  get asuntoNoValido() {
-    return this.formContrato.get('renovacion')?.invalid && this.formContrato.get('renovacion')?.touched;
-  }
+  /* get asuntoNoValido() {
+    return this.formContrato.get('flagRenovacion')?.invalid && this.formContrato.get('flagRenovacion')?.touched;
+  } */
 
-  preGuardarContrato(){
+  /* preGuardarContrato(){
     if (this.formContrato.invalid) {
       return Object.values(this.formContrato.controls).forEach( control => {
         if (control instanceof FormGroup) {
@@ -62,16 +86,22 @@ export class ContratoComponent implements OnInit {
         }
       });
     }
-  }
+  } */
 
   guardarContrato(){
+    this.contrato.flagRenovacion = this.formContrato.get('flagRenovacion')?.value;
+    this.contrato.resolucion = this.formContrato.get('resolucion')?.value;
+    this.contrato.resolucionFecha = this.formContrato.get('resolucionFecha')?.value;
+    this.contrato.resolucionVigencia = this.formContrato.get('resolucionVigencia')?.value;
+    this.contrato.vigenciaDesde = this.formContrato.get('vigenciaDesde')?.value;
+    this.contrato.vigenciaHasta = this.formContrato.get('vigenciaHasta')?.value;
 
-    let extension = '';
-    //if(this.contrato!=null) extension = this.contrato..split('.').pop()!;
-    let nombre = this.formContrato.get('renovacion')?.value;
-    
     if (this.accion === 'I'){
-      /*this._contratoService.uploadAdjunto(this.adjunto, this.usuarioSession.usuarioId! ,this.custodioId!, this.formDocumento.get('asunto')?.value, extension!, nombre!).subscribe((data: any) => {
+      this.contrato.accion = 'I';
+      this.contrato.secuenciaId = 0;
+      /* this.contrato.custodioId = this.custodioId; */
+      
+      this._contratoService.insertarContrato(this.contrato).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
             this.cerrar_modal(true);
@@ -82,16 +112,21 @@ export class ContratoComponent implements OnInit {
               break; 
           } 
         }
-      });*/
+      });
     }
 
     if (this.accion === 'M'){
-      this.contrato.renovaciones = this.formContrato.get('renovacion')?.value;
-      /* this._contratoService.updateDocumento(this.contrato).subscribe((data: any) => {
-      
+      this.contrato.accion = 'U';
+      this.contrato.flagRenovacion = this.formContrato.get('flagRenovacion')?.value;
+      this.contrato.resolucion = this.formContrato.get('resolucion')?.value;
+      this.contrato.resolucionFecha = this.formContrato.get('resolucionFecha')?.value;
+      this.contrato.resolucionVigencia = this.formContrato.get('resolucionVigencia')?.value;
+      this.contrato.vigenciaDesde = this.formContrato.get('vigenciaDesde')?.value;
+      this.contrato.vigenciaHasta = this.formContrato.get('vigenciaHasta')?.value;
+
+      this._contratoService.updateContrato(this.contrato).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
-
             //this.mostrarMsjError('Actualización exitosa', false);
             this.cerrar_modal(true);
             break;
@@ -101,7 +136,7 @@ export class ContratoComponent implements OnInit {
               break; 
           } 
         }
-      }); */
+      });
     }
   }
 

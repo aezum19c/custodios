@@ -21,6 +21,7 @@ import { UbigeoModel } from 'src/app/models/ubigeo.model';
 import { DominiosService } from 'src/app/service/dominio.service';
 import { RespuestaServicio } from 'src/app/models/respuesta_servicio.model';
 import { TituloModel } from 'src/app/models/titulos.model';
+import { RespuestaCustodioModel } from 'src/app/models/respuesta_custodio.model';
 /* import { timeStamp } from 'console'; */
 
 @Component({
@@ -30,7 +31,7 @@ import { TituloModel } from 'src/app/models/titulos.model';
   providers : [DatePipe],
 })
 export class TitularesComponent implements OnInit {
-  @ViewChild('btnselectSolicitudReconocimiento') btnselectSolicitudRenocomiento!: ElementRef<HTMLElement>;
+  @ViewChild('btnselectSolicitudRenocomiento') btnselectSolicitudRenocomiento!: ElementRef<HTMLElement>;
   
   contratos! : ContratoModel[]; 
   formTitulares! : FormGroup;
@@ -56,6 +57,7 @@ export class TitularesComponent implements OnInit {
   dominioDistritos! : UbigeoModel[];
   respuestaServicio : RespuestaServicio = new RespuestaServicio();
   tituloServicio : TituloModel = new TituloModel();
+  custodioServicio: RespuestaCustodioModel = new RespuestaCustodioModel();
 
   departamentoSelected: string='';
   selectedTipoPersona: string = '';
@@ -79,9 +81,11 @@ export class TitularesComponent implements OnInit {
 
   ngOnInit(): void {
     //const 
+    this.cargarDepartamentos();
     this.crearFormulario();
     this.obtenerComunidades();
     this.obtenerCustodios();
+    
     //this.cargarAdjuntos();
   }
 
@@ -94,7 +98,7 @@ export class TitularesComponent implements OnInit {
   
     this.titular.nombreAdjunto = this.titular.nombreAdjunto ?? '';
     this.titular.titularId = this.titular.titularId ?? 0;
-    this.custodioSelected = '01';
+    this.custodioSelected = this.titular.tipoCustodio ?? '01';
 
     if(this.accion_titular == 'N' ){ this.mostrar =false; } else { this.mostrar = true}; 
 
@@ -117,7 +121,7 @@ export class TitularesComponent implements OnInit {
       /* provinciaNombre :[this.titular.provinciaNombre], */
       distrito: [this.titular.distrito],
       /* distritoNombre : [this.titular.distritoNombre], */
-      adjuntodocprimera:[this.titular.nombreAdjunto],
+      //adjuntodocprimera:[this.titular.nombreAdjunto],
       /* rutaAdjunto:[this.titular.rutaAdjunto], */
       fechaSolicitud:[this.titular.fechaSolicitud],
       comiteActoReconocimiento: [this.titular.comiteActoReconocimiento],
@@ -129,6 +133,8 @@ export class TitularesComponent implements OnInit {
       nombreUbigeo: [this.titular.nombreUbigeo],
       periodoDesde: [this.titular.periodoDesde],
       periodoHasta: [this.titular.periodoHasta], */
+
+      adjuntodocprimera: '',
     });
   }
 
@@ -145,48 +151,61 @@ export class TitularesComponent implements OnInit {
   }
 
   guardar(){
-    /* Swal.fire({
+    Swal.fire({
       title: '¿Quieres guardar los cambios?',
       showCancelButton: true,
       confirmButtonText: 'Guardar',
     }).then((result) => {
       
       if (result.isConfirmed) {
-        this.titular.area = this.formCustodio.get('area')?.value;
-        this.titular.nombresApellido = this.formCustodio.get('nombresApellido')?.value;
-        this.titular.dniCarnetExtranjeria = this.formCustodio.get('dniCarnetExtranjeria')?.value;
-        this.titular.actoAdministrativo = this.formCustodio.get('actoAdministrativo')?.value;
-        this.titular.credenciales = this.formCustodio.get('credenciales')?.value;
-        this.titular.atributoCustorioAcreditado = this.formCustodio.get('atributoCustorioAcreditado')?.value;
-        this.titular.nroTituloHabilitante = this.formCustodio.get('nroTituloHabilitante')?.value;
-        this.titular.tipoTituloHabilitante = this.formCustodio.get('tipoTituloHabilitante')?.value;
-        this.titular.tipoConcesion = this.formCustodio.get('tipoConcesion')?.value;
-        this.titular.ubigeoHabilitante = this.formCustodio.get('ubigeoHabilitante')?.value;
-        this.titular.nroOcurrenciaDetectada = this.formCustodio.get('nroOcurrenciaDetectada')?.value;
-        this.titular.fechaExpiracion = this.formCustodio.get('fechaExpiracion')?.value;
-        this.titular.vigencia = this.formCustodio.get('vigencia')?.value;
-        this.titular.fichaTituloHabilitante = this.formCustodio.get('fichaTituloHabilitante')?.value;
-        this.titular.alertaCorreoElectronico = this.formCustodio.get('alertaCorreoElectronico')?.value;
-        this.titular.estado = this.formCustodio.get('estado')?.value;
+        this.titular.tipoCustodio = this.formTitulares.get('tipoCustodio')?.value;
+        this.titular.nroTituloHabilitante = this.formTitulares.get('nroTituloHabilitante')?.value;
+        this.titular.nombreTituloHabilitante = this.formTitulares.get('nombreTituloHabilitante')?.value;
+        this.titular.tipoPersona = this.formTitulares.get('tipoPersona')?.value;
+        this.titular.dniRucTitular = this.formTitulares.get('dniRucTitular')?.value;
+        this.titular.nombreTitularComunidad = this.formTitulares.get('nombreTitularComunidad')?.value;
+        this.titular.ambitoTerritorial = this.formTitulares.get('ambitoTerritorial')?.value;
+        this.titular.extension = this.formTitulares.get('extension')?.value;
+        this.titular.departamento = this.formTitulares.get('departamento')?.value;
+        this.titular.provincia = this.formTitulares.get('provincia')?.value;
+        this.titular.distrito = this.formTitulares.get('distrito')?.value;
+        this.titular.fechaSolicitud = this.formTitulares.get('fechaSolicitud')?.value;
+        this.titular.comiteActoReconocimiento = this.formTitulares.get('comiteActoReconocimiento')?.value;
+        this.titular.fechaActoReconocimiento = this.formTitulares.get('fechaActoReconocimiento')?.value;
+        this.titular.vigencia = this.formTitulares.get('vigencia')?.value;
+        this.titular.vigenciaInicio = this.formTitulares.get('vigenciaInicio')?.value;
+        this.titular.vigenciaFin = this.formTitulares.get('vigenciaFin')?.value;
 
-        if(this.titular.custodioId == 0){
-          this.custodioService.crearTitular(this.custodio).subscribe((data: any) => {
+        this.titular.tipoCustodio = this.custodioSelected;
+
+        if(this.titular.titularId == 0){
+          this.titular.accion = 'I';
+          this.custodioService.crearTitular(this.titular).subscribe((data: any) => {
             switch (data.result_code){
               case 200 : {
-                this.mostrar = true;
+                this.titular.titularId = data.code;
+                this.accion_titular = 'U';
+                this.titular.accion = 'U';
+
                 localStorage.removeItem('titular');
+                localStorage.setItem('titular', JSON.stringify(this.titular));
                 Swal.fire('Guardado!', '', 'success');
-                this.router.navigate(['/custodios']);
               }
             }
           });
         } else {
-          this.custodioService.modificarTitular(this.custodio).subscribe((data: any) => {
+          this.titular.accion = 'U';
+          this.custodioService.modificarTitular(this.titular).subscribe((data: any) => {
             switch (data.result_code){
               case 200 : {
+                this.mostrar = true;
+                this.titular.titularId = data.code;
+                this.accion_titular = 'U';
+                this.titular.accion = 'U';
+
                 localStorage.removeItem('titular');
+                localStorage.setItem('titular', JSON.stringify(this.titular));
                 Swal.fire('Guardado!', '', 'success');
-                this.router.navigate(['/custodios']);
               }
             }
           });
@@ -196,7 +215,7 @@ export class TitularesComponent implements OnInit {
       } else if (result.isDenied) {
         Swal.fire('Volver a cargar', '', 'info')
       }
-    }) */
+    })
 
   }
 
@@ -326,13 +345,6 @@ export class TitularesComponent implements OnInit {
     });
   }
 
-  nuevoCustodio(){
-
-  }
-
-  verCustodio(custodio: CustodioModel){
-
-  }
   validarAntesDeListar(strItem: string){
     let cerrar: string = localStorage.getItem(strItem) || '';
     if (cerrar === '1'){
@@ -358,116 +370,105 @@ export class TitularesComponent implements OnInit {
 
 
   /* *********************** */
-  nuevoTipoCustodio(){
-    let custodio : TitularModel = {};
-    custodio.titularId = 0;
-    custodio.tipoCustodio =  this.custodioSelected;
-    localStorage.removeItem('custodio');
-    localStorage.removeItem('accion_custodio');
-
-    localStorage.setItem('custodio', JSON.stringify(custodio));
-    localStorage.setItem('accion_custodio', JSON.stringify('N'));
-
-    this.router.navigate(['/mantenimientocustodios/nuevo']);
-  }
-  
   obtenerCustodios(){
-    /*this.custodiosServices.getCustodios(0, this.filtro, this.page, this.regxpag).subscribe((data: any) => {
+    this.custodioService.getCustodios(this.titular.titularId!, '', this.page, this.regxpag).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
-          this.respuestaServicio = data;
-          this.totalRegistros = data.content[0].totalRegistros;
-          this.custodios = this.respuestaServicio.content;
+          this.custodioServicio = data;
+          /* this.totalRegistros = data.content[0].totalRegistros; */
+          this.custodios = this.custodioServicio.content;
           break;
         }
         default: { 
           break; 
        } 
       }
-    });*/
-
-    this.custodios = [
-      { custodioId: 1,
-        nombres: 'Custodio 1',
-        apellidos: '',
-        dniCe: '12341234',
-        cargo: 'cargo 1',
-        recibioCapacitacion: 'COMUNIDAD',
-        fechaCapacitacion: '11/10/2022',
-        numeroConstanciaCapacitacion: '',
-        solicitudReconocimiento: '',
-        actoAdministrativo: '',
-        fechaActoAdministrativo: new Date,
-        vigencia: 2,
-        inicioVigencia:new Date,
-        finVigencia:new Date,
-        codigoCarneAcreditacion:'',
-        perdidaAcreditacion:'',
-        motivo:'',
-        motivoDes:'',
-        actoAdminPerdidaAcredi:'',
-        fechaActoAdminPerdidadAcredi: new Date,
-        estado: 1,
-        usuarioRegistro: 1,
-        fechaRegistro: '',
-        totalRegistros: '3',
-        totalPaginas: 3,
-      },
-      { custodioId: 2,
-        nombres: 'Custodio 2',
-        apellidos: '',
-        dniCe: '364523453',
-        cargo: 'cargo 2',
-        recibioCapacitacion: 'COMUNIDAD',
-        fechaCapacitacion: '10/10/2022',
-        numeroConstanciaCapacitacion: '',
-        solicitudReconocimiento: '',
-        actoAdministrativo: '',
-        fechaActoAdministrativo: new Date,
-        vigencia: 2,
-        inicioVigencia:new Date,
-        finVigencia:new Date,
-        codigoCarneAcreditacion:'',
-        perdidaAcreditacion:'',
-        motivo:'',
-        motivoDes:'',
-        actoAdminPerdidaAcredi:'',
-        fechaActoAdminPerdidadAcredi: new Date,
-        estado: 1,
-        usuarioRegistro: 1,
-        fechaRegistro: '',
-        totalRegistros: '3',
-        totalPaginas: 3,
-      },
-      { custodioId: 3,
-        nombres: 'Custodio 3',
-        apellidos: '',
-        dniCe: '248583738',
-        cargo: 'cargo 3',
-        recibioCapacitacion: 'COMUNIDAD',
-        fechaCapacitacion: '09/10/2022',
-        numeroConstanciaCapacitacion: '',
-        solicitudReconocimiento: '',
-        actoAdministrativo: '',
-        fechaActoAdministrativo: new Date,
-        vigencia: 2,
-        inicioVigencia:new Date,
-        finVigencia:new Date,
-        codigoCarneAcreditacion:'',
-        perdidaAcreditacion:'',
-        motivo:'',
-        motivoDes:'',
-        actoAdminPerdidaAcredi:'',
-        fechaActoAdminPerdidadAcredi: new Date,
-        estado: 1,
-        usuarioRegistro: 1,
-        fechaRegistro: '',
-        totalRegistros: '3',
-        totalPaginas: 3,
-      },
-    ];
+    });
   }
 
+  nuevoCustodio(){
+    let custodio : CustodioModel = {};
+    /* custodio.tipoCustodio =  this.custodioSelected; */
+    custodio.custodioId = 0;
+
+    localStorage.removeItem('custodio');
+    localStorage.removeItem('accion_custodio');
+    localStorage.removeItem('titularId');
+    localStorage.removeItem('tipoCustodio');
+
+    localStorage.setItem('custodio', JSON.stringify(custodio));
+    localStorage.setItem('accion_custodio', JSON.stringify('N'));
+    localStorage.setItem('titularId', JSON.stringify(this.titular.titularId));
+    localStorage.setItem('tipoCustodio', JSON.stringify(this.titular.tipoCustodio));
+
+    this.router.navigate(['/mantenimientocustodios/nuevo']);
+  }
+
+  verCustodio(custodio: CustodioModel){
+    localStorage.removeItem('custodio');
+    localStorage.removeItem('accion_custodio');
+    localStorage.removeItem('titularId');
+    localStorage.removeItem('tipoCustodio');
+
+    localStorage.setItem('custodio', JSON.stringify(custodio));
+    localStorage.setItem('accion_custodio', JSON.stringify('M'));
+    localStorage.setItem('titularId', JSON.stringify(this.titular.titularId));
+    localStorage.setItem('tipoCustodio', JSON.stringify(this.titular.tipoCustodio));
+
+    this.router.navigate(['/mantenimientocustodios/nuevo']);
+  }
+  
+  desactivarCustodio(custodio: CustodioModel){
+    custodio.accion ='D';
+    console.log('Custodio:Descativar');
+    console.log(custodio);
+    Swal.fire({
+      title: '¿Seguro de DESACTIVAR el registro?',
+      showCancelButton: true,
+      icon: 'error',
+      confirmButtonText: 'SI',
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.custodioService.activaDesactivarCustodio(custodio).subscribe((data: any) => {
+          switch (data.result_code){
+            case 200 : {
+              this.obtenerCustodios();
+              break;
+            }
+            default: { 
+              break; 
+          } 
+          }
+        })
+      }
+    })
+  }
+
+  activarCustodio(custodio: CustodioModel){
+    custodio.accion ='E';
+    Swal.fire({
+      title: '¿Seguro de ACTIVAR el registro?',
+      showCancelButton: true,
+      icon: 'error',
+      confirmButtonText: 'SI',
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.custodioService.activaDesactivarCustodio(custodio).subscribe((data: any) => {
+          switch (data.result_code){
+            case 200 : {
+              this.obtenerCustodios();
+              break;
+            }
+            default: { 
+              break; 
+          } 
+          }
+        })
+      }
+    })
+  }
+
+  /************** Titulares Habilitantes ************/
   obtenerComunidades(){
     this.comunidadService.getComunidad(this.titular.titularId!).subscribe((data: any) => {
       switch (data.result_code){
@@ -640,12 +641,10 @@ export class TitularesComponent implements OnInit {
 
   onSelectTipoCustodio(event:Event):void{
     this.custodioSelected = (event.target as HTMLInputElement).value;
-    console.log(this.custodioSelected);
   }
 
   onSelectTipoPersona(event:Event):void{
     this.selectedTipoPersona = (event.target as HTMLInputElement).value;
-    console.log(this.selectedTipoPersona);
   }
 
 /*********** ARCHIVO ADJUNTO DE LA PRIMERA PESTAÑA ************/
@@ -656,7 +655,7 @@ elegirArchivoSolicitudRenococimiento() {
 seleccion_archivo_solicitud_reconocimiento(event: any){
   if (event && event.target.files && event.target.files[0]) {
       this.adjuntoSolicitudReconomiento = event.target.files[0]; 
-      this.formTitulares.get('adjuntodocsolicitud')?.setValue(this.adjuntoSolicitudReconomiento.name);
+      this.formTitulares.get('adjuntodocprimera')?.setValue(this.adjuntoSolicitudReconomiento.name);
   }
 }
 
@@ -664,12 +663,12 @@ guardarDocumentoSolicitudRenococimiento(){
   let extension = '';
   if(this.adjuntoSolicitudReconomiento!=null) extension = this.adjuntoSolicitudReconomiento.name.split('.').pop()!;
   this.titular.nombreAdjunto = this.adjuntoSolicitudReconomiento.name;
-                                                                                                 /* 1 = origen = primera instancia */
-    this._documentoService.uploadAdjunto(this.adjuntoSolicitudReconomiento, this.titular.titularId!, '1', extension!, this.titular.nombreAdjunto!).subscribe((data: any) => {
+                                                                                                 
+    this._documentoService.uploadAdjuntoTitular(this.adjuntoSolicitudReconomiento, this.titular.titularId!, extension!, this.titular.nombreAdjunto!).subscribe((data: any) => {
                                           
       switch (data.result_code){
         case 200 : {
-          console.log('guardado adjunto primera instancia');
+          console.log('guardado');
           /* this.cargarAdjuntoPrimeraInstancia(); */
           break;
         }
@@ -683,10 +682,9 @@ guardarDocumentoSolicitudRenococimiento(){
 
 eliminarDocumentoSolicitudRenococimiento(){
   this.adjuntoModelSolicitudReconomiento.titularId = this.titular.titularId;
-  this.adjuntoModelSolicitudReconomiento.origen = '1';
 
   Swal.fire({
-    text: '¿Está seguro(a) de eliminar los datos?',
+    text: '¿Está seguro(a) de eliminar el adjunto?',
     icon: 'question',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -696,7 +694,7 @@ eliminarDocumentoSolicitudRenococimiento(){
   }).then((result) => {
     if (result.isConfirmed) {
      
-      this._documentoService.eliminarDocumento(this.adjuntoModelSolicitudReconomiento).subscribe((data: any) => {
+      this._documentoService.eliminarAdjuntoTitular(this.adjuntoModelSolicitudReconomiento).subscribe((data: any) => {
           this.titular.nombreAdjunto = '';
       },
       (error) => {
@@ -715,8 +713,8 @@ descargarDocumentoSolicitudRenococimiento(){
         text: 'Descargando documento. Espere por favor...'
   });
   
-  const filename = this.titular.nombreAdjunto|| '';
-  this._documentoService.downloadAdjunto(this.titular.titularId!, '1').subscribe(resp => {
+  const filename = this.titular.nombreAdjunto || '';
+  this._documentoService.downloadAdjuntoTitular(this.titular.titularId!).subscribe(resp => {
     const blobdata = new Blob([resp], { type: 'application/octet-stream' });
     const blob = new Blob([blobdata], { type: 'application/octet-stream' });
     const url = window.URL.createObjectURL(blob);
