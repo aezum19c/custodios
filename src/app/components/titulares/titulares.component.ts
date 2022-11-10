@@ -69,11 +69,11 @@ export class TitularesComponent implements OnInit {
     private _documentoService: DocumentoService,
     private custodioService: CustodiosService,
     private comunidadService: ComunidadService,
+    private dominiosService: DominiosService,
     private router: Router,
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private _dialog: MatDialog,
-    private dominiosService: DominiosService,
 
     ) { 
       this.adjuntos = [{adjuntoId:1, nombre:'nuevo adjunto file', descripcion :'Traer adjunto', fecha:'2022-05-16'}];
@@ -86,13 +86,13 @@ export class TitularesComponent implements OnInit {
     this.obtenerComunidades();
     this.obtenerCustodios();
     
-    //this.cargarAdjuntos();
+    this.obtenerDominiosTipoCustodio();
   }
 
   crearFormulario(){
 
     this.titular = JSON.parse( localStorage.getItem('titular') || '{}' );
-    this.dominioTipoCustodio = JSON.parse( localStorage.getItem('tipoCustodio') || '[]' );
+    //this.dominioTipoCustodio = JSON.parse( localStorage.getItem('tipoCustodio') || '[]' );
     this.dominioTipoPersona = JSON.parse( localStorage.getItem('tipoPersona') || '[]' );
     this.accion_titular = JSON.parse( localStorage.getItem('accion_titular') || '' );
   
@@ -144,6 +144,22 @@ export class TitularesComponent implements OnInit {
     } else {
       return this.datePipe.transform(fecha, 'yyyy-MM-dd');
     }
+  }
+
+  obtenerDominiosTipoCustodio(){
+    this.dominiosService.getDominioTiposCustodio().subscribe((data: any) => {
+      switch (data.result_code){
+        case 200 : {
+          this.respuestaServicio = data;
+          this.dominioTipoCustodio = this.respuestaServicio.detalle;
+          break;
+        }
+        default: { 
+          //statements; 
+          break; 
+       } 
+      }
+    })
   }
 
   getDateFormatString(): string {
