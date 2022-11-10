@@ -132,14 +132,14 @@ export class DocumentoService {
   }
 
   /* ADJUNTOS PARA CUSTODIOS */
-  uploadAdjuntoCustodio(adjunto: File, titularId: number, asunto: string, extension: string, nombre: string){
+  uploadAdjuntoCustodio(adjunto: File, custodioId: number, origen: string, extension: string, nombre: string){
     const url = `${ URL_API }uploadAdjuntoCustodio`;
 
     const headers = new HttpHeaders({
       'Content-Type': 'multipart/form-data;',
-      'asunto': asunto,
+      'origen': origen,
       'extension': extension,
-      'titularId': titularId+'',
+      'custodioId': custodioId+'',
       'nombre': nombre,//sin extension
     });
 

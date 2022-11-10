@@ -79,16 +79,46 @@
                         </div>
                     </div>
                     <br>
-                    <h4>Resolución de Acreditación</h4>
-                    <br>
-                    <div class="row" *ngIf="custodio.reconocimientoNombreAdjunto === ''">
-                        <div class="col-md-2">
-                            <label class="form_label">Solicitud Reconocimiento:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" formControlName="adjuntodocreconocimiento" name="adjuntodocreconocimiento">
+                    <div class="row" *ngIf="custodio.capacitacionNombre === ''">
+                        <div class="col-md-3">
+                            <label class="form_label">Adjuntar constancia de capacitación:</label>
                         </div>
                         <div class="col-md-5">
+                            <input type="text" class="form-control" formControlName="adjuntodoccapacitacion" name="adjuntodoccapacitacion">
+                        </div>
+                        <div class="col-md-4">
+                            <div style="display: grid; grid-template-columns: 50px 500px ">
+                                <div>
+                                    <mat-icon (click)="elegirArchivoCapacitacion()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                                    <input #btnselectCapacitacion style="display: none;" (change)="seleccion_archivo_capacitacion($event)" type="file">
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCapacitacion()">Subir Archivo</button>
+                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="custodio.capacitacionNombre != ''">
+                        <div class="col-md-6" style="background: #8A9597;">
+                            {{ custodio.capacitacionNombre }}
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-info mr-1" (click)="descargarDocumentoCapacitacion()"> <i class="fa fa-download"></i></button>
+                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCapacitacion()"> <i class="fa fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <br>
+                    <h4>Resolución de Acreditación</h4>
+                    <br>
+                    <div class="row" *ngIf="custodio.reconocimientoNombre === ''">
+                        <div class="col-md-3">
+                            <label class="form_label">Solicitud Reconocimiento:</label>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" formControlName="adjuntodocreconocimiento" name="adjuntodocreconocimiento">
+                        </div>
+                        <div class="col-md-4">
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoReconocimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
@@ -101,9 +131,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" *ngIf="custodio.reconocimientoNombreAdjunto != ''">
+                    <div class="row" *ngIf="custodio.reconocimientoNombre != ''">
                         <div class="col-md-6" style="background: #8A9597;">
-                            {{ custodio.reconocimientoNombreAdjunto }}
+                            {{ custodio.reconocimientoNombre }}
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-info mr-1" (click)="descargarDocumentoReconocimiento()"> <i class="fa fa-download"></i></button>
@@ -135,11 +165,11 @@
 
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
-                            <label class="form_label">Periodo de Vigencia</label>
+                            <label class="form_label">Periodo de Vigencia:Desde</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaDesde" name="vigenciaDesde">
                         </div>
                         <div class="col-md-4">
-                            <label class="form_label"></label>
+                            <label class="form_label">Hasta</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaHasta" name="vigenciaHasta">
                         </div>
                         <div class="col-md-4">
@@ -149,14 +179,14 @@
                     </div>
 
                     <br>
-                    <div class="row" *ngIf="custodio.carnetNombreAdjunto === ''">
-                        <div class="col-md-2">
-                            <label class="form_label">Adjunto Carnet Acreditación:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" formControlName="adjuntodoccarnet" name="adjuntodoccarnet">
+                    <div class="row" *ngIf="custodio.carneNombre === ''">
+                        <div class="col-md-3">
+                            <label class="form_label">Adjuntar carnet de acreditación:</label>
                         </div>
                         <div class="col-md-5">
+                            <input type="text" class="form-control" formControlName="adjuntodoccarnet" name="adjuntodoccarnet">
+                        </div>
+                        <div class="col-md-4">
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoCarnet()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
@@ -169,9 +199,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" *ngIf="custodio.carnetNombreAdjunto != ''">
+                    <div class="row" *ngIf="custodio.carneNombre != ''">
                         <div class="col-md-6" style="background: #8A9597;">
-                            {{ custodio.carnetNombreAdjunto }}
+                            {{ custodio.carneNombre }}
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-info mr-1" (click)="descargarDocumentoCarnet()"> <i class="fa fa-download"></i></button>
@@ -205,14 +235,14 @@
                     </div>
 
                     <br>
-                    <div class="row" *ngIf="custodio.perdidaActoNombreAdjunto === ''">
-                        <div class="col-md-2">
-                            <label class="form_label">Fecha perdida Acreditación:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" formControlName="adjuntodocperdidaacto" name="adjuntodocperdidaacto">
+                    <div class="row" *ngIf="custodio.perdidaActoAdmNombre === ''">
+                        <div class="col-md-3">
+                            <label class="form_label">Acto administrativo de pérdida de la acreditación:</label>
                         </div>
                         <div class="col-md-5">
+                            <input type="text" class="form-control" formControlName="adjuntodocperdidaacto" name="adjuntodocperdidaacto">
+                        </div>
+                        <div class="col-md-4">
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoPerdidaActo()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
@@ -225,9 +255,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" *ngIf="custodio.perdidaActoNombreAdjunto != ''">
+                    <div class="row" *ngIf="custodio.perdidaActoAdmNombre != ''">
                         <div class="col-md-6" style="background: #8A9597;">
-                            {{ custodio.perdidaActoNombreAdjunto }}
+                            {{ custodio.perdidaActoAdmNombre }}
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-info mr-1" (click)="descargarDocumentoPerdidaActo()"> <i class="fa fa-download"></i></button>
@@ -271,35 +301,37 @@
                         </div>
                     </div>
                     <br>
-                    <div class="row" *ngIf="custodio.capacitacionNombreAdjunto === ''">
-                        <div class="col-md-1">
-                            <label class="form_label">Archivo:</label>
+                    <br>
+                    <div class="row" *ngIf="custodio.carneNombre === ''">
+                        <div class="col-md-2">
+                            <label class="form_label">Adjuntar carnet de acreditación:</label>
                         </div>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" formControlName="adjuntodoccapacitacion" name="adjuntodoccapacitacion">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" formControlName="adjuntodoccarnet" name="adjuntodoccarnet">
                         </div>
                         <div class="col-md-5">
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
-                                    <mat-icon (click)="elegirArchivoCapacitacion()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                    <input #btnselectCapacitacion style="display: none;" (change)="seleccion_archivo_capacitacion($event)" type="file">
+                                    <mat-icon (click)="elegirArchivoCarnet()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                                    <input #btnselectCarnet style="display: none;" (change)="seleccion_archivo_carnet($event)" type="file">
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCapacitacion()">Subir Archivo</button>
+                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCarnet()">Subir Archivo</button>
                                     <!-- *ngIf="menu.permiteActualizar === '1'" -->
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row" *ngIf="custodio.capacitacionNombreAdjunto != ''">
+                    <div class="row" *ngIf="custodio.carneNombre != ''">
                         <div class="col-md-6" style="background: #8A9597;">
-                            {{ custodio.capacitacionNombreAdjunto }}
+                            {{ custodio.carneNombre }}
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-info mr-1" (click)="descargarDocumentoCapacitacion()"> <i class="fa fa-download"></i></button>
-                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCapacitacion()"> <i class="fa fa-trash"></i></button>
+                            <button class="btn btn-info mr-1" (click)="descargarDocumentoCarnet()"> <i class="fa fa-download"></i></button>
+                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCarnet()"> <i class="fa fa-trash"></i></button>
                         </div>
                     </div>
+                    <br>
                 </div>
 
                 <br>

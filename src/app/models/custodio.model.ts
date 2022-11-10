@@ -10,15 +10,24 @@ export class CustodioModel {
     capacitacionFlag?: number;
     capacitacionFecha?: string;
     capacitacionNumero?: string;
+    capacitacionNombre?: string;
+    capacitacionRuta?: string;
     fechaSolicitud?: Date;
+    reconocimientoNombre?: string;
+    reconocimientoRuta?: string;
     actoAdministrativo?: string;
+    perdidaActoAdmNombre?: string;
+    perdidaActoAdmRuta?: string;
     actoAdministrativoFecha?: Date;
     actoAdministrativoVigencia?: number;
     vigenciaDesde?: Date;
     vigenciaHasta?: Date;
     carneCodigo?: string;
+    carneNombre?: string;
+    carneRuta?: string;
     perdidaFlag?: number;
     perdidaMotivo?: string;
+    perdidaMotivoDes?: string;
     perdidaFecha?: string;
     cargo?: string;
     estado?: number;
@@ -27,23 +36,4 @@ export class CustodioModel {
     fechaRegistro?: string;
     totalRegistros?: string;
     totalPaginas?: number;
-
-    /*contrato?: ContratoModel[];
-    adjunto?: AdjuntoModel; */
-
-    capacitacionFlagAdjunto?: number;
-    capacitacionNombreAdjunto?: string;
-    capacitacionRutaAdjunto?: string;
-
-    reconocimientoFlagAdjunto?: number;
-    reconocimientoNombreAdjunto?: string;
-    reconocimientoRutaAdjunto?: string;
-
-    carnetFlagAdjunto?: number;
-    carnetNombreAdjunto?: string;
-    carnetRutaAdjunto?: string;
-
-    perdidaActoFlagAdjunto?: number;
-    perdidaActoNombreAdjunto?: string;
-    perdidaActoRutaAdjunto?: string;
 }

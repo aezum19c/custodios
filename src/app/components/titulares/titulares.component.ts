@@ -392,6 +392,8 @@ export class TitularesComponent implements OnInit {
         case 200 : {
           this.custodioServicio = data;
           /* this.totalRegistros = data.content[0].totalRegistros; */
+          console.log('custodioServicio');
+          console.log(this.custodioServicio.content);
           this.custodios = this.custodioServicio.content;
           break;
         }

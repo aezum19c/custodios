@@ -143,13 +143,13 @@
                     <br>
                     <h2>Datos de Comite de Vigilancia y Control Reconocido</h2>
                     <div class="row" *ngIf="titular.nombreAdjunto === ''">
-                        <div class="col-md-1">
-                            <label class="form_label">Archivo:</label>
+                        <div class="col-md-3">
+                            <label class="form_label">Solicitud de reconocimiento del comité de vigilancia:</label>
                         </div>
                         <div class="col-md-5">
                             <input type="text" class="form-control" formControlName="adjuntodocprimera" name="adjuntodocprimera">
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoSolicitudRenococimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>

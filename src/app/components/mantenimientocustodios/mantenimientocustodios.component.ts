@@ -87,11 +87,13 @@ export class MantenimientocustodiosComponent implements OnInit {
 
     this.accion_custodio = JSON.parse( localStorage.getItem('accion_custodio') || '' );
   
-    this.custodio.capacitacionNombreAdjunto = this.custodio.capacitacionNombreAdjunto ?? '';
-    this.custodio.reconocimientoNombreAdjunto = this.custodio.reconocimientoNombreAdjunto ?? '';
-    this.custodio.carnetNombreAdjunto = this.custodio.carnetNombreAdjunto ?? '';
-    this.custodio.perdidaActoNombreAdjunto = this.custodio.perdidaActoNombreAdjunto ?? '';
+    this.custodio.capacitacionNombre = this.custodio.capacitacionNombre ?? '';
+    this.custodio.reconocimientoNombre = this.custodio.reconocimientoNombre ?? '';
+    this.custodio.carneNombre = this.custodio.carneNombre ?? '';
+    this.custodio.perdidaActoAdmNombre = this.custodio.perdidaActoAdmNombre ?? '';
 
+    console.log('CrearFormulario: Custodio');
+    console.log(this.custodio);
     /* this.custodioSelected = this.titular.tipoCustodio ?? ''; */
 
     if(this.accion_custodio == 'N' ){ this.mostrar =false; } else { this.mostrar = true}; 
@@ -116,10 +118,14 @@ export class MantenimientocustodiosComponent implements OnInit {
       cargo : [this.custodio.cargo],
       estado : [this.custodio.estado],
 
+      /* adjuntodoccapacitacion: [this.custodio.capacitacionNombre] ?? '',
+      adjuntodocreconocimiento: [this.custodio.reconocimientoNombre] ?? '',
+      adjuntodoccarnet : [this.custodio.carneNombre] ?? '',
+      adjuntodocperdidaacto : [this.custodio.perdidaActoAdmNombre] ?? '', */
       adjuntodoccapacitacion: '',
       adjuntodocreconocimiento: '',
-      adjuntodoccarnet: '',
-      adjuntodocperdidaacto: '',
+      adjuntodoccarnet :  '',
+      adjuntodocperdidaacto : '',
     });
   }
 
@@ -488,9 +494,9 @@ seleccion_archivo_capacitacion(event: any){
 guardarDocumentoCapacitacion(){
   let extension = '';
   if(this.adjuntoCapacitacion!=null) extension = this.adjuntoCapacitacion.name.split('.').pop()!;
-  this.custodio.capacitacionNombreAdjunto = this.adjuntoCapacitacion.name;                                                             
+  this.custodio.capacitacionNombre = this.adjuntoCapacitacion.name;                                                             
                                                                          /* 1 = origen = capacitacion */
-  this._documentoService.uploadAdjuntoCustodio(this.adjuntoCapacitacion, this.custodio.custodioId!, '1', extension!, this.custodio.capacitacionNombreAdjunto!).subscribe((data: any) => {                          
+  this._documentoService.uploadAdjuntoCustodio(this.adjuntoCapacitacion, this.custodio.custodioId!, '1', extension!, this.custodio.capacitacionNombre!).subscribe((data: any) => {                          
     switch (data.result_code){
       case 200 : {
         console.log('guardado adjunto primera instancia');
@@ -521,7 +527,7 @@ eliminarDocumentoCapacitacion(){
     if (result.isConfirmed) {
      
       this._documentoService.eliminarDocumentoCustodio(this.adjuntoModelCapacitacion).subscribe((data: any) => {
-          this.custodio.capacitacionNombreAdjunto = '';
+          this.custodio.capacitacionNombre = '';
       },
       (error) => {
         this.mostrarMsjError('Ocurrió un error al eliminar el documento', true);
@@ -539,7 +545,7 @@ descargarDocumentoCapacitacion(){
         text: 'Descargando documento. Espere por favor...'
   });
   
-  const filename = this.custodio.capacitacionNombreAdjunto || '';
+  const filename = this.custodio.capacitacionNombre || '';
   this._documentoService.downloadAdjuntoCustodio(this.custodio.custodioId!, '1').subscribe(resp => {
     const blobdata = new Blob([resp], { type: 'application/octet-stream' });
     const blob = new Blob([blobdata], { type: 'application/octet-stream' });
@@ -574,9 +580,9 @@ seleccion_archivo_reconocimiento(event: any){
 guardarDocumentoReconocimiento(){
   let extension = '';
   if(this.adjuntoReconocimiento!=null) extension = this.adjuntoReconocimiento.name.split('.').pop()!;
-  this.custodio.reconocimientoNombreAdjunto = this.adjuntoReconocimiento.name;
+  this.custodio.reconocimientoNombre = this.adjuntoReconocimiento.name;
                                                                                         /* 2 = origen = segunda instancia */
-  this._documentoService.uploadAdjuntoCustodio(this.adjuntoReconocimiento, this.custodio.custodioId!, '2', extension!, this.custodio.reconocimientoNombreAdjunto!).subscribe((data: any) => {
+  this._documentoService.uploadAdjuntoCustodio(this.adjuntoReconocimiento, this.custodio.custodioId!, '2', extension!, this.custodio.reconocimientoNombre!).subscribe((data: any) => {
     switch (data.result_code){
       case 200 : {
         console.log('guardado adjunto segunda instancia');
@@ -607,7 +613,7 @@ eliminarDocumentoReconocimiento(){
       this._documentoService.eliminarDocumentoCustodio(this.adjuntoModelReconocimiento).subscribe((data: any) => {
           //this.page = 1;
           //this.cargarAdjuntos();
-          this.custodio.reconocimientoNombreAdjunto = '';
+          this.custodio.reconocimientoNombre = '';
       },
       (error) => {
         this.mostrarMsjError('Ocurrió un error al eliminar el documento', true);
@@ -625,7 +631,7 @@ descargarDocumentoReconocimiento(){
         text: 'Descargando documento. Espere por favor...'
   });
   
-  const filename = this.custodio.reconocimientoNombreAdjunto || '';
+  const filename = this.custodio.reconocimientoNombre || '';
   this._documentoService.downloadAdjuntoCustodio(this.custodio.custodioId!, '2').subscribe(resp => {
     const blobdata = new Blob([resp], { type: 'application/octet-stream' });
     const blob = new Blob([blobdata], { type: 'application/octet-stream' });
@@ -658,9 +664,11 @@ seleccion_archivo_carnet(event: any){
 guardarDocumentoCarnet(){
   let extension = '';
   if(this.adjuntoCarnet!=null) extension = this.adjuntoCarnet.name.split('.').pop()!;
-  this.custodio.carnetNombreAdjunto = this.adjuntoCarnet.name;                                                              /* 1 = origen = primera instancia */
+  this.custodio.carneNombre = this.adjuntoCarnet.name;                                                              /* 1 = origen = primera instancia */
   
-  this._documentoService.uploadAdjuntoCustodio(this.adjuntoCarnet, this.custodio.custodioId!, '3', extension!, this.custodio.carnetNombreAdjunto!).subscribe((data: any) => {
+  
+  console.log(this.custodio);
+  this._documentoService.uploadAdjuntoCustodio(this.adjuntoCarnet, this.custodio.custodioId!, '3', extension!, this.custodio.carneNombre!).subscribe((data: any) => {
                                         
     switch (data.result_code){
       case 200 : {
@@ -692,7 +700,7 @@ eliminarDocumentoCarnet(){
     if (result.isConfirmed) {
      
       this._documentoService.eliminarDocumentoCustodio(this.adjuntoModelCarnet).subscribe((data: any) => {
-          this.custodio.carnetNombreAdjunto = '';
+          this.custodio.carneNombre = '';
       },
       (error) => {
         this.mostrarMsjError('Ocurrió un error al eliminar el documento', true);
@@ -710,7 +718,7 @@ descargarDocumentoCarnet(){
         text: 'Descargando documento. Espere por favor...'
   });
   
-  const filename = this.custodio.carnetNombreAdjunto || '';
+  const filename = this.custodio.carneNombre || '';
   this._documentoService.downloadAdjunto(this.custodio.custodioId!, '3').subscribe(resp => {
     const blobdata = new Blob([resp], { type: 'application/octet-stream' });
     const blob = new Blob([blobdata], { type: 'application/octet-stream' });
@@ -743,9 +751,9 @@ seleccion_archivo_perdida_acto(event: any){
 guardarDocumentoPerdidaActo(){
   let extension = '';
   if(this.adjuntoPerdidaActo!=null) extension = this.adjuntoPerdidaActo.name.split('.').pop()!;
-  this.custodio.perdidaActoNombreAdjunto = this.adjuntoPerdidaActo.name;
+  this.custodio.perdidaActoAdmNombre = this.adjuntoPerdidaActo.name;
                                                                                         /*  = origen = segunda instancia */
-  this._documentoService.uploadAdjuntoCustodio(this.adjuntoPerdidaActo, this.custodio.custodioId!, '4', extension!, this.custodio.perdidaActoNombreAdjunto!).subscribe((data: any) => {
+  this._documentoService.uploadAdjuntoCustodio(this.adjuntoPerdidaActo, this.custodio.custodioId!, '4', extension!, this.custodio.perdidaActoAdmNombre!).subscribe((data: any) => {
     switch (data.result_code){
       case 200 : {
         console.log('guardado adjunto segunda instancia');
@@ -777,7 +785,7 @@ eliminarDocumentoPerdidaActo(){
       this._documentoService.eliminarDocumentoCustodio(this.adjuntoModelPerdidaActo).subscribe((data: any) => {
           //this.page = 1;
           //this.cargarAdjuntos();
-          this.custodio.perdidaActoNombreAdjunto = '';
+          this.custodio.perdidaActoAdmNombre = '';
       },
       (error) => {
         this.mostrarMsjError('Ocurrió un error al eliminar el documento', true);
@@ -795,7 +803,7 @@ descargarDocumentoPerdidaActo(){
         text: 'Descargando documento. Espere por favor...'
   });
   
-  const filename = this.custodio.perdidaActoNombreAdjunto || '';
+  const filename = this.custodio.perdidaActoAdmNombre || '';
   this._documentoService.downloadAdjuntoCustodio(this.custodio.custodioId!, '4').subscribe(resp => {
     const blobdata = new Blob([resp], { type: 'application/octet-stream' });
     const blob = new Blob([blobdata], { type: 'application/octet-stream' });
