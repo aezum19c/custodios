@@ -32,7 +32,7 @@ export class CustodiosComponent implements OnInit {
   usuarioSession : UserModel = new UserModel();
   
   page: number = 1;
-  regxpag: number = 3;
+  regxpag: number = 10;
   totalRegistros: number = 0;
   /* filtro: string=''; */
   selectedTipoCustodio: string = '';
@@ -76,7 +76,7 @@ export class CustodiosComponent implements OnInit {
         case 200 : {
           
           this.respuestaServicio = data;
-          /* this.totalRegistros = data.content[0].totalRegistros; */
+          this.totalRegistros = data.content[0].totalRegistros;
           this.titulares = this.respuestaServicio.content;
 
           console.log('Titulares');

@@ -142,33 +142,35 @@
                     </div>
                     <br>
                     <h2>Datos de Comite de Vigilancia y Control Reconocido</h2>
-                    <div class="row" *ngIf="titular.nombreAdjunto === ''">
-                        <div class="col-md-4">
-                            <label class="form_label">Solicitud de reconocimiento del comité de vigilancia:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" formControlName="adjuntodocprimera" name="adjuntodocprimera">
-                        </div>
-                        <div class="col-md-4">
-                            <div style="display: grid; grid-template-columns: 50px 500px ">
-                                <div>
-                                    <mat-icon (click)="elegirArchivoSolicitudRenococimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                    <input #btnselectSolicitudRenocomiento style="display: none;" (change)="seleccion_archivo_solicitud_reconocimiento($event)" type="file">
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoSolicitudRenococimiento()">Subir Archivo</button>
-                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                    <div *ngIf="mostrar">
+                        <div class="row" *ngIf="titular.nombreAdjunto === ''">
+                            <div class="col-md-4">
+                                <label class="form_label">Solicitud de reconocimiento del comité de vigilancia:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" formControlName="adjuntodocprimera" name="adjuntodocprimera">
+                            </div>
+                            <div class="col-md-4">
+                                <div style="display: grid; grid-template-columns: 50px 500px ">
+                                    <div>
+                                        <mat-icon (click)="elegirArchivoSolicitudRenococimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                                        <input #btnselectSolicitudRenocomiento style="display: none;" (change)="seleccion_archivo_solicitud_reconocimiento($event)" type="file">
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoSolicitudRenococimiento()">Subir Archivo</button>
+                                        <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" *ngIf="titular.nombreAdjunto != ''">
-                        <div class="col-md-4" style="background: #8A9597;">
-                            {{ titular.nombreAdjunto }}
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-info mr-1" (click)="descargarDocumentoSolicitudRenococimiento()"> <i class="fa fa-download"></i></button>
-                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoSolicitudRenococimiento()"> <i class="fa fa-trash"></i></button>
+                        <div class="row" *ngIf="titular.nombreAdjunto != ''">
+                            <div class="col-md-4" style="background: #8A9597;">
+                                {{ titular.nombreAdjunto }}
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-info mr-1" (click)="descargarDocumentoSolicitudRenococimiento()"> <i class="fa fa-download"></i></button>
+                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoSolicitudRenococimiento()"> <i class="fa fa-trash"></i></button>
+                            </div>
                         </div>
                     </div>
 

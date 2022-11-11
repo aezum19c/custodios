@@ -79,7 +79,7 @@
                 <td>{{ titular.custodioCarne }}</td>
                 <td>{{ titular.custodioActoAdministrativo }}</td>
                 <td>{{ titular.fechaActoReconocimiento | ddMMyyyy }}</td>
-                <td>
+                <td class="row">
                     <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
                     <button class="btn btn-info mr-1" (click)="verDatosCustodio(titular)"> <i class="fa fa-pencil"></i></button>
                     <button class="btn btn-success mr-1" type="button" (click)="ficha(titular)"> <i class="fa fa-clipboard"></i></button>

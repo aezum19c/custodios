@@ -79,68 +79,74 @@
                         </div>
                     </div>
                     <br>
-                    <div class="row" *ngIf="custodio.capacitacionNombre === ''">
-                        <div class="col-md-4">
-                            <label class="form_label">Adjuntar constancia de capacitación:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" formControlName="adjuntodoccapacitacion" name="adjuntodoccapacitacion">
-                        </div>
-                        <div class="col-md-4">
-                            <div style="display: grid; grid-template-columns: 50px 500px ">
-                                <div>
-                                    <mat-icon (click)="elegirArchivoCapacitacion()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                    <input #btnselectCapacitacion style="display: none;" (change)="seleccion_archivo_capacitacion($event)" type="file">
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCapacitacion()">Subir Archivo</button>
-                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                    <div *ngIf="mostrar">
+                        <div class="row" *ngIf="custodio.capacitacionNombre === ''">
+                            <div class="col-md-4">
+                                <label class="form_label">Adjuntar constancia de capacitación:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" formControlName="adjuntodoccapacitacion" name="adjuntodoccapacitacion">
+                            </div>
+                            <div class="col-md-4">
+                                <div style="display: grid; grid-template-columns: 50px 500px ">
+                                    <div>
+                                        <mat-icon (click)="elegirArchivoCapacitacion()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                                        <input #btnselectCapacitacion style="display: none;" (change)="seleccion_archivo_capacitacion($event)" type="file">
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCapacitacion()">Subir Archivo</button>
+                                        <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" *ngIf="custodio.capacitacionNombre != ''">
-                        <div class="col-md-4" style="background: #8A9597;">
-                            {{ custodio.capacitacionNombre }}
+                        <div class="row" *ngIf="custodio.capacitacionNombre != ''">
+                            <div class="col-md-4" style="background: #8A9597;">
+                                {{ custodio.capacitacionNombre }}
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-info mr-1" (click)="descargarDocumentoCapacitacion()"> <i class="fa fa-download"></i></button>
+                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCapacitacion()"> <i class="fa fa-trash"></i></button>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-info mr-1" (click)="descargarDocumentoCapacitacion()"> <i class="fa fa-download"></i></button>
-                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCapacitacion()"> <i class="fa fa-trash"></i></button>
-                        </div>
+                        <br>
                     </div>
-                    <br>
+                    
                     <h4>Resolución de Acreditación</h4>
                     <br>
-                    <div class="row" *ngIf="custodio.reconocimientoNombre === ''">
-                        <div class="col-md-4">
-                            <label class="form_label">Solicitud Reconocimiento:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" formControlName="adjuntodocreconocimiento" name="adjuntodocreconocimiento">
-                        </div>
-                        <div class="col-md-4">
-                            <div style="display: grid; grid-template-columns: 50px 500px ">
-                                <div>
-                                    <mat-icon (click)="elegirArchivoReconocimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                    <input #btnselectReconocimiento style="display: none;" (change)="seleccion_archivo_reconocimiento($event)" type="file">
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoReconocimiento()">Subir Archivo</button>
-                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                    <div *ngIf="mostrar">
+                        <div class="row" *ngIf="custodio.reconocimientoNombre === ''">
+                            <div class="col-md-4">
+                                <label class="form_label">Solicitud Reconocimiento:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" formControlName="adjuntodocreconocimiento" name="adjuntodocreconocimiento">
+                            </div>
+                            <div class="col-md-4">
+                                <div style="display: grid; grid-template-columns: 50px 500px ">
+                                    <div>
+                                        <mat-icon (click)="elegirArchivoReconocimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                                        <input #btnselectReconocimiento style="display: none;" (change)="seleccion_archivo_reconocimiento($event)" type="file">
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoReconocimiento()">Subir Archivo</button>
+                                        <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" *ngIf="custodio.reconocimientoNombre != ''">
-                        <div class="col-md-4" style="background: #8A9597;">
-                            {{ custodio.reconocimientoNombre }}
+                        <div class="row" *ngIf="custodio.reconocimientoNombre != ''">
+                            <div class="col-md-4" style="background: #8A9597;">
+                                {{ custodio.reconocimientoNombre }}
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-info mr-1" (click)="descargarDocumentoReconocimiento()"> <i class="fa fa-download"></i></button>
+                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoReconocimiento()"> <i class="fa fa-trash"></i></button>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-info mr-1" (click)="descargarDocumentoReconocimiento()"> <i class="fa fa-download"></i></button>
-                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoReconocimiento()"> <i class="fa fa-trash"></i></button>
-                        </div>
+                        <br>
                     </div>
-                    <br>
+                    
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Fecha de Solicitud</label>
@@ -178,38 +184,40 @@
                             <input type="text" class="form-control" formControlName="carneCodigo" name="carneCodigo">
                         </div>
                     </div>
-
                     <br>
-                    <div class="row" *ngIf="custodio.carneNombre === ''">
-                        <div class="col-md-4">
-                            <label class="form_label">Adjuntar carnet de acreditación:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" formControlName="adjuntodoccarnet" name="adjuntodoccarnet">
-                        </div>
-                        <div class="col-md-4">
-                            <div style="display: grid; grid-template-columns: 50px 500px ">
-                                <div>
-                                    <mat-icon (click)="elegirArchivoCarnet()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                    <input #btnselectCarnet style="display: none;" (change)="seleccion_archivo_carnet($event)" type="file">
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCarnet()">Subir Archivo</button>
-                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                    <div *ngIf="mostrar">
+                        <div class="row" *ngIf="custodio.carneNombre === ''">
+                            <div class="col-md-4">
+                                <label class="form_label">Adjuntar carnet de acreditación:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" formControlName="adjuntodoccarnet" name="adjuntodoccarnet">
+                            </div>
+                            <div class="col-md-4">
+                                <div style="display: grid; grid-template-columns: 50px 500px ">
+                                    <div>
+                                        <mat-icon (click)="elegirArchivoCarnet()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                                        <input #btnselectCarnet style="display: none;" (change)="seleccion_archivo_carnet($event)" type="file">
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCarnet()">Subir Archivo</button>
+                                        <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" *ngIf="custodio.carneNombre != ''">
-                        <div class="col-md-4" style="background: #8A9597;">
-                            {{ custodio.carneNombre }}
+                        <div class="row" *ngIf="custodio.carneNombre != ''">
+                            <div class="col-md-4" style="background: #8A9597;">
+                                {{ custodio.carneNombre }}
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-info mr-1" (click)="descargarDocumentoCarnet()"> <i class="fa fa-download"></i></button>
+                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCarnet()"> <i class="fa fa-trash"></i></button>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-info mr-1" (click)="descargarDocumentoCarnet()"> <i class="fa fa-download"></i></button>
-                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCarnet()"> <i class="fa fa-trash"></i></button>
-                        </div>
+                        <br>
                     </div>
-                    <br>
+                    
                     <h4>Pérdida de Acreditación</h4>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
@@ -236,36 +244,38 @@
                     </div>
 
                     <br>
-                    <div class="row" *ngIf="custodio.perdidaActoAdmNombre === ''">
-                        <div class="col-md-4">
-                            <label class="form_label">Acto administrativo de pérdida de la acreditación:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" formControlName="adjuntodocperdidaacto" name="adjuntodocperdidaacto">
-                        </div>
-                        <div class="col-md-4">
-                            <div style="display: grid; grid-template-columns: 50px 500px ">
-                                <div>
-                                    <mat-icon (click)="elegirArchivoPerdidaActo()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                    <input #btnselectPerdidaActo style="display: none;" (change)="seleccion_archivo_perdida_acto($event)" type="file">
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoPerdidaActo()">Subir Archivo</button>
-                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                    <div *ngIf="mostrar">
+                        <div class="row" *ngIf="custodio.perdidaActoAdmNombre === ''">
+                            <div class="col-md-4">
+                                <label class="form_label">Acto administrativo de pérdida de la acreditación:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" formControlName="adjuntodocperdidaacto" name="adjuntodocperdidaacto">
+                            </div>
+                            <div class="col-md-4">
+                                <div style="display: grid; grid-template-columns: 50px 500px ">
+                                    <div>
+                                        <mat-icon (click)="elegirArchivoPerdidaActo()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                                        <input #btnselectPerdidaActo style="display: none;" (change)="seleccion_archivo_perdida_acto($event)" type="file">
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoPerdidaActo()">Subir Archivo</button>
+                                        <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" *ngIf="custodio.perdidaActoAdmNombre != ''">
-                        <div class="col-md-4" style="background: #8A9597;">
-                            {{ custodio.perdidaActoAdmNombre }}
+                        <div class="row" *ngIf="custodio.perdidaActoAdmNombre != ''">
+                            <div class="col-md-4" style="background: #8A9597;">
+                                {{ custodio.perdidaActoAdmNombre }}
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-info mr-1" (click)="descargarDocumentoPerdidaActo()"> <i class="fa fa-download"></i></button>
+                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoPerdidaActo()"> <i class="fa fa-trash"></i></button>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-info mr-1" (click)="descargarDocumentoPerdidaActo()"> <i class="fa fa-download"></i></button>
-                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoPerdidaActo()"> <i class="fa fa-trash"></i></button>
-                        </div>
+                        <br>
                     </div>
-                    <br>
                 </div>
                 <div *ngIf="custodioSelected === '02' ">
                     <h4>CUSTODIOS RENOCIDOS</h4>
@@ -303,36 +313,38 @@
                     </div>
                     <br>
                     <br>
-                    <div class="row" *ngIf="custodio.carneNombre === ''">
-                        <div class="col-md-4">
-                            <label class="form_label">Adjuntar carnet de acreditación:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" formControlName="adjuntodoccarnet" name="adjuntodoccarnet">
-                        </div>
-                        <div class="col-md-4">
-                            <div style="display: grid; grid-template-columns: 50px 500px ">
-                                <div>
-                                    <mat-icon (click)="elegirArchivoCarnet()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                    <input #btnselectCarnet style="display: none;" (change)="seleccion_archivo_carnet($event)" type="file">
-                                </div>
-                                <div>
-                                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCarnet()">Subir Archivo</button>
-                                    <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                    <div *ngIf="mostrar">
+                        <div class="row" *ngIf="custodio.carneNombre === ''">
+                            <div class="col-md-4">
+                                <label class="form_label">Adjuntar carnet de acreditación:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" formControlName="adjuntodoccarnet" name="adjuntodoccarnet">
+                            </div>
+                            <div class="col-md-4">
+                                <div style="display: grid; grid-template-columns: 50px 500px ">
+                                    <div>
+                                        <mat-icon (click)="elegirArchivoCarnet()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                                        <input #btnselectCarnet style="display: none;" (change)="seleccion_archivo_carnet($event)" type="file">
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCarnet()">Subir Archivo</button>
+                                        <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" *ngIf="custodio.carneNombre != ''">
-                        <div class="col-md-4" style="background: #8A9597;">
-                            {{ custodio.carneNombre }}
+                        <div class="row" *ngIf="custodio.carneNombre != ''">
+                            <div class="col-md-4" style="background: #8A9597;">
+                                {{ custodio.carneNombre }}
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-info mr-1" (click)="descargarDocumentoCarnet()"> <i class="fa fa-download"></i></button>
+                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCarnet()"> <i class="fa fa-trash"></i></button>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-info mr-1" (click)="descargarDocumentoCarnet()"> <i class="fa fa-download"></i></button>
-                            <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCarnet()"> <i class="fa fa-trash"></i></button>
-                        </div>
+                        <br>
                     </div>
-                    <br>
                 </div>
 
                 <br>

@@ -50,7 +50,7 @@ export class TitularesComponent implements OnInit {
   totalAdjuntos: number = 0;
   accion_titular: string = '';
   mostrar: boolean = false;
-  custodioSelected: string = '1';
+  custodioSelected: string = '01';
 
   dominioDepartamentos! : UbigeoModel[];
   dominioProvincias! : UbigeoModel[];
@@ -240,6 +240,7 @@ export class TitularesComponent implements OnInit {
                 this.titular.titularId = data.code;
                 this.accion_titular = 'U';
                 this.titular.accion = 'U';
+                this.mostrar = true;
 
                 localStorage.removeItem('titular');
                 localStorage.setItem('titular', JSON.stringify(this.titular));
