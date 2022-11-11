@@ -39,7 +39,7 @@ export class TitularModel {
     estado?: number;
     usuarioRegistro?: number;
     fechaRegistro?: string;
-    totalRegistros?: string;
+    totalRegistros?: number;
     totalPaginas?: number;
     accion?: string;
     

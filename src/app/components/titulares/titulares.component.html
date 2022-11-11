@@ -26,7 +26,7 @@
 
     </div>
 
-    <h2>Titulo Habilitante / Comites de Vigilancia</h2>
+    <h2>Título Habilitante / Comité de Vigilancia</h2>
 
     <div class="row text-right">
         <div class="col">
@@ -53,7 +53,7 @@
                 </div>
                 <br>
                 <div *ngIf="custodioSelected === '01' ">
-                    <h4>Datos del Titulo Habilitante</h4>
+                    <h4>Datos del Título Habilitante</h4>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-6">
                             <label class="form_label">Nro. Titulo Habilitante</label>
@@ -103,13 +103,13 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form_label">Ambito Territorial</label>
-                            <input type="text" class="form-control" formControlName="ambitoTerritorial" name="ambitoTerritorial" maxlength="150">
+                            <label class="form_label">Extensión</label>
+                            <input type="text" class="form-control" formControlName="extension" name="extension" maxlength="150">
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form_label">Extensión</label>
-                            <input type="text" class="form-control" formControlName="extension" name="extension" maxlength="150">
+                            <label class="form_label">Sector</label>
+                            <input type="text" class="form-control" formControlName="ambitoTerritorial" name="ambitoTerritorial" maxlength="150">
                         </div>
                     </div>
                     <br>
@@ -141,7 +141,7 @@
                         </div>
                     </div>
                     <br>
-                    <h2>Datos de Comite de Vigilancia y Control Reconocido</h2>
+                    <h2>Datos de Comité de Vigilancia y Control Reconocido</h2>
                     <div *ngIf="mostrar">
                         <div class="row" *ngIf="titular.nombreAdjunto === ''">
                             <div class="col-md-4">
@@ -180,12 +180,12 @@
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaSolicitud" name="fechaSolicitud">
                         </div>
                         <div class="col-md-4">
-                            <label class="form_label">Acto Administrativo de renocimiento del Comite</label>
+                            <label class="form_label">Acto Administrativo de renocimiento del Comité</label>
                             <input type="text" class="form-control" formControlName="comiteActoReconocimiento" name="comiteActoReconocimiento" maxlength="150">
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form_label">Fecha de la Resolución de reconocimiento del Comite</label>
+                            <label class="form_label">Fecha de la Resolución de reconocimiento del Comité</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaActoReconocimiento" name="fechaActoReconocimiento">
                         </div>
                     </div>

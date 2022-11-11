@@ -165,7 +165,7 @@
                         
                         <div class="col-md-4">
                             <label class="form_label">Vigencia</label>
-                            <input type="number" class="form-control" formControlName="actoAdministrativoVigencia" name="actoAdministrativoVigencia">
+                            <input type="number" appOnlyNumeric class="form-control" formControlName="actoAdministrativoVigencia" name="actoAdministrativoVigencia">
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">Periodo de Vigencia:Desde</label>
@@ -228,7 +228,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4 small">
+                        <div class="col-md-4">
                             <label class="form_label">Motivo</label>
                             <select class="form-control" (change)="onSelectMotivoPerdida($event)" formControlName="perdidaMotivo" name="perdidaMotivo"> 
                                 <option *ngFor="let motivosPerdida of dominioMotivosPerdida" value={{motivosPerdida.codigoDetalle}}>
@@ -290,7 +290,7 @@
                             <input type="text" class="form-control" formControlName="dni" name="dni">
                         </div>
 
-                        <div class="col-md-4 small">
+                        <div class="col-md-4">
                             <label class="form_label">Cargo</label>
                             <input type="text" class="form-control" formControlName="cargo" name="cargo">
                         </div>
@@ -302,11 +302,11 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form_label">Numero Constancia Capacitacion</label>
+                            <label class="form_label">Número de Constancia de Capacitación</label>
                             <input type="text" class="form-control" formControlName="capacitacionNumero" name="capacitacionNumero">
                         </div>
 
-                        <div class="col-md-4 small">
+                        <div class="col-md-4">
                             <label class="form_label">Código Carné Acreditación</label>
                             <input type="text" class="form-control" formControlName="carneCodigo" name="carneCodigo">
                         </div>
@@ -351,7 +351,7 @@
                 <br>
             </mat-tab>
 
-            <mat-tab label="Renovacion" *ngIf="mostrar">
+            <mat-tab label="Renovación" *ngIf="mostrar">
                 <br>
                 <div class="row ">
                     <!-- text-right -->
@@ -374,7 +374,7 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">ACTO ADMINISTRATIVO</th>
-                            <th scope="col">VIGENCIA</th>
+                            <th scope="col">VIGENCIA(MESES)</th>
                             <th scope="col">FECHA ACTO ADMINISTRACION</th>
                             <th scope="col">ACCIÓN</th>
                         </tr>

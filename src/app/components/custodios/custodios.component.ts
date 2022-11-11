@@ -34,7 +34,6 @@ export class CustodiosComponent implements OnInit {
   page: number = 1;
   regxpag: number = 10;
   totalRegistros: number = 0;
-  /* filtro: string=''; */
   selectedTipoCustodio: string = '';
   filtro: string='';
 
@@ -76,7 +75,7 @@ export class CustodiosComponent implements OnInit {
         case 200 : {
           
           this.respuestaServicio = data;
-          this.totalRegistros = data.content[0].totalRegistros;
+          this.totalRegistros = data.content[0].totalRegistros!;
           this.titulares = this.respuestaServicio.content;
 
           console.log('Titulares');
@@ -170,15 +169,20 @@ export class CustodiosComponent implements OnInit {
   }
 
   reporte(){
-    /*this._documentoService.getReporte(this.filtro).subscribe((data: any) => {
-        const blobdata = new Blob([data], { type: 'application/octet-stream' });
-        const blob = new Blob([blobdata], { type: 'application/octet-stream' });
-        const url = window.URL.createObjectURL(blob);
-        const anchor = document.createElement('a');
-        anchor.download = 'reporte_custodios.xls';
-        anchor.href = url;
-        anchor.click();
-    });*/
+    if(this.selectedTipoCustodio!='00'){
+      /*this._documentoService.getReporte(this.filtro).subscribe((data: any) => {
+              const blobdata = new Blob([data], { type: 'application/octet-stream' });
+              const blob = new Blob([blobdata], { type: 'application/octet-stream' });
+              const url = window.URL.createObjectURL(blob);
+              const anchor = document.createElement('a');
+              anchor.download = 'reporte_custodios.xls';
+              anchor.href = url;
+              anchor.click();
+          });*/
+    }else{
+      Swal.fire('Eliga el Tipo de Custodio', '', 'info');
+    }
+    
   }
 
   ficha(titular: TitularModel){

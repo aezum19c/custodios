@@ -24,6 +24,7 @@ import { DocumentosComponent } from './components/documento/documentos/documento
 import { TitularesComponent } from './components/titulares/titulares.component';
 import { ContratoComponent } from './components/contrato/contrato.component';
 import { ComunidadComponent } from './components/comunidad/comunidad.component';
+import { OnlyNumericDirective } from './directive/only-numeric.directive';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ComunidadComponent } from './components/comunidad/comunidad.component';
     DocumentosComponent,
     TitularesComponent,
     ContratoComponent,
-    ComunidadComponent
+    ComunidadComponent,
+    OnlyNumericDirective
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,7 @@ import { ComunidadComponent } from './components/comunidad/comunidad.component';
     MatTabsModule,
     BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [OnlyNumericDirective],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

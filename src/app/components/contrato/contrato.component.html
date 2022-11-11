@@ -1,28 +1,29 @@
 
-<h3 mat-dialog-title style="text-align: center;" *ngIf="contrato.tipoCustodio==='01'">RENOVACIONES</h3>
-<h3 mat-dialog-title style="text-align: center;" *ngIf="contrato.tipoCustodio==='02'">RENOVACIONES DE COMITÉ DE VIGILANCIA Y CONTROL</h3>
-<div mat-dialog-content>
+<h3 mat-dialog-title style="text-align: center; color: #FFF;" *ngIf="contrato.tipoCustodio==='01'">RENOVACIONES</h3>
+<h3 mat-dialog-title style="text-align: center; color: #FFF;" *ngIf="contrato.tipoCustodio==='02'">RENOVACIONES DE COMITÉ DE VIGILANCIA Y CONTROL</h3>
+<div mat-dialog-content style="background: #FFF;">
     <div style="margin-top: 20px; width:750px;">
         <form autocomplete="off" [formGroup]="formContrato">
             <div class="row">
-                <div class="col-md-5">
-                    <label for="flagRenovacion">Renovaciones:</label>
+                <div class="col-md-4">
+                    <label for="flagRenovacion" style="color: #000;">Renovaciones:</label>
                 </div>
-                <div class="col-md-7">
-                    <select class="form-select" aria-label="" formControlName="flagRenovacion" name="flagRenovacion"
+                <div class="col-md-8">
+                    <select class="form-control" aria-label="" formControlName="flagRenovacion" name="flagRenovacion"
                         #teams (change)="onSelected(teams.value)">
                         <option value=1>Si</option>
                         <option value=0>No</option>
                     </select>
                 </div>
             </div>
+            <br>
             <div *ngIf="tieneRenovacion=='1'">
                 <div class="row" *ngIf="contrato.tipoCustodio=='01'">
                     <div class="col-md-4">
-                        <label for="resolucion">Resolución renovación de:</label>
+                        <label for="resolucion" style="color: #000;">Resolución renovación de:</label>
                     </div>
                     <div class="col-md-8">
-                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
                             <input type="text" matInput formControlName="resolucion" name="resolucion">
                         </mat-form-field>
                     </div>
@@ -30,10 +31,10 @@
     
                 <div class="row" *ngIf="contrato.tipoCustodio=='02'">
                     <div class="col-md-4">
-                        <label for="resolucion">Acto Administrativo de renovación de la acreditación:</label>
+                        <label for="resolucion" style="color: #000;">Acto Administrativo de renovación de la acreditación:</label>
                     </div>
                     <div class="col-md-8">
-                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
                             <input type="text" matInput formControlName="resolucion" name="resolucion">
                         </mat-form-field>
                     </div>
@@ -41,10 +42,10 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="resolucionFecha">Fecha Acto Administrativo:</label>
+                        <label for="resolucionFecha" style="color: #000;">Fecha Acto Administrativo:</label>
                     </div>
                     <div class="col-md-8">
-                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;" >
                             <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="resolucionFecha" name="resolucionFecha" >
                         </mat-form-field>
                     </div>
@@ -53,26 +54,26 @@
     
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="resolucionVigencia">Vigencia:</label>
+                        <label for="resolucionVigencia" style="color: #000;">Vigencia(meses):</label>
                     </div>
                     <div class="col-md-8">
-                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
-                            <input type="number" matInput formControlName="resolucionVigencia" name="resolucionVigencia">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                            <input type="number" appOnlyNumeric matInput formControlName="resolucionVigencia" name="resolucionVigencia">
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="vigenciaDesde">Periodo de Vigencia:</label>
+                        <label for="vigenciaDesde" style="color: #000;">Periodo de Vigencia:</label>
                     </div>
                     <div class="col-md-4">
-                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color:#000;">
                             <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="vigenciaDesde" name="vigenciaDesde" >
                         </mat-form-field>
                     </div>
     
                     <div class="col-md-4">
-                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
                             <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="vigenciaHasta" name="vigenciaHasta" >
                         </mat-form-field>
                     </div>
