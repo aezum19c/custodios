@@ -1,14 +1,14 @@
 
 <h3 mat-dialog-title style="text-align: center;">COMUNIDAD</h3>
-<div mat-dialog-content>
+<div mat-dialog-content style="background: #FFF;">
     <div style="margin-top: 20px; width:550px;">
         <form autocomplete="off" [formGroup]="formComunidad">
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="nroTituloHabilitante">Nro Titulo Habilitante:</label>
+                        <label for="nroTituloHabilitante" style="color: #000;">Nro Titulo Habilitante:</label>
                     </div>
                     <div class="col-md-8">
-                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
                             <input type="text" matInput formControlName="nroTituloHabilitante" name="nroTituloHabilitante" [class.is-invalid]="nroTituloNoValido">
                         </mat-form-field>
                     </div>
@@ -25,11 +25,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="fechaPeriodoInicio">Fecha Periodo Inicio:</label>
+                        <label for="fechaPeriodoInicio" style="color: #000;" >Fecha Periodo Inicio:</label>
                     </div>
                     <div class="col-md-8">
                         <!-- <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;"> -->
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoInicio" name="fechaPeriodoInicio"  [class.is-invalid]="fechPeriodoInicioNoValido">
+                            <input type="date" style="color: #000;" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoInicio" name="fechaPeriodoInicio"  [class.is-invalid]="fechPeriodoInicioNoValido">
                         <!-- </mat-form-field> -->
                     </div>
                 </div>
@@ -45,11 +45,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="fechaPeriodoFin">Fecha Periodo Fin:</label>
+                        <label for="fechaPeriodoFin" style="color: #000;">Fecha Periodo Fin:</label>
                     </div>
                     <div class="col-md-8">
                         <!-- <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px;"> -->
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoFin" name="fechaPeriodoFin"  [class.is-invalid]="fechPeriodoFinNoValido">
+                            <input type="date" style="color: #000;" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaPeriodoFin" name="fechaPeriodoFin"  [class.is-invalid]="fechPeriodoFinNoValido">
                         <!-- </mat-form-field> -->
                     </div>
                 </div>
