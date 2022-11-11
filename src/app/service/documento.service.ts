@@ -81,11 +81,11 @@ export class DocumentoService {
         );
   }
 
-  getReporteCustodio(filtro: string, tipoCustodio: string){
+  getReporteCustodio(filtro?: string, tipoCustodio?: string){
     const url = `${ URL_API }reporteCustodio`;
     const headers = new HttpHeaders({
-      'buscar': filtro+'',
-      'tipoCustodio': tipoCustodio+''
+      'buscar': (filtro ?? '') + '',
+      'tipoCustodio': (tipoCustodio ?? '') + ''
     });
 
     return this._http.get(url, {headers, responseType: 'arraybuffer'});
@@ -94,7 +94,7 @@ export class DocumentoService {
   getFicha(titularId: number ){
     const url = `${ URL_API }fichaCustodio`;
     const headers = new HttpHeaders({
-      'titularId': titularId+'',
+      'titularId': titularId + '',
     });
 
     return this._http.get(url, {headers, responseType: 'arraybuffer'});
