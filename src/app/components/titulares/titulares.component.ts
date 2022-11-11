@@ -136,6 +136,44 @@ export class TitularesComponent implements OnInit {
 
       adjuntodocprimera: '',
     });
+
+
+    if(this.accion_titular == 'U'){
+      this.dominiosService.getProvincias('P', this.titular.departamento!).subscribe((data: any) => {
+        switch (data.result_code){
+          case 200 : {
+            this.respuestaServicio = data;
+            this.dominioProvincias = this.respuestaServicio.ubigeos;
+  
+            //localStorage.removeItem('caducidad');
+            //localStorage.setItem('caducidad', JSON.stringify(this.dominioCaducidad));
+            break;
+          }
+          default: { 
+            //statements; 
+            break; 
+         } 
+        }
+      })
+
+      this.dominiosService.getDistritos('I', this.titular.departamento!,  this.titular.provincia!).subscribe((data: any) => {
+        switch (data.result_code){
+          case 200 : {
+            this.respuestaServicio = data;
+            this.dominioDistritos = this.respuestaServicio.ubigeos;
+  
+            //localStorage.removeItem('caducidad');
+            //localStorage.setItem('caducidad', JSON.stringify(this.dominioCaducidad));
+            break;
+          }
+          default: { 
+            //statements; 
+            break; 
+         } 
+        }
+      })
+    }
+
   }
 
   formatearFecha(fecha?: Date): any {

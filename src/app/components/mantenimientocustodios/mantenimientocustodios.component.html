@@ -62,7 +62,7 @@
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Recibio Capacitación</label>
-                            <select class="form-select" aria-label="" formControlName="capacitacionFlag" name="capacitacionFlag" #teamscapacitacion (change)="onSelectedRecibioCapacitacion(teamscapacitacion.value)">
+                            <select class="form-control" aria-label="" formControlName="capacitacionFlag" name="capacitacionFlag" #teamscapacitacion (change)="onSelectedRecibioCapacitacion(teamscapacitacion.value)">
                                 <option value=1>Si</option>
                                 <option value=0>No</option>
                             </select>
@@ -80,10 +80,10 @@
                     </div>
                     <br>
                     <div class="row" *ngIf="custodio.capacitacionNombre === ''">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form_label">Adjuntar constancia de capacitación:</label>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" formControlName="adjuntodoccapacitacion" name="adjuntodoccapacitacion">
                         </div>
                         <div class="col-md-4">
@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="custodio.capacitacionNombre != ''">
-                        <div class="col-md-6" style="background: #8A9597;">
+                        <div class="col-md-4" style="background: #8A9597;">
                             {{ custodio.capacitacionNombre }}
                         </div>
                         <div class="col-md-3">
@@ -112,10 +112,10 @@
                     <h4>Resolución de Acreditación</h4>
                     <br>
                     <div class="row" *ngIf="custodio.reconocimientoNombre === ''">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form_label">Solicitud Reconocimiento:</label>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" formControlName="adjuntodocreconocimiento" name="adjuntodocreconocimiento">
                         </div>
                         <div class="col-md-4">
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="custodio.reconocimientoNombre != ''">
-                        <div class="col-md-6" style="background: #8A9597;">
+                        <div class="col-md-4" style="background: #8A9597;">
                             {{ custodio.reconocimientoNombre }}
                         </div>
                         <div class="col-md-3">
@@ -150,20 +150,17 @@
                             <label class="form_label">Acto Administrativo</label>
                             <input type="text" class="form-control" formControlName="actoAdministrativo" name="actoAdministrativo">
                         </div>
-                    </div>
-                    <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Fecha Acto Administrativo</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="actoAdministrativoFecha" name="actoAdministrativoFecha">
                         </div>
+                    </div>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        
                         <div class="col-md-4">
                             <label class="form_label">Vigencia</label>
                             <input type="number" class="form-control" formControlName="actoAdministrativoVigencia" name="actoAdministrativoVigencia">
                         </div>
-
-                    </div>
-
-                    <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Periodo de Vigencia:Desde</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaDesde" name="vigenciaDesde">
@@ -172,6 +169,10 @@
                             <label class="form_label">Hasta</label>
                             <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaHasta" name="vigenciaHasta">
                         </div>
+                    </div>
+
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        
                         <div class="col-md-4">
                             <label class="form_label">Código Carné de acreditación</label>
                             <input type="text" class="form-control" formControlName="carneCodigo" name="carneCodigo">
@@ -180,10 +181,10 @@
 
                     <br>
                     <div class="row" *ngIf="custodio.carneNombre === ''">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form_label">Adjuntar carnet de acreditación:</label>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" formControlName="adjuntodoccarnet" name="adjuntodoccarnet">
                         </div>
                         <div class="col-md-4">
@@ -200,7 +201,7 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="custodio.carneNombre != ''">
-                        <div class="col-md-6" style="background: #8A9597;">
+                        <div class="col-md-4" style="background: #8A9597;">
                             {{ custodio.carneNombre }}
                         </div>
                         <div class="col-md-3">
@@ -213,7 +214,7 @@
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Pérdida de Acreditación</label>
-                            <select class="form-select" aria-label="" formControlName="perdidaFlag" name="perdidaFlag" #teamsperdida (change)="onSelectedPerdidaAcreditacion(teamsperdida.value)">
+                            <select class="form-control" aria-label="" formControlName="perdidaFlag" name="perdidaFlag" #teamsperdida (change)="onSelectedPerdidaAcreditacion(teamsperdida.value)">
                                 <option value=1>Si</option>
                                 <option value=0>No</option>
                             </select>
@@ -221,7 +222,7 @@
 
                         <div class="col-md-4 small">
                             <label class="form_label">Motivo</label>
-                            <select class="form-select" (change)="onSelectMotivoPerdida($event)" formControlName="perdidaMotivo" name="perdidaMotivo"> 
+                            <select class="form-control" (change)="onSelectMotivoPerdida($event)" formControlName="perdidaMotivo" name="perdidaMotivo"> 
                                 <option *ngFor="let motivosPerdida of dominioMotivosPerdida" value={{motivosPerdida.codigoDetalle}}>
                                     {{motivosPerdida.valorDetalle}}
                                 </option>
@@ -236,10 +237,10 @@
 
                     <br>
                     <div class="row" *ngIf="custodio.perdidaActoAdmNombre === ''">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form_label">Acto administrativo de pérdida de la acreditación:</label>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" formControlName="adjuntodocperdidaacto" name="adjuntodocperdidaacto">
                         </div>
                         <div class="col-md-4">
@@ -256,7 +257,7 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="custodio.perdidaActoAdmNombre != ''">
-                        <div class="col-md-6" style="background: #8A9597;">
+                        <div class="col-md-4" style="background: #8A9597;">
                             {{ custodio.perdidaActoAdmNombre }}
                         </div>
                         <div class="col-md-3">
@@ -303,13 +304,13 @@
                     <br>
                     <br>
                     <div class="row" *ngIf="custodio.carneNombre === ''">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label class="form_label">Adjuntar carnet de acreditación:</label>
                         </div>
                         <div class="col-md-4">
                             <input type="text" class="form-control" formControlName="adjuntodoccarnet" name="adjuntodoccarnet">
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div style="display: grid; grid-template-columns: 50px 500px ">
                                 <div>
                                     <mat-icon (click)="elegirArchivoCarnet()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
@@ -323,7 +324,7 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="custodio.carneNombre != ''">
-                        <div class="col-md-6" style="background: #8A9597;">
+                        <div class="col-md-4" style="background: #8A9597;">
                             {{ custodio.carneNombre }}
                         </div>
                         <div class="col-md-3">

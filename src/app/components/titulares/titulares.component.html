@@ -42,9 +42,9 @@
             <mat-tab label="Titular">
                 <br>
                 <div class="row" style="padding: 10px 10px 10px 10px;">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="form_label">Tipo de Custodio</label>
-                        <select class="form-select" (change)="onSelectTipoCustodio($event)" formControlName="tipoCustodio" name="tipoCustodio"> 
+                        <select class="form-control" (change)="onSelectTipoCustodio($event)" formControlName="tipoCustodio" name="tipoCustodio"> 
                             <option *ngFor="let tipoCustodio of dominioTipoCustodio" value={{tipoCustodio.codigoDetalle}}>
                                 {{tipoCustodio.valorDetalle}}
                             </option>
@@ -69,7 +69,7 @@
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-6">
                             <label class="form_label">Tipo Persona</label>
-                            <select class="form-select" (change)="onSelectTipoPersona($event)" formControlName="tipoPersona" name="tipoPersona"> 
+                            <select class="form-control" (change)="onSelectTipoPersona($event)" formControlName="tipoPersona" name="tipoPersona"> 
                                 <option *ngFor="let tipoPersona of dominioTipoPersona" value={{tipoPersona.codigoDetalle}}>
                                     {{tipoPersona.valorDetalle}}
                                 </option>
@@ -116,7 +116,7 @@
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Departamento</label>
-                            <select class="form-select" (change)="onSelectDepartamento($event)" formControlName="departamento" name="departamento">
+                            <select class="form-control" (change)="onSelectDepartamento($event)" formControlName="departamento" name="departamento">
                                 <option *ngFor="let departamento of dominioDepartamentos" value={{departamento.departamento}}>
                                     {{departamento.nombre}}
                                 </option>
@@ -125,7 +125,7 @@
 
                         <div class="col-md-4">
                             <label class="form_label">Provincia</label>
-                            <select class="form-select" (change)="onSelectProvincia($event)" formControlName="provincia" name="provincia">
+                            <select class="form-control" (change)="onSelectProvincia($event)" formControlName="provincia" name="provincia">
                                 <option *ngFor="let provincias of dominioProvincias" value={{provincias.provincia}}>
                                     {{provincias.nombre}}
                                 </option>
@@ -133,7 +133,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">Distrito</label>
-                            <select class="form-select" (change)="onSelectDistrito($event)" formControlName="distrito" name="distrito"> 
+                            <select class="form-control" (change)="onSelectDistrito($event)" formControlName="distrito" name="distrito"> 
                                 <option *ngFor="let distritos of dominioDistritos" value={{distritos.ubigeoId}}>
                                     {{distritos.nombre}}
                                 </option>
@@ -143,10 +143,10 @@
                     <br>
                     <h2>Datos de Comite de Vigilancia y Control Reconocido</h2>
                     <div class="row" *ngIf="titular.nombreAdjunto === ''">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label class="form_label">Solicitud de reconocimiento del comité de vigilancia:</label>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <input type="text" class="form-control" formControlName="adjuntodocprimera" name="adjuntodocprimera">
                         </div>
                         <div class="col-md-4">
@@ -163,7 +163,7 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="titular.nombreAdjunto != ''">
-                        <div class="col-md-6" style="background: #8A9597;">
+                        <div class="col-md-4" style="background: #8A9597;">
                             {{ titular.nombreAdjunto }}
                         </div>
                         <div class="col-md-3">
