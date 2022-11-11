@@ -170,15 +170,15 @@ export class CustodiosComponent implements OnInit {
 
   reporte(){
     if(this.selectedTipoCustodio!='00'){
-      /*this._documentoService.getReporte(this.filtro).subscribe((data: any) => {
-              const blobdata = new Blob([data], { type: 'application/octet-stream' });
-              const blob = new Blob([blobdata], { type: 'application/octet-stream' });
-              const url = window.URL.createObjectURL(blob);
-              const anchor = document.createElement('a');
-              anchor.download = 'reporte_custodios.xls';
-              anchor.href = url;
-              anchor.click();
-          });*/
+      this._documentoService.getReporteCustodio(this.filtro, this.selectedTipoCustodio).subscribe((data: any) => {
+          const blobdata = new Blob([data], { type: 'application/octet-stream' });
+          const blob = new Blob([blobdata], { type: 'application/octet-stream' });
+          const url = window.URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.download = 'reporte_custodios.xls';
+          anchor.href = url;
+          anchor.click();
+      });
     }else{
       Swal.fire('Eliga el Tipo de Custodio', '', 'info');
     }
@@ -186,15 +186,15 @@ export class CustodiosComponent implements OnInit {
   }
 
   ficha(titular: TitularModel){
-    /*this._documentoService.getFicha(infractor.infractorId!).subscribe((data: any) => {
+    this._documentoService.getFicha(titular.titularId!).subscribe((data: any) => {
       const blobdata = new Blob([data], { type: 'application/octet-stream' });
       const blob = new Blob([blobdata], { type: 'application/octet-stream' });
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement('a');
-      anchor.download = 'Ficha_RIFFS.pdf';
+      anchor.download = 'Ficha_RCFFS.pdf';
       anchor.href = url;
       anchor.click();
-    });*/
+    });
   }
 
   obtenerDominios(){

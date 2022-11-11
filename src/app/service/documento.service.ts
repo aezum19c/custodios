@@ -81,15 +81,24 @@ export class DocumentoService {
         );
   }
 
-  getReporte(filtro: string){
-    const url = `${ URL_API }reporte`;
+  getReporteCustodio(filtro: string, tipoCustodio: string){
+    const url = `${ URL_API }reporteCustodio`;
     const headers = new HttpHeaders({
       'buscar': filtro+'',
+      'tipoCustodio': tipoCustodio+''
     });
 
     return this._http.get(url, {headers, responseType: 'arraybuffer'});
   }
 
+  getFicha(titularId: number ){
+    const url = `${ URL_API }fichaCustodio`;
+    const headers = new HttpHeaders({
+      'titularId': titularId+'',
+    });
+
+    return this._http.get(url, {headers, responseType: 'arraybuffer'});
+  }
 
   /* ADJUNTO PARA TITULAR */
   uploadAdjuntoTitular(adjunto: File, titularId: number, extension: string, nombre: string){
