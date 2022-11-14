@@ -25,6 +25,7 @@ import { TitularesComponent } from './components/titulares/titulares.component';
 import { ContratoComponent } from './components/contrato/contrato.component';
 import { ComunidadComponent } from './components/comunidad/comunidad.component';
 import { OnlyNumericDirective } from './directive/only-numeric.directive';
+import { ConsultaPublicaComponent } from './components/consulta-publica/consulta-publica.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { OnlyNumericDirective } from './directive/only-numeric.directive';
     TitularesComponent,
     ContratoComponent,
     ComunidadComponent,
-    OnlyNumericDirective
+    OnlyNumericDirective,
+    ConsultaPublicaComponent
   ],
   imports: [
     BrowserModule,

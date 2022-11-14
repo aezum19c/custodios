@@ -283,7 +283,12 @@ export class TitularesComponent implements OnInit {
   }
 
   regresar(){
-    this.router.navigate(['/custodios']);
+    if(this.accion_titular!='V'){
+      this.router.navigate(['/custodios']);
+    } else {
+      this.router.navigate(['/consulta-publica']);
+    }
+    
     localStorage.removeItem('custodio');
   }
 
@@ -472,7 +477,12 @@ export class TitularesComponent implements OnInit {
     localStorage.removeItem('tipoCustodio');
 
     localStorage.setItem('custodio', JSON.stringify(custodio));
-    localStorage.setItem('accion_custodio', JSON.stringify('M'));
+    if(this.accion_titular=='V'){
+      localStorage.setItem('accion_custodio', JSON.stringify('V'));
+    } else {
+      localStorage.setItem('accion_custodio', JSON.stringify('M'));
+    }
+    
     localStorage.setItem('titularId', JSON.stringify(this.titular.titularId));
     localStorage.setItem('tipoCustodio', JSON.stringify(this.titular.tipoCustodio));
 

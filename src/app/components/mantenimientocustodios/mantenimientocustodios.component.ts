@@ -92,8 +92,8 @@ export class MantenimientocustodiosComponent implements OnInit {
     this.custodio.carneNombre = this.custodio.carneNombre ?? '';
     this.custodio.perdidaActoAdmNombre = this.custodio.perdidaActoAdmNombre ?? '';
 
-    console.log('CrearFormulario: Custodio');
-    console.log(this.custodio);
+    /* console.log('CrearFormulario: Custodio');
+    console.log(this.custodio); */
     /* this.custodioSelected = this.titular.tipoCustodio ?? ''; */
 
     if(this.accion_custodio == 'N' ){ this.mostrar =false; } else { this.mostrar = true}; 
@@ -229,7 +229,7 @@ export class MantenimientocustodiosComponent implements OnInit {
   }
 
   regresar(){
-    this.router.navigate(['/titulares/:id']);
+    this.router.navigate(['/titulares/:id']);    
     localStorage.removeItem('titulares');
   }
 

@@ -13,17 +13,6 @@
             <img src="./assets/logo_ucayali.png" alt="image" style="width: 250px; height: 100px;">
         </div>
     </div>
-    <div class="row">
-        <div class="col text-right">
-            <button (click)="cerrarSession()" class="btn btn-secondary" type="button">
-                <i class="fa fa-power"> </i>
-                CERRAR SESIÓN
-            </button>
-
-        </div>
-        <hr>
-
-    </div>
     <h2> Listado de Custodios</h2>
     <div class="row">
         <div class="col-md-1">
@@ -51,10 +40,6 @@
                     <i class="fa fa-search"> </i>
                     Buscar
                 </button>
-            <button (click)="nuevoCustodio()" class="btn btn-primary" type="button">
-                    <i class="fa fa-plus"> </i>
-                    Nuevo
-                </button>
         </div>
     </div>
     <table class="table mt-3">
@@ -81,10 +66,8 @@
                 <td>{{ titular.fechaActoReconocimiento | ddMMyyyy }}</td>
                 <td class="row">
                     <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
-                    <button class="btn btn-info mr-1" (click)="verDatosCustodio(titular)"> <i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-info mr-1" (click)="verDatosCustodio(titular)"> <i class="fa fa-eye"></i></button>
                     <button class="btn btn-success mr-1" type="button" (click)="ficha(titular)"> <i class="fa fa-clipboard"></i></button>
-                    <button *ngIf="titular.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarRegistro(titular)"> <i class="fa fa-trash"></i></button>
-                    <button *ngIf="titular.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarRegistro(titular)"> <i class="fa fa-check"></i></button>
                 </td>
             </tr>
         </tbody>

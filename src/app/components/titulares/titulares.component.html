@@ -14,7 +14,7 @@
             <img src="./assets/logo_ucayali.png" alt="image" style="width: 250px; height: 100px;">
         </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="accion_titular!='V'">
         <div class="col text-right">
             <button (click)="cerrarSession()" class="btn btn-secondary" type="button">
                 <i class="fa fa-power"> </i>
@@ -143,7 +143,7 @@
                     <br>
                     <h2>Datos de Comité de Vigilancia y Control Reconocido</h2>
                     <div *ngIf="mostrar">
-                        <div class="row" *ngIf="titular.nombreAdjunto === ''">
+                        <div class="row" *ngIf="titular.nombreAdjunto === '' && accion_titular!='V'">
                             <div class="col-md-4">
                                 <label class="form_label">Solicitud de reconocimiento del comité de vigilancia:</label>
                             </div>
@@ -164,12 +164,17 @@
                             </div>
                         </div>
                         <div class="row" *ngIf="titular.nombreAdjunto != ''">
-                            <div class="col-md-4" style="background: #8A9597;">
+                            <div class="col-md-8" style="margin-left: 10px;">
+                                <label class="form_label">Archivo adjunto - Solicitud de reconocimiento del comité de vigilancia:</label>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="titular.nombreAdjunto != ''">
+                            <div class="col-md-4" style="background: #8A9597; margin-left: 30px;">
                                 {{ titular.nombreAdjunto }}
                             </div>
                             <div class="col-md-3">
                                 <button class="btn btn-info mr-1" (click)="descargarDocumentoSolicitudRenococimiento()"> <i class="fa fa-download"></i></button>
-                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoSolicitudRenococimiento()"> <i class="fa fa-trash"></i></button>
+                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoSolicitudRenococimiento()" *ngIf="accion_titular!='V'"> <i class="fa fa-trash"></i></button>
                             </div>
                         </div>
                     </div>
@@ -208,7 +213,7 @@
                     </div>
                     <br>
                 </div>
-                <div class="col">
+                <div class="col" *ngIf="accion_titular!='V'">
                     <div class="form-group text-right">
                         <button type="button" (click)="guardar()" class="btn btn-primary w-25">
                             <i class="fa fa-save"></i>
@@ -221,9 +226,9 @@
             </mat-tab>
             <mat-tab label="Titulos Habilitante" *ngIf="custodioSelected==='02' && titular.titularId!=0">
                 <br>
-                <div class="row ">
+                <div class="row " *ngIf="accion_titular!='V'">
                     <!-- text-right -->
-                    <div class="col text-right">
+                    <div class="col text-right" >
                         <button type="button" class="btn btn-primary" (click)="nuevaComunidad()">
                             <i class="fa fa-plus"> </i>
                             Agregar
@@ -236,7 +241,7 @@
                             <th scope="col">Nro Titulo Habilitante</th>
                             <th scope="col">Periodo Inicio</th>
                             <th scope="col">Periodo Fin</th>
-                            <th scope="col">ACCIÓN</th>
+                            <th scope="col" *ngIf="accion_titular!='V'">ACCIÓN</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -245,11 +250,11 @@
                             <td>{{ comunidad.vigenciaInicio | ddMMyyyy }}</td>
                             <td>{{ comunidad.vigenciaFin | ddMMyyyy }}</td>
                             <!-- <td>{{ custodio.fechaExpiracion | ddMMyyyy }}</td> -->
-                            <td>
+                            <td *ngIf="accion_titular!='V'">
                                 <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
                                 <button class="btn btn-info mr-1" (click)="verComunidad(comunidad)"> <i class="fa fa-pencil"></i></button>
-                                <button *ngIf="comunidad.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarComunidad(comunidad)"> <i class="fa fa-trash"></i></button>
-                                <button *ngIf="comunidad.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarComunidad(comunidad)"> <i class="fa fa-check"></i></button>
+                                <button *ngIf="comunidad.estado == 1 " class="btn btn-danger mr-1" type="button" (click)="desactivarComunidad(comunidad)"> <i class="fa fa-trash"></i></button>
+                                <button *ngIf="comunidad.estado == 0 " class="btn btn-primary mr-1" type="button" (click)="activarComunidad(comunidad)"> <i class="fa fa-check"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -257,7 +262,7 @@
             </mat-tab>
             <mat-tab label="Custodio" *ngIf="titular.titularId!=0">
                 <br>
-                <div class="row ">
+                <div class="row " *ngIf="accion_titular!='V'">
                     <!-- text-right -->
                     <div class="col text-right">
                         <button type="button" (click)="nuevoCustodio()" class="btn btn-primary">
@@ -284,9 +289,10 @@
 
                             <td>
                                 <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
-                                <button class="btn btn-info mr-1" (click)="verCustodio(custodio)"> <i class="fa fa-pencil"></i></button>
-                                <button *ngIf="custodio.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarCustodio(custodio)"> <i class="fa fa-trash"></i></button>
-                                <button *ngIf="custodio.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarCustodio(custodio)"> <i class="fa fa-check"></i></button>
+                                <button *ngIf="accion_titular!='V'" class="btn btn-info mr-1" (click)="verCustodio(custodio)"> <i class="fa fa-pencil"></i></button>
+                                <button *ngIf="accion_titular=='V'" class="btn btn-info mr-1" (click)="verCustodio(custodio)"> <i class="fa fa-eye"></i></button>
+                                <button *ngIf="custodio.estado == 1 && accion_titular!='V'" class="btn btn-danger mr-1" type="button" (click)="desactivarCustodio(custodio)"> <i class="fa fa-trash"></i></button>
+                                <button *ngIf="custodio.estado == 0 && accion_titular!='V'" class="btn btn-primary mr-1" type="button" (click)="activarCustodio(custodio)"> <i class="fa fa-check"></i></button>
                             </td>
                         </tr>
                     </tbody>
