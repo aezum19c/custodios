@@ -53,8 +53,8 @@ export class CustodiosService {
   }
 
   /* CUSTODIOS */
-  getCustodios( titularId : Number, filtro:string,  pag : Number, regxPag: Number ){
-    let url = URL_API + 'custodios?titularId=' + titularId + '&buscar='+filtro + '&desde='  + '' + '&hasta=' + '' + '&pagina=' + pag + '&regxpag=' + regxPag;
+  getCustodios( titularId : Number, comiteRenovacionId: Number, filtro:string,  pag : Number, regxPag: Number ){
+    let url = URL_API + 'custodios?titularId=' + titularId + '&comiteRenovacionId='+ comiteRenovacionId + '&buscar='+filtro + '&desde='  + '' + '&hasta=' + '' + '&pagina=' + pag + '&regxpag=' + regxPag;
     
     return this.http.get(url);
   }

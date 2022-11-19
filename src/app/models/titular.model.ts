@@ -44,4 +44,5 @@ export class TitularModel {
     accion?: string;
     
     custodio?: CustodioModel[];
+    comiteRenovacionId?: number;
 }

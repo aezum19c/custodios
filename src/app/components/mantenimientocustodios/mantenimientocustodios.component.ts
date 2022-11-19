@@ -17,6 +17,7 @@ import { ContratoModel } from 'src/app/models/contrato.model';
 import { ContratoComponent } from '../contrato/contrato.component';
 import { ContratoService } from 'src/app/service/contrato.service';
 import { RespuestaRenovacionModel } from 'src/app/models/respuesta_renovacion.model';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-mantenimientocustodios',
@@ -81,8 +82,9 @@ export class MantenimientocustodiosComponent implements OnInit {
     this.usuarioSession = JSON.parse( localStorage.getItem('usuariosession') || '{}' );
     this.custodio = JSON.parse( localStorage.getItem('custodio') || '{}' );
     this.dominioMotivosPerdida = JSON.parse( localStorage.getItem('motivosPerdida') || '[]' );
-    this.custodio.titularId = JSON.parse( localStorage.getItem('titularId')! );
-    this.custodioSelected= JSON.parse( localStorage.getItem('tipoCustodio') || '01' );
+    /* this.custodio.titularId = JSON.parse( localStorage.getItem('titularId')! ); */
+    this.custodioSelected= this.custodio.tipoCustodio!;
+
     /*this.dominioObservacion = JSON.parse( localStorage.getItem('observacion') || '[]' ); */
 
     this.accion_custodio = JSON.parse( localStorage.getItem('accion_custodio') || '' );
@@ -189,7 +191,6 @@ export class MantenimientocustodiosComponent implements OnInit {
         this.custodio.estado = this.formCustodio.get('estado')?.value;
         this.custodio.cargo = this.formCustodio.get('cargo')?.value;
 
-
         if(this.custodio.custodioId == 0){
           this.custodio.accion = 'I';
           this.custodio.usuarioRegistro = this.usuarioSession.usuarioId;
@@ -229,8 +230,12 @@ export class MantenimientocustodiosComponent implements OnInit {
   }
 
   regresar(){
-    this.router.navigate(['/titulares/:id']);    
-    localStorage.removeItem('titulares');
+    if(this.custodio.comiteRenovacionId == 0 ){
+      this.router.navigate(['/titulares/:id']);    
+      localStorage.removeItem('titulares');
+    } else {
+      this.router.navigate(['custodios-comite']);    
+    }
   }
 
   cerrarSession(){

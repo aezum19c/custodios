@@ -1,0 +1,87 @@
+
+<h3 mat-dialog-title style="text-align: center; color: #FFF;" >RENOVACIONES DE COMITÉ DE VIGILANCIA Y CONTROL</h3>
+<div mat-dialog-content style="background: #FFF;">
+    <div style="margin-top: 20px; width:750px;">
+        <form autocomplete="off" [formGroup]="formContrato">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="flagRenovacion" style="color: #000;">Renovaciones:</label>
+                </div>
+                <div class="col-md-8">
+                    <select class="form-control" aria-label="" formControlName="flagRenovacion" name="flagRenovacion"
+                        #teams (change)="onSelected(teams.value)">
+                        <option value=1>Si</option>
+                        <option value=0>No</option>
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div *ngIf="tieneRenovacion=='1'">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="resolucion" style="color: #000;">Resolución renovación de:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                            <input type="text" matInput formControlName="resolucion" name="resolucion">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="resolucionFecha" style="color: #000;">Fecha Acto Administrativo:</label>
+                    </div>
+                    <div class="col-md-8">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;" >
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="resolucionFecha" name="resolucionFecha" >
+                        </mat-form-field>
+                    </div>
+                </div>
+    
+    
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="resolucionVigencia" style="color: #000;">Vigencia(meses):</label>
+                    </div>
+                    <div class="col-md-8">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                            <input type="number" appOnlyNumeric matInput formControlName="resolucionVigencia" name="resolucionVigencia">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="vigenciaDesde" style="color: #000;">Periodo de Vigencia:</label>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color:#000;">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="vigenciaDesde" name="vigenciaDesde" >
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                            <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="vigenciaHasta" name="vigenciaHasta" >
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            
+            <br/><br/>
+            <div class="row" *ngIf="accion_titular!='V'">
+                <div class="col-md-12" style="text-align: center;">
+                    <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
+                    <button *ngIf="titularRenovacion.estado != 0" type="button" class="btn btn-success" mat-raised-button (click)="guardarComiteRenovacion()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                </div>
+            </div>
+
+            <div class="row" *ngIf="accion_titular=='V'">
+                <div class="col-md-12" style="text-align: center;">
+                    <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
+                </div>
+            </div>
+            <input type="button" #btncerrarComite mat-dialog-close class="ocultar">
+        </form>
+    </div>
+</div>

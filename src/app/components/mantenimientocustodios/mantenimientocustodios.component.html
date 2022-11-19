@@ -130,7 +130,6 @@
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoReconocimiento()">Subir Archivo</button>
-                                        <!-- *ngIf="menu.permiteActualizar === '1'" -->
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +146,7 @@
                             </div>
                             <div class="col-md-3">
                                 <button class="btn btn-info mr-1" (click)="descargarDocumentoReconocimiento()"> <i class="fa fa-download"></i></button>
-                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoReconocimiento()" *ngIf="accion_custodio!='V'"> <i class="fa fa-trash"></i></button>
+                                <button *ngIf="accion_custodio!='V'" class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoReconocimiento()" > <i class="fa fa-trash"></i></button>
                             </div>
                         </div>
                         <br>
@@ -346,7 +345,6 @@
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoCarnet()">Subir Archivo</button>
-                                        <!-- *ngIf="menu.permiteActualizar === '1'" -->
                                     </div>
                                 </div>
                             </div>
@@ -361,15 +359,30 @@
                             <div class="col-md-4" style="background: #8A9597; margin-left: 30px;">
                                 {{ custodio.carneNombre }}
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3" *ngIf="accion_custodio!='V' ">
                                 <button class="btn btn-info mr-1" (click)="descargarDocumentoCarnet()"> <i class="fa fa-download"></i></button>
-                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCarnet()" *ngIf="accion_custodio!='V'"> <i class="fa fa-trash"></i></button>
+                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoCarnet()" *ngIf="custodio.estadoRenovacionComite != 0"> <i class="fa fa-trash"></i></button><!-- accion_custodio!='V' &&  -->
+                            </div>
+                            <div class="col-md-3" *ngIf="accion_custodio=='V' ">
+                                <button class="btn btn-info mr-1" (click)="descargarDocumentoCarnet()"> <i class="fa fa-download"></i></button>
                             </div>
                         </div>
                         <br>
                     </div>
                 </div>
 
+                <div *ngIf=" accion_custodio!='V'">
+                    <div class="col"*ngIf="custodio.estadoRenovacionComite != 0 ">
+                        <div class="form-group text-right">
+                            <button type="button" (click)="guardar()" class="btn btn-primary w-25">
+                                <i class="fa fa-save"></i>
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            
                 <br>
                 <br>
             </mat-tab>
@@ -386,22 +399,26 @@
                             <h4>RENOVACIONES DE COMITÉ DE VIGILANCIA Y CONTROL</h4>
                         </div>
                     </div>
-                    <div class="col text-right" *ngIf="accion_custodio!='V'">
-                        <button type="button" (click)="nuevoContrato()" class="btn btn-primary">
-                            <i class="fa fa-plus"> </i>
-                            Agregar
-                        </button>
+                    <div  *ngIf="accion_custodio!='V'"  >
+                        <div class="col text-right" *ngIf="custodio.estadoRenovacionComite != 0" > 
+                            <button type="button" (click)="nuevoContrato()" class="btn btn-primary">
+                                <i class="fa fa-plus"> </i>
+                                Agregar
+                            </button>
+                        </div>
                     </div>
+                    
                 </div>
-                <table class="table mt-3">
+               
+                <table class="table mt-3" *ngIf="accion_custodio!='V'">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">ACTO ADMINISTRATIVO</th>
                             <th scope="col">VIGENCIA(MESES)</th>
                             <th scope="col">FECHA ACTO ADMINISTRACION</th>
-                            <th scope="col" *ngIf="accion_custodio=='V'">DESDE</th>
-                            <th scope="col" *ngIf="accion_custodio=='V'">HASTA</th>
-                            <th scope="col" *ngIf="accion_custodio!='V'">ACCIÓN</th>
+                            <th scope="col" *ngIf="custodio.estadoRenovacionComite == 0" >DESDE</th>  
+                            <th scope="col" *ngIf="custodio.estadoRenovacionComite == 0">HASTA</th> 
+                            <th scope="col" *ngIf="custodio.estadoRenovacionComite != 0">ACCIÓN</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -409,15 +426,37 @@
                             <td>{{ contrato.resolucion }}</td>
                             <td>{{ contrato.resolucionVigencia }}</td>
                             <td>{{ contrato.resolucionFecha | ddMMyyyy }}</td>
-                            <td  *ngIf="accion_custodio=='V'">{{ contrato.vigenciaDesde| ddMMyyyy }}</td>
-                            <td *ngIf="accion_custodio=='V'">{{ contrato.vigenciaHasta | ddMMyyyy }}</td>
+                            <td  *ngIf="custodio.estadoRenovacionComite == 0">{{ contrato.vigenciaDesde| ddMMyyyy }}</td> 
+                            <td *ngIf="custodio.estadoRenovacionComite == 0 ">{{ contrato.vigenciaHasta | ddMMyyyy }}</td>
                             <!-- <td>{{ custodio.fechaExpiracion | ddMMyyyy }}</td> -->
-                            <td *ngIf="accion_custodio!='V'">
+                            <td *ngIf="custodio.estadoRenovacionComite != 0"> 
                                 <!-- [routerLink]="['/mantenimientoinspectores', infractor.infractorId]" -->
                                 <button class="btn btn-info mr-1" (click)="verContrato(contrato)"> <i class="fa fa-pencil"></i></button>
                                 <button *ngIf="contrato.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarContrato(contrato)" > <i class="fa fa-trash"></i></button>
                                 <button *ngIf="contrato.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarContrato(contrato)"> <i class="fa fa-check"></i></button>
                             </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <table class="table mt-3" *ngIf="accion_custodio=='V'">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ACTO ADMINISTRATIVO</th>
+                            <th scope="col">VIGENCIA(MESES)</th>
+                            <th scope="col">FECHA ACTO ADMINISTRACION</th>
+                            <th scope="col">DESDE</th> 
+                            <th scope="col">HASTA</th>    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let contrato of contratos ">
+                            <td>{{ contrato.resolucion }}</td>
+                            <td>{{ contrato.resolucionVigencia }}</td>
+                            <td>{{ contrato.resolucionFecha | ddMMyyyy }}</td>
+                            <td>{{ contrato.vigenciaDesde| ddMMyyyy }}</td> 
+                            <td>{{ contrato.vigenciaHasta | ddMMyyyy }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -428,13 +467,4 @@
 
         </mat-tab-group>
     </form>
-    <div class="col" *ngIf="accion_custodio!='V'">
-        <div class="form-group text-right">
-            <button type="button" (click)="guardar()" class="btn btn-primary w-25">
-                <i class="fa fa-save"></i>
-                Guardar
-            </button>
-        </div>
-    </div>
-
 </div>

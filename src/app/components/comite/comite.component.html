@@ -1,0 +1,118 @@
+
+<h3 mat-dialog-title style="text-align: center; color: #FFF;">Datos de Comité de Vigilancia y Control Reconocido</h3>
+<div mat-dialog-content style="background: #FFF;">
+    <div style="margin-top: 20px; width:750px;">
+        <form autocomplete="off" [formGroup]="formComite">
+            <div class="row" *ngIf="comite.nombreAdjunto === ''" >
+                <div class="col-md-4">
+                    <label class="form_label"  style="color: #000;">Solicitud de reconocimiento del comité de vigilancia:</label>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" style="color: #000;" formControlName="adjuntodocprimera" name="adjuntodocprimera">
+                </div>
+                <div class="col-md-4">
+                    <div style="display: grid; grid-template-columns: 50px 500px ">
+                        <div>
+                            <mat-icon (click)="elegirArchivoSolicitudRenococimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
+                            <input #btnselectSolicitudRenocomiento style="display: none;" (change)="seleccion_archivo_solicitud_reconocimiento($event)" type="file">
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoSolicitudRenococimiento()">Subir Archivo</button>
+                            <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="comite.nombreAdjunto != ''">
+                <div class="col-md-12" style="margin-left: 10px;">
+                    <label class="form_label"  style="color: #000;">Archivo adjunto - Solicitud de reconocimiento del comité de vigilancia:</label>
+                </div>
+            </div>
+            <div class="row" *ngIf="comite.nombreAdjunto != ''">
+                <div class="col-md-6" style="background: #8A9597; margin-left: 30px;">
+                    {{ comite.nombreAdjunto }}
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-info mr-1" (click)="descargarDocumentoSolicitudRenococimiento()"> <i class="fa fa-download"></i></button>
+                    <button *ngIf="comite.estado != 0" class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoSolicitudRenococimiento()"> <i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="fechaSolicitud" style="color: #000;">Fecha Solicitud</label>
+                </div>
+                <div class="col-md-8">
+                    <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                        <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="fechaSolicitud" name="fechaSolicitud">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="comiteActoReconocimiento" style="color: #000;">Acto Administrativo de renocimiento del Comité</label>
+                </div>
+                <div class="col-md-8">
+                    <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                        <input type="text" matInput formControlName="comiteActoReconocimiento" name="comiteActoReconocimiento">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="fechaActoReconocimiento" style="color: #000;">Fecha de la Resolución de reconocimiento del Comité</label>
+                </div>
+                <div class="col-md-8">
+                    <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                        <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="fechaActoReconocimiento" name="fechaActoReconocimiento">
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <div class="row" >
+                <div class="col-md-4">
+                    <label for="vigencia" style="color: #000;">Vigencia</label>
+                </div>
+                <div class="col-md-8">
+                    <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                        <input type="text" matInput formControlName="vigencia" name="vigencia">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row" >
+                <div class="col-md-4">
+                    <label for="periodoDesde" style="color: #000;">Periodo de Vigencia del permiso: Inicio</label>
+                </div>
+                <div class="col-md-8">
+                    <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                        <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="periodoDesde" name="periodoDesde">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row" >
+                <div class="col-md-4">
+                    <label for="periodoHasta" style="color: #000;">Fin</label>
+                </div>
+                <div class="col-md-8">
+                    <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
+                        <input type="date" data-date-format="yyyy-dd-MM" matInput formControlName="periodoHasta" name="periodoHasta">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <br/><br/>
+            <div class="row">
+                <div class="col-md-12" style="text-align: center;">
+                    <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
+                    <button *ngIf="comite.estado != 0" type="button" class="btn btn-success" mat-raised-button (click)="guardarComite()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                </div>
+            </div>
+            <input type="button" #btncerrarComite mat-dialog-close class="ocultar">
+        </form>
+    </div>
+</div>

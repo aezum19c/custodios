@@ -22,6 +22,12 @@ import { DominiosService } from 'src/app/service/dominio.service';
 import { RespuestaServicio } from 'src/app/models/respuesta_servicio.model';
 import { TituloModel } from 'src/app/models/titulos.model';
 import { RespuestaCustodioModel } from 'src/app/models/respuesta_custodio.model';
+import { ComiteService } from 'src/app/service/comite.service';
+import { RespuestaRenovacionModel } from 'src/app/models/respuesta_renovacion.model';
+import { ComiteComponent } from '../comite/comite.component';
+import { TitularRenovacionModel } from 'src/app/models/titular_renovacion.model';
+import { ComiteRenovacionComponent } from '../comite-renovacion/comite-renovacion.component';
+import { RespuestaComiteModel } from 'src/app/models/respuesta_titular_renovacion';
 /* import { timeStamp } from 'console'; */
 
 @Component({
@@ -33,7 +39,7 @@ import { RespuestaCustodioModel } from 'src/app/models/respuesta_custodio.model'
 export class TitularesComponent implements OnInit {
   @ViewChild('btnselectSolicitudRenocomiento') btnselectSolicitudRenocomiento!: ElementRef<HTMLElement>;
   
-  contratos! : ContratoModel[]; 
+  titularRenovacion! : TitularRenovacionModel[]; 
   formTitulares! : FormGroup;
   titular : TitularModel = new TitularModel();
   dominioTipoCustodio! : DominioModel[]; 
@@ -58,17 +64,20 @@ export class TitularesComponent implements OnInit {
   respuestaServicio : RespuestaServicio = new RespuestaServicio();
   tituloServicio : TituloModel = new TituloModel();
   custodioServicio: RespuestaCustodioModel = new RespuestaCustodioModel();
-
+  comiteRespuestaServicio: RespuestaComiteModel = new RespuestaComiteModel();
   departamentoSelected: string='';
   selectedTipoPersona: string = '';
 
   adjuntoModelSolicitudReconomiento : AdjuntoModel = new AdjuntoModel; 
   adjuntoSolicitudReconomiento!: File;
 
+  totalComites: number = 0;
+
   constructor( 
     private _documentoService: DocumentoService,
     private custodioService: CustodiosService,
     private comunidadService: ComunidadService,
+    private comiteService: ComiteService,
     private dominiosService: DominiosService,
     private router: Router,
     private fb: FormBuilder,
@@ -76,7 +85,11 @@ export class TitularesComponent implements OnInit {
     private _dialog: MatDialog,
 
     ) { 
-      this.adjuntos = [{adjuntoId:1, nombre:'nuevo adjunto file', descripcion :'Traer adjunto', fecha:'2022-05-16'}];
+      
+      /* this.titularRenovacion =[{titularId:1, comiteRenovacionId:1, flagRenovacion:0, resolucion:'resolucion', resolucionFecha:'2022-05-16',
+      resolucionVigencia:1, vigenciaDesde:'2022-05-16', vigenciaHasta:'2022-05-18', estado:1},
+      {titularId:1, comiteRenovacionId:2, flagRenovacion:0, resolucion:'resolucion', resolucionFecha:'2022-05-16',
+      resolucionVigencia:1, vigenciaDesde:'2022-05-17', vigenciaHasta:'2022-05-20', estado:1}]; */
     }
 
   ngOnInit(): void {
@@ -85,6 +98,7 @@ export class TitularesComponent implements OnInit {
     this.crearFormulario();
     this.obtenerComunidades();
     this.obtenerCustodios();
+    this.obtenerComites();
     
     this.obtenerDominiosTipoCustodio();
   }
@@ -435,7 +449,7 @@ export class TitularesComponent implements OnInit {
 
   /* *********************** */
   obtenerCustodios(){
-    this.custodioService.getCustodios(this.titular.titularId!, '', this.page, this.regxpag).subscribe((data: any) => {
+    this.custodioService.getCustodios(this.titular.titularId!, 0, '', this.page, this.regxpag).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
           this.custodioServicio = data;
@@ -457,24 +471,33 @@ export class TitularesComponent implements OnInit {
     /* custodio.tipoCustodio =  this.custodioSelected; */
     custodio.custodioId = 0;
 
+    custodio.custodioId = 0;
+    custodio.titularId = this.titular.titularId;
+    custodio.comiteRenovacionId = 0;
+    custodio.tipoCustodio = '01'  //01 Titulo Habilitante
+
+    custodio.estadoRenovacionComite = 1;
+
     localStorage.removeItem('custodio');
     localStorage.removeItem('accion_custodio');
-    localStorage.removeItem('titularId');
-    localStorage.removeItem('tipoCustodio');
 
     localStorage.setItem('custodio', JSON.stringify(custodio));
     localStorage.setItem('accion_custodio', JSON.stringify('N'));
-    localStorage.setItem('titularId', JSON.stringify(this.titular.titularId));
-    localStorage.setItem('tipoCustodio', JSON.stringify(this.titular.tipoCustodio));
+    
 
     this.router.navigate(['/mantenimientocustodios/nuevo']);
   }
 
   verCustodio(custodio: CustodioModel){
+
+    custodio.titularId = this.titular.titularId;
+    custodio.comiteRenovacionId = 0;
+    custodio.tipoCustodio = '01'  //01 Titulo Habilitante
+
+    custodio.estadoRenovacionComite = 1;
+
     localStorage.removeItem('custodio');
     localStorage.removeItem('accion_custodio');
-    localStorage.removeItem('titularId');
-    localStorage.removeItem('tipoCustodio');
 
     localStorage.setItem('custodio', JSON.stringify(custodio));
     if(this.accion_titular=='V'){
@@ -482,9 +505,6 @@ export class TitularesComponent implements OnInit {
     } else {
       localStorage.setItem('accion_custodio', JSON.stringify('M'));
     }
-    
-    localStorage.setItem('titularId', JSON.stringify(this.titular.titularId));
-    localStorage.setItem('tipoCustodio', JSON.stringify(this.titular.tipoCustodio));
 
     this.router.navigate(['/mantenimientocustodios/nuevo']);
   }
@@ -801,4 +821,176 @@ descargarDocumentoSolicitudRenococimiento(){
   });
 }
 
+
+  /************** PESTAÑA COMITES ************/
+  obtenerComites(){
+    this.comiteService.getComite(this.titular.titularId!, 1, 10).subscribe((data: any) => {
+      switch (data.result_code){
+        case 200 : {
+          this.comiteRespuestaServicio = data;
+          this.titularRenovacion = this.comiteRespuestaServicio.content;
+          console.log('TiturlarRenovación');
+          console.log(this.titularRenovacion);
+          this.totalComites = this.titularRenovacion.length ?? 0;
+          break;
+        }
+        default: { 
+          this.totalComites = 0;
+          break; 
+       } 
+      }
+    });
+  }
+
+  nuevoComite(){
+    const dialogRef = this._dialog.open(ComiteComponent, {
+      disableClose: true
+    });
+
+    dialogRef.componentInstance.comite = this.titular;
+    dialogRef.componentInstance.accion = 'N';
+    //console.log('TitularId:')
+    //console.log( this.titular.titularId!);
+    dialogRef.componentInstance.titularId = this.titular.titularId!;
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.validarAntesDeListarComite('cerrarComite');
+    });
+  }
+
+  nuevaRenovacionComite(){
+    let titularRenovacion: TitularRenovacionModel = new TitularRenovacionModel;
+
+    const dialogRef = this._dialog.open(ComiteRenovacionComponent, {
+      disableClose: true
+    });
+
+    titularRenovacion.comiteRenovacionId = 0;
+    dialogRef.componentInstance.titularRenovacion = titularRenovacion;
+    dialogRef.componentInstance.accion = 'I';
+    dialogRef.componentInstance.accion_titular = this.accion_titular;
+    dialogRef.componentInstance.titularId = this.titular.titularId!;
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.validarAntesDeListarComite('cerrarComite');
+    });
+  }
+
+  verComite(titularRenovacion: TitularRenovacionModel){
+    if( titularRenovacion.tipoRenovacion === 'C' ){
+
+      const dialogRef = this._dialog.open(ComiteComponent, {
+        disableClose: true
+      });
+  
+      this.titular.estado = titularRenovacion.estado;
+
+      dialogRef.componentInstance.comite = this.titular;
+      dialogRef.componentInstance.accion = 'A';
+      dialogRef.componentInstance.titularId = this.titular.titularId!;
+  
+      dialogRef.afterClosed().subscribe(result => {
+        this.validarAntesDeListarComite('cerrarComite');
+      });
+
+    } else if (titularRenovacion.tipoRenovacion === 'R'){
+
+      const dialogRef = this._dialog.open(ComiteRenovacionComponent, {
+        disableClose: true
+      });
+  
+      dialogRef.componentInstance.titularRenovacion = titularRenovacion;
+      dialogRef.componentInstance.accion = 'M';
+      dialogRef.componentInstance.accion_titular = this.accion_titular;
+      dialogRef.componentInstance.titularId = this.titular.titularId!;
+  
+      dialogRef.afterClosed().subscribe(result => {
+        this.validarAntesDeListarComite('cerrarComite');
+      });
+
+    }
+    
+  }
+  
+  validarAntesDeListarComite(strItem: string){
+    let cerrar: string = localStorage.getItem(strItem) || '';
+    if (cerrar === '1'){
+      this.obtenerComites();
+    }
+
+    localStorage.removeItem(strItem);
+  }
+
+  activarComite(comite: TitularRenovacionModel){
+    comite.accion = 'E'
+    Swal.fire({
+      title: '¿Seguro de ACTIVAR el registro?',
+      showCancelButton: true,
+      icon: 'error',
+      confirmButtonText: 'SI',
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.comiteService.desactivaActivaComite(comite).subscribe((data: any) => {
+          switch (data.result_code){
+            case 200 : {
+              this.obtenerComites();
+              break;
+            }
+            default: { 
+              break; 
+          } 
+          }
+        })
+      }
+    })
+  }
+
+  desactivarComite(comite: TitularRenovacionModel){
+    comite.accion = 'D'
+    Swal.fire({
+      title: '¿Seguro de ACTIVAR el registro?',
+      showCancelButton: true,
+      icon: 'error',
+      confirmButtonText: 'SI',
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.comiteService.desactivaActivaComite(comite).subscribe((data: any) => {
+          switch (data.result_code){
+            case 200 : {
+              this.obtenerComites();
+              break;
+            }
+            default: { 
+              break; 
+          } 
+          }
+        })
+      }
+    })
+  }
+
+
+  abrirCustodiosxComite(renovacionComite: TitularRenovacionModel){
+    
+    renovacionComite.titularId = this.titular.titularId
+    localStorage.removeItem('accion_custodio');
+    localStorage.removeItem('renovacionComite');
+
+    if(this.accion_titular=='V'){
+      localStorage.setItem('accion_custodio',  JSON.stringify('V')); 
+    } else {
+      localStorage.setItem('accion_custodio', JSON.stringify(''));
+    }
+
+    localStorage.setItem('renovacionComite', JSON.stringify(renovacionComite));
+
+    /* localStorage.removeItem('titularId');
+    localStorage.removeItem('comiteRenovacionId');
+    localStorage.setItem('titularId', JSON.stringify(this.titular.titularId));
+    localStorage.setItem('comiteRenovacionId', JSON.stringify(renovacionComite.comiteRenovacionId)); */
+    
+
+
+    this.router.navigate(['/custodios-comite']);
+  }
 }

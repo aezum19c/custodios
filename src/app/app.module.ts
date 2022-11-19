@@ -26,6 +26,9 @@ import { ContratoComponent } from './components/contrato/contrato.component';
 import { ComunidadComponent } from './components/comunidad/comunidad.component';
 import { OnlyNumericDirective } from './directive/only-numeric.directive';
 import { ConsultaPublicaComponent } from './components/consulta-publica/consulta-publica.component';
+import { ComiteComponent } from './components/comite/comite.component';
+import { CustodiosComiteComponent } from './components/custodios-comite/custodios-comite.component';
+import { ComiteRenovacionComponent } from './components/comite-renovacion/comite-renovacion.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { ConsultaPublicaComponent } from './components/consulta-publica/consulta
     ContratoComponent,
     ComunidadComponent,
     OnlyNumericDirective,
-    ConsultaPublicaComponent
+    ConsultaPublicaComponent,
+    ComiteComponent,
+    CustodiosComiteComponent,
+    ComiteRenovacionComponent
   ],
   imports: [
     BrowserModule,

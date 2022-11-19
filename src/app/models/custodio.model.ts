@@ -1,9 +1,7 @@
-import { AdjuntoModel } from "./adjunto.model";
-import { ContratoModel } from "./contrato.model";
-
 export class CustodioModel {
     custodioId?: number;
     titularId?: number;
+    comiteRenovacionId?: number;
     nombre?: string;
     apellidos?: string;
     dni?: string;
@@ -36,4 +34,7 @@ export class CustodioModel {
     fechaRegistro?: string;
     totalRegistros?: string;
     totalPaginas?: number;
+
+    tipoCustodio?: string;
+    estadoRenovacionComite?: number;
 }

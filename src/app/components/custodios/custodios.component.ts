@@ -75,8 +75,8 @@ export class CustodiosComponent implements OnInit {
         case 200 : {
           
           this.respuestaServicio = data;
-          this.totalRegistros = data.content[0].totalRegistros!;
           this.titulares = this.respuestaServicio.content;
+          this.totalRegistros = this.titulares[0].totalRegistros!;
 
           console.log('Titulares');
           console.log(this.titulares);
