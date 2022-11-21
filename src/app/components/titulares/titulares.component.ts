@@ -101,9 +101,24 @@ export class TitularesComponent implements OnInit {
     this.obtenerComites();
     
     this.obtenerDominiosTipoCustodio();
+
+
   }
 
   crearFormulario(){
+    /* this.dominioDepartamentos.unshift({
+      departamento: '00',
+      nombre: '-- Seleccionar --'
+    });
+    this.dominioProvincias.unshift({
+      provincia: '00',
+      nombre: '-- Seleccionar --'
+    });
+    this.dominioDistritos.unshift({
+      ubigeoId: 0,
+      nombre: '-- Seleccionar --'
+    }); */
+
 
     this.titular = JSON.parse( localStorage.getItem('titular') || '{}' );
     //this.dominioTipoCustodio = JSON.parse( localStorage.getItem('tipoCustodio') || '[]' );
@@ -113,6 +128,8 @@ export class TitularesComponent implements OnInit {
     this.titular.nombreAdjunto = this.titular.nombreAdjunto ?? '';
     this.titular.titularId = this.titular.titularId ?? 0;
     this.custodioSelected = this.titular.tipoCustodio ?? '01';
+
+    this.departamentoSelected = this.titular.departamento!;
 
     if(this.accion_titular == 'N' ){ this.mostrar =false; } else { this.mostrar = true}; 
 
@@ -220,75 +237,83 @@ export class TitularesComponent implements OnInit {
   }
 
   guardar(){
-    if(this.custodioSelected!=''){
-      Swal.fire({
-        title: '¿Quieres guardar los cambios?',
-        showCancelButton: true,
-        confirmButtonText: 'Guardar',
-      }).then((result) => {
-        
-        if (result.isConfirmed) {
-          this.titular.tipoCustodio = this.formTitulares.get('tipoCustodio')?.value;
-          this.titular.nroTituloHabilitante = this.formTitulares.get('nroTituloHabilitante')?.value;
-          this.titular.nombreTituloHabilitante = this.formTitulares.get('nombreTituloHabilitante')?.value;
-          this.titular.tipoPersona = this.formTitulares.get('tipoPersona')?.value;
-          this.titular.dniRucTitular = this.formTitulares.get('dniRucTitular')?.value;
-          this.titular.nombreTitularComunidad = this.formTitulares.get('nombreTitularComunidad')?.value;
-          this.titular.ambitoTerritorial = this.formTitulares.get('ambitoTerritorial')?.value;
-          this.titular.extension = this.formTitulares.get('extension')?.value;
-          this.titular.departamento = this.formTitulares.get('departamento')?.value;
-          this.titular.provincia = this.formTitulares.get('provincia')?.value;
-          this.titular.distrito = this.formTitulares.get('distrito')?.value;
-          this.titular.fechaSolicitud = this.formTitulares.get('fechaSolicitud')?.value;
-          this.titular.comiteActoReconocimiento = this.formTitulares.get('comiteActoReconocimiento')?.value;
-          this.titular.fechaActoReconocimiento = this.formTitulares.get('fechaActoReconocimiento')?.value;
-          this.titular.vigencia = this.formTitulares.get('vigencia')?.value;
-          this.titular.vigenciaInicio = this.formTitulares.get('vigenciaInicio')?.value;
-          this.titular.vigenciaFin = this.formTitulares.get('vigenciaFin')?.value;
-  
-          this.titular.tipoCustodio = this.custodioSelected;
-  
-          if(this.titular.titularId == 0){
-            this.titular.accion = 'I';
-            this.custodioService.crearTitular(this.titular).subscribe((data: any) => {
-              switch (data.result_code){
-                case 200 : {
-                  this.titular.titularId = data.code;
-                  this.accion_titular = 'U';
-                  this.titular.accion = 'U';
-                  this.mostrar = true;
-  
-                  localStorage.removeItem('titular');
-                  localStorage.setItem('titular', JSON.stringify(this.titular));
-                  Swal.fire('Guardado!', '', 'success');
-                }
+    if(this.departamentoSelected != '00'){
+      if(this.titular.ubigeoId != '0'){
+        if(this.custodioSelected!=''){
+          Swal.fire({
+            title: '¿Quieres guardar los cambios?',
+            showCancelButton: true,
+            confirmButtonText: 'Guardar',
+          }).then((result) => {
+            
+            if (result.isConfirmed) {
+              this.titular.tipoCustodio = this.formTitulares.get('tipoCustodio')?.value;
+              this.titular.nroTituloHabilitante = this.formTitulares.get('nroTituloHabilitante')?.value;
+              this.titular.nombreTituloHabilitante = this.formTitulares.get('nombreTituloHabilitante')?.value;
+              this.titular.tipoPersona = this.formTitulares.get('tipoPersona')?.value;
+              this.titular.dniRucTitular = this.formTitulares.get('dniRucTitular')?.value;
+              this.titular.nombreTitularComunidad = this.formTitulares.get('nombreTitularComunidad')?.value;
+              this.titular.ambitoTerritorial = this.formTitulares.get('ambitoTerritorial')?.value;
+              this.titular.extension = this.formTitulares.get('extension')?.value;
+              this.titular.departamento = this.formTitulares.get('departamento')?.value;
+              this.titular.provincia = this.formTitulares.get('provincia')?.value;
+              this.titular.distrito = this.formTitulares.get('distrito')?.value;
+              this.titular.fechaSolicitud = this.formTitulares.get('fechaSolicitud')?.value;
+              this.titular.comiteActoReconocimiento = this.formTitulares.get('comiteActoReconocimiento')?.value;
+              this.titular.fechaActoReconocimiento = this.formTitulares.get('fechaActoReconocimiento')?.value;
+              this.titular.vigencia = this.formTitulares.get('vigencia')?.value;
+              this.titular.vigenciaInicio = this.formTitulares.get('vigenciaInicio')?.value;
+              this.titular.vigenciaFin = this.formTitulares.get('vigenciaFin')?.value;
+      
+              this.titular.tipoCustodio = this.custodioSelected;
+      
+              if(this.titular.titularId == 0){
+                this.titular.accion = 'I';
+                this.custodioService.crearTitular(this.titular).subscribe((data: any) => {
+                  switch (data.result_code){
+                    case 200 : {
+                      this.titular.titularId = data.code;
+                      this.accion_titular = 'U';
+                      this.titular.accion = 'U';
+                      this.mostrar = true;
+      
+                      localStorage.removeItem('titular');
+                      localStorage.setItem('titular', JSON.stringify(this.titular));
+                      Swal.fire('Guardado!', '', 'success');
+                    }
+                  }
+                });
+              } else {
+                this.titular.accion = 'U';
+                this.custodioService.modificarTitular(this.titular).subscribe((data: any) => {
+                  switch (data.result_code){
+                    case 200 : {
+                      this.mostrar = true;
+                      this.titular.titularId = data.code;
+                      this.accion_titular = 'U';
+                      this.titular.accion = 'U';
+      
+                      localStorage.removeItem('titular');
+                      localStorage.setItem('titular', JSON.stringify(this.titular));
+                      Swal.fire('Guardado!', '', 'success');
+                    }
+                  }
+                });
               }
-            });
-          } else {
-            this.titular.accion = 'U';
-            this.custodioService.modificarTitular(this.titular).subscribe((data: any) => {
-              switch (data.result_code){
-                case 200 : {
-                  this.mostrar = true;
-                  this.titular.titularId = data.code;
-                  this.accion_titular = 'U';
-                  this.titular.accion = 'U';
-  
-                  localStorage.removeItem('titular');
-                  localStorage.setItem('titular', JSON.stringify(this.titular));
-                  Swal.fire('Guardado!', '', 'success');
-                }
-              }
-            });
-          }
-  
-          
-        } else if (result.isDenied) {
-          Swal.fire('Volver a cargar', '', 'info');
+      
+              
+            } else if (result.isDenied) {
+              Swal.fire('Volver a cargar', '', 'info');
+            }
+          })
+        } else {
+          Swal.fire('Eliga el Tipo de Custodio', '', 'info');
         }
-      })
+      } else {
+        Swal.fire('Eliga Distrito', '', 'info');
+      }
     } else {
-      Swal.fire('Eliga el Tipo de Custodio', '', 'info');
+      Swal.fire('Eliga Departamento', '', 'info');
     }
   }
 
@@ -672,12 +697,18 @@ export class TitularesComponent implements OnInit {
         case 200 : {
           this.respuestaServicio = data;
           this.dominioDepartamentos = this.respuestaServicio.ubigeos;
+          this.dominioDepartamentos.unshift({
+            departamento: '00',
+            nombre: '-- Seleccionar --'
+          });
+          this.departamentoSelected = '00';
+
           break;
         }
         default: { 
           //statements; 
           break; 
-       } 
+        } 
       }
     })
   }
@@ -688,6 +719,11 @@ export class TitularesComponent implements OnInit {
         case 200 : {
           this.respuestaServicio = data;
           this.dominioProvincias = this.respuestaServicio.ubigeos;
+
+          this.dominioProvincias.unshift({
+            provincia: '00',
+            nombre: '-- Seleccionar --'
+          });
           break;
         }
         default: { 
@@ -705,14 +741,20 @@ export class TitularesComponent implements OnInit {
           this.respuestaServicio = data;
           this.dominioDistritos = this.respuestaServicio.ubigeos;
 
+          //this.titular.ubigeoId = this.formTitulares.get('distrito')?.value;
+
+          this.dominioDistritos.unshift({
+            ubigeoId: 0,
+            nombre: '-- Seleccionar --'
+          });
+          this.titular.ubigeoId = '0';
           //localStorage.removeItem('caducidad');
           //localStorage.setItem('caducidad', JSON.stringify(this.dominioCaducidad));
           break;
-        }
-        default: { 
+        } default: { 
           //statements; 
           break; 
-       } 
+        } 
       }
     })
   }
@@ -720,6 +762,8 @@ export class TitularesComponent implements OnInit {
   onSelectDepartamento(event:Event):void{
     this.departamentoSelected = (event.target as HTMLInputElement).value;
     this.cargarProvincias(event);
+
+    this.dominioDistritos = [{departamento:'', distrito:'', nombre:'-- Seleccionar --', provincia:'00', ubigeoId:0}]
   }
 
   onSelectProvincia(event:Event):void{
