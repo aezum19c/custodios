@@ -101,25 +101,9 @@ export class TitularesComponent implements OnInit {
     this.obtenerComites();
     
     this.obtenerDominiosTipoCustodio();
-
-
   }
 
   crearFormulario(){
-    /* this.dominioDepartamentos.unshift({
-      departamento: '00',
-      nombre: '-- Seleccionar --'
-    });
-    this.dominioProvincias.unshift({
-      provincia: '00',
-      nombre: '-- Seleccionar --'
-    });
-    this.dominioDistritos.unshift({
-      ubigeoId: 0,
-      nombre: '-- Seleccionar --'
-    }); */
-
-
     this.titular = JSON.parse( localStorage.getItem('titular') || '{}' );
     //this.dominioTipoCustodio = JSON.parse( localStorage.getItem('tipoCustodio') || '[]' );
     this.dominioTipoPersona = JSON.parse( localStorage.getItem('tipoPersona') || '[]' );
@@ -150,7 +134,7 @@ export class TitularesComponent implements OnInit {
       /* departamentoNombre : [this.titular.departamentoNombre], */
       provincia:[this.titular.provincia],
       /* provinciaNombre :[this.titular.provinciaNombre], */
-      distrito: [this.titular.distrito],
+      distrito: [this.titular.ubigeoId],
       /* distritoNombre : [this.titular.distritoNombre], */
       //adjuntodocprimera:[this.titular.nombreAdjunto],
       /* rutaAdjunto:[this.titular.rutaAdjunto], */
@@ -176,6 +160,10 @@ export class TitularesComponent implements OnInit {
             this.respuestaServicio = data;
             this.dominioProvincias = this.respuestaServicio.ubigeos;
   
+            this.dominioProvincias.unshift({
+              provincia: '00',
+              nombre: '-- Seleccionar --'
+            });
             //localStorage.removeItem('caducidad');
             //localStorage.setItem('caducidad', JSON.stringify(this.dominioCaducidad));
             break;
@@ -195,6 +183,11 @@ export class TitularesComponent implements OnInit {
   
             //localStorage.removeItem('caducidad');
             //localStorage.setItem('caducidad', JSON.stringify(this.dominioCaducidad));
+
+            this.dominioDistritos.unshift({
+              ubigeoId: 0,
+              nombre: '-- Seleccionar --'
+            });
             break;
           }
           default: { 
