@@ -129,13 +129,16 @@ export class CustodiosComponent implements OnInit {
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        this.abrirCargando();
         this.custodiosServices.activaDesactivarTitular(titular).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.crearFormulario();
+              this.mostrarMsjError('Registro Desactivado!',false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo',true);
               break; 
           } 
           }
@@ -153,13 +156,17 @@ export class CustodiosComponent implements OnInit {
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        this.abrirCargando();
         this.custodiosServices.activaDesactivarTitular(titular).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.crearFormulario();
+
+              this.mostrarMsjError('Registro activado!',false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo',true);
               break; 
           } 
           }
@@ -170,6 +177,7 @@ export class CustodiosComponent implements OnInit {
 
   reporte(){
     if(this.selectedTipoCustodio!='00'){
+      this.abrirCargando();
       this._documentoService.getReporteCustodio(this.filtro, this.selectedTipoCustodio).subscribe((data: any) => {
           const blobdata = new Blob([data], { type: 'application/octet-stream' });
           const blob = new Blob([blobdata], { type: 'application/octet-stream' });
@@ -178,6 +186,8 @@ export class CustodiosComponent implements OnInit {
           anchor.download = 'reporte_custodios.xls';
           anchor.href = url;
           anchor.click();
+
+          this.cerrarCargando();
       });
     }else{
       Swal.fire('Eliga el Tipo de Custodio', '', 'info');
@@ -186,6 +196,7 @@ export class CustodiosComponent implements OnInit {
   }
 
   ficha(titular: TitularModel){
+    this.abrirCargando();
     this._documentoService.getFicha(titular.titularId!).subscribe((data: any) => {
       const blobdata = new Blob([data], { type: 'application/octet-stream' });
       const blob = new Blob([blobdata], { type: 'application/octet-stream' });
@@ -194,6 +205,8 @@ export class CustodiosComponent implements OnInit {
       anchor.download = 'Ficha_RCFFS.pdf';
       anchor.href = url;
       anchor.click();
+
+      this.cerrarCargando();
     });
   }
 
@@ -274,4 +287,31 @@ export class CustodiosComponent implements OnInit {
     })
   }
 
+
+  mostrarMsjError(mensaje: string, esError: boolean){
+    Swal.close();
+    Swal.fire({
+      text: mensaje,
+      width: 350,
+      padding: 15,
+      timer: 1000,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: (esError ? 'error' : 'success')
+    });
+  }
+
+
+  abrirCargando(){
+    Swal.fire({
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: 'info',
+      text: 'Espere por favor...'
+    });
+  }
+
+  cerrarCargando(){
+    Swal.close();
+  }
 }

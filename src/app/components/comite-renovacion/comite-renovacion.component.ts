@@ -50,14 +50,7 @@ export class ComiteRenovacionComponent implements OnInit {
     }
   }
 
-
   crearFormulario() {
-    
-    /* this.formContrato = new FormGroup({
-      asunto: new FormControl('', [Validators.required]),
-      adjuntodoc: new FormControl('', [Validators.required])
-    }); */
-
     this.formContrato = this.fb.group({
       flagRenovacion : [this.titularRenovacion.flagRenovacion],
       resolucion : [this.titularRenovacion.resolucion],
@@ -66,10 +59,6 @@ export class ComiteRenovacionComponent implements OnInit {
       vigenciaDesde : [this.titularRenovacion.vigenciaDesde],
       vigenciaHasta : [this.titularRenovacion.vigenciaHasta],
     });
-
-    console.log('titularRenovacion');
-      console.log(this.titularRenovacion);
-      console.log('titularRenovacionoFIN');
   }
 
   guardarComiteRenovacion(){
@@ -86,16 +75,17 @@ export class ComiteRenovacionComponent implements OnInit {
     if (this.accion === 'I'){
       this.titularRenovacion.accion = 'I';
       
-      /* this.contrato.custodioId = this.custodioId; */
-      
+      this.abrirCargando();
       this._comiteService.insertarComite(this.titularRenovacion).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
             this.cerrar_modal(true);
+            this.mostrarMsjError('Comite creado correctamente!',false);
             break;
           }
             default: { 
               this.cerrar_modal(true);
+              this.mostrarMsjError('Vuelva a intentarlo!',true);
               break; 
           } 
         }
@@ -111,15 +101,18 @@ export class ComiteRenovacionComponent implements OnInit {
       this.titularRenovacion.vigenciaDesde = this.formContrato.get('vigenciaDesde')?.value;
       this.titularRenovacion.vigenciaHasta = this.formContrato.get('vigenciaHasta')?.value;
 
+      this.abrirCargando();
       this._comiteService.updateComite(this.titularRenovacion).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
             //this.mostrarMsjError('Actualización exitosa', false);
             this.cerrar_modal(true);
+            this.mostrarMsjError('Comite actualizado correctamente!',false);
             break;
           }
             default: { 
               this.cerrar_modal(true);
+              this.mostrarMsjError('Vuelva a intentarlo!',true);
               break; 
           } 
         }
@@ -154,4 +147,17 @@ export class ComiteRenovacionComponent implements OnInit {
 		this.tieneRenovacion = value;
 	}
 
+
+abrirCargando(){
+  Swal.fire({
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    icon: 'info',
+    text: 'Espere por favor...'
+  });
+}
+
+cerrarCargando(){
+  Swal.close();
+}
 }

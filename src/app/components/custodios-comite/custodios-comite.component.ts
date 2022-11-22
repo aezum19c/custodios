@@ -103,8 +103,8 @@ export class CustodiosComiteComponent implements OnInit {
   
   desactivarCustodio(custodio: CustodioModel){
     custodio.accion ='D';
-    console.log('Custodio:Descativar');
-    console.log(custodio);
+    //console.log('Custodio:Descativar');
+    //console.log(custodio);
     Swal.fire({
       title: '¿Seguro de DESACTIVAR el registro?',
       showCancelButton: true,
@@ -112,13 +112,18 @@ export class CustodiosComiteComponent implements OnInit {
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+
+        this.abrirCargando();
+
         this.custodioService.activaDesactivarCustodio(custodio).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.obtenerCustodios();
+              this.mostrarMsjError('Registro Desactivado!', false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelve a intentarlo!', true);
               break; 
           } 
           }
@@ -136,13 +141,18 @@ export class CustodiosComiteComponent implements OnInit {
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        
+        this.abrirCargando();
+
         this.custodioService.activaDesactivarCustodio(custodio).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.obtenerCustodios();
+              this.mostrarMsjError('Registro Activado!', false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelve a intentarlo!', false);
               break; 
           } 
           }
@@ -167,4 +177,33 @@ export class CustodiosComiteComponent implements OnInit {
       }
     })
   }
+
+
+  mostrarMsjError(mensaje: string, esError: boolean){
+    Swal.close();
+    Swal.fire({
+      text: mensaje,
+      width: 350,
+      padding: 15,
+      timer: 1000,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: (esError ? 'error' : 'success')
+    });
+  }
+
+
+  abrirCargando(){
+    Swal.fire({
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: 'info',
+      text: 'Espere por favor...'
+    });
+  }
+
+  cerrarCargando(){
+    Swal.close();
+  }
+
 }

@@ -79,14 +79,17 @@ export class ComunidadComponent implements OnInit {
       this.comunidad.secuenciaId = 0;
       this.comunidad.titularId = this.titularId;
       
+      this.abrirCargando();
       this._comunidadService.insertarComunidad(this.comunidad).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
             this.cerrar_modal(true);
+            this.mostrarMsjError('Titulo Habilitante Creado',false);
             break;
           }
             default: { 
               this.cerrar_modal(true);
+              this.mostrarMsjError('Vuelva a intentarlo',true);
               break; 
           } 
         }
@@ -99,14 +102,17 @@ export class ComunidadComponent implements OnInit {
       this.comunidad.vigenciaInicio = this.formComunidad.get('fechaPeriodoInicio')?.value;
       this.comunidad.vigenciaFin = this.formComunidad.get('fechaPeriodoFin')?.value;
 
+      this.abrirCargando();
       this._comunidadService.updateComunidad(this.comunidad).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
             //this.mostrarMsjError('Actualización exitosa', false);
+            this.mostrarMsjError('Titulo Habilitante Actualizado',false);
             this.cerrar_modal(true);
             break;
           }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo',true);
               this.cerrar_modal(true);
               break; 
           } 
@@ -142,4 +148,17 @@ export class ComunidadComponent implements OnInit {
 		this.tieneRenovacion = value;
 	}
 
+
+abrirCargando(){
+  Swal.fire({
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    icon: 'info',
+    text: 'Espere por favor...'
+  });
+}
+
+cerrarCargando(){
+  Swal.close();
+}
 }

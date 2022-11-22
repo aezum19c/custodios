@@ -153,7 +153,7 @@ export class TitularesComponent implements OnInit {
     });
 
 
-    if(this.accion_titular == 'U'){
+    if(this.accion_titular != 'N'){
       this.dominiosService.getProvincias('P', this.titular.departamento!).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
@@ -451,18 +451,6 @@ export class TitularesComponent implements OnInit {
     localStorage.removeItem(strItem);
   }
 
-  mostrarMsjError(mensaje: string, esError: boolean){
-    Swal.close();
-    Swal.fire({
-      text: mensaje,
-      width: 350,
-      padding: 15,
-      timer: 2000,
-      allowOutsideClick: false,
-      showConfirmButton: false,
-      icon: (esError ? 'error' : 'success')
-    });
-  }
 
 
   /* *********************** */
@@ -538,13 +526,16 @@ export class TitularesComponent implements OnInit {
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        this.abrirCargando();
         this.custodioService.activaDesactivarCustodio(custodio).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.obtenerCustodios();
+              this.mostrarMsjError('Custodio Desactivado', false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo', true);
               break; 
           } 
           }
@@ -562,13 +553,16 @@ export class TitularesComponent implements OnInit {
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        this.abrirCargando();
         this.custodioService.activaDesactivarCustodio(custodio).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.obtenerCustodios();
+              this.mostrarMsjError('Custodio Activado', false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo', true);
               break; 
           } 
           }
@@ -643,13 +637,16 @@ export class TitularesComponent implements OnInit {
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        this.abrirCargando();
         this.comunidadService.desactivaActivaComunidad(comunidad).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.obtenerComunidades();
+              this.mostrarMsjError('Titulo Habilitante Activado',false);
               break;
             }
-            default: { 
+            default: {
+              this.mostrarMsjError('Vuelva a intentarlo',true); 
               break; 
           } 
           }
@@ -662,19 +659,22 @@ export class TitularesComponent implements OnInit {
   desactivarComunidad(comunidad: ComunidadModel){
     comunidad.accion = 'D'
     Swal.fire({
-      title: '¿Seguro de ACTIVAR el registro?',
+      title: '¿Seguro de DESACTIVAR el registro?',
       showCancelButton: true,
       icon: 'error',
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        this.abrirCargando();
         this.comunidadService.desactivaActivaComunidad(comunidad).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.obtenerComunidades();
+              this.mostrarMsjError('Titulo Habilitante Desactivado',false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo',true);
               break; 
           } 
           }
@@ -694,7 +694,9 @@ export class TitularesComponent implements OnInit {
             departamento: '00',
             nombre: '-- Seleccionar --'
           });
-          this.departamentoSelected = '00';
+          if(this.accion_titular == 'N'){
+            this.departamentoSelected = '00';
+          }
 
           break;
         }
@@ -967,13 +969,16 @@ descargarDocumentoSolicitudRenococimiento(){
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        this.abrirCargando();
         this.comiteService.desactivaActivaComite(comite).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.obtenerComites();
+              this.mostrarMsjError('Comite Activado',false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo',true);
               break; 
           } 
           }
@@ -991,13 +996,16 @@ descargarDocumentoSolicitudRenococimiento(){
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        this.abrirCargando();
         this.comiteService.desactivaActivaComite(comite).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.obtenerComites();
+              this.mostrarMsjError('Comite desactivado',false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo',true);
               break; 
           } 
           }
@@ -1029,5 +1037,32 @@ descargarDocumentoSolicitudRenococimiento(){
 
 
     this.router.navigate(['/custodios-comite']);
+  }
+
+
+  mostrarMsjError(mensaje: string, esError: boolean){
+    Swal.close();
+    Swal.fire({
+      text: mensaje,
+      width: 350,
+      padding: 15,
+      timer: 2000,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: (esError ? 'error' : 'success')
+    });
+  }
+  
+  abrirCargando(){
+    Swal.fire({
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: 'info',
+      text: 'Espere por favor...'
+    });
+  }
+
+  cerrarCargando(){
+    Swal.close();
   }
 }

@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
     
     if( form.invalid ) { return; }
 
+    this.abrirCargando();
     this.usarioService.getUsuario( this.usermodel ).subscribe( ( data: any ) => {
   
       switch( data.result_code ) { 
@@ -39,47 +40,56 @@ export class LoginComponent implements OnInit {
 
             this.router.navigate( ['/custodios']) ;
 
-            Swal.fire({
-              title: '¡Bienvenido!',
-              text:'Bienvenido al Sistema de Custodios',
-              icon: 'success',
-              allowOutsideClick: false
-            });
-
+            this.mostrarMsjError('Bienvenido al Sistema de Custodios',false);
            break; 
         } 
         case 401: { 
-          Swal.fire({
-            title: 'Datos Incorrectos',
-            text:'No ha podido iniciar la sesión, ingrese los datos correctos',
-            icon: 'error',
-            allowOutsideClick: false
-          });
+          this.mostrarMsjError('No ha podido iniciar la sesión, ingrese los datos correctos',true);
            break; 
         } 
         case 402: { 
-          Swal.fire({
-            title: 'Sin Roles',
-            text:'No tiene Roles asignados',
-            icon: 'info',
-            allowOutsideClick: false
-          });
+          this.mostrarMsjError('No tiene Roles asignados',true);
             break; 
         } 
         case 501: { 
-          Swal.fire({
-            title: 'Problemas',
-            text:'No se ha podido iniciar la sesión, vuelva a intentar',
-            icon: 'error',
-            allowOutsideClick: false
-          });
+          this.mostrarMsjError('No se ha podido iniciar la sesión, vuelva a intentar',true);
+          
             break; 
         } 
         default: { 
+          this.mostrarMsjError('No se ha podido iniciar la sesión, vuelva a intentar',true);
            break; 
         } 
      } 
     } );
+  }
+
+
+  mostrarMsjError(mensaje: string, esError: boolean){
+    Swal.close();
+    Swal.fire({
+      text: mensaje,
+      width: 350,
+      padding: 15,
+      timer: 1000,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: (esError ? 'error' : 'success')
+    });
+  }
+
+
+  abrirCargando(){
+    Swal.fire({
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: 'info',
+      text: 'Espere por favor...'
+    });
+  }
+
+  cerrarCargando(){
+    Swal.close();
   }
 
 }

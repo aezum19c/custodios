@@ -73,19 +73,15 @@ export class MantenimientocustodiosComponent implements OnInit {
   ngOnInit(): void {
     //const 
     this.crearFormulario();
-    //this.cargarAdjuntos();
     this.crearTablaContratos();
-    /* this.adjuntos = [{adjuntoId:1, nombre:'nuevo adjunto file', descripcion :'Traer adjunto', fecha:'2022-05-16'}]; */
   }
 
   crearFormulario(){
     this.usuarioSession = JSON.parse( localStorage.getItem('usuariosession') || '{}' );
     this.custodio = JSON.parse( localStorage.getItem('custodio') || '{}' );
     this.dominioMotivosPerdida = JSON.parse( localStorage.getItem('motivosPerdida') || '[]' );
-    /* this.custodio.titularId = JSON.parse( localStorage.getItem('titularId')! ); */
-    this.custodioSelected= this.custodio.tipoCustodio!;
 
-    /*this.dominioObservacion = JSON.parse( localStorage.getItem('observacion') || '[]' ); */
+    this.custodioSelected= this.custodio.tipoCustodio!;
 
     this.accion_custodio = JSON.parse( localStorage.getItem('accion_custodio') || '' );
   
@@ -93,10 +89,6 @@ export class MantenimientocustodiosComponent implements OnInit {
     this.custodio.reconocimientoNombre = this.custodio.reconocimientoNombre ?? '';
     this.custodio.carneNombre = this.custodio.carneNombre ?? '';
     this.custodio.perdidaActoAdmNombre = this.custodio.perdidaActoAdmNombre ?? '';
-
-    /* console.log('CrearFormulario: Custodio');
-    console.log(this.custodio); */
-    /* this.custodioSelected = this.titular.tipoCustodio ?? ''; */
 
     if(this.accion_custodio == 'N' ){ this.mostrar =false; } else { this.mostrar = true}; 
 
@@ -195,6 +187,7 @@ export class MantenimientocustodiosComponent implements OnInit {
           this.custodio.accion = 'I';
           this.custodio.usuarioRegistro = this.usuarioSession.usuarioId;
           
+          this.abrirCargando();
           this.custodioService.crearCustodio(this.custodio).subscribe((data: any) => {
             switch (data.result_code){
               case 200 : {
@@ -202,7 +195,8 @@ export class MantenimientocustodiosComponent implements OnInit {
                 this.custodio.custodioId = data.code;
                 this.accion_custodio = 'U';
                 this.custodio.accion = 'U';
-                Swal.fire('Guardado!', '', 'success');
+
+                this.mostrarMsjError('Guardado!', false);
               }
             }
           });
@@ -212,7 +206,7 @@ export class MantenimientocustodiosComponent implements OnInit {
           this.custodioService.modificarCustodio(this.custodio).subscribe((data: any) => {
             switch (data.result_code){
               case 200 : {
-                Swal.fire('Guardado!', '', 'success');
+                this.mostrarMsjError('Guardado!', false);
               }
             }
           });
@@ -252,8 +246,6 @@ export class MantenimientocustodiosComponent implements OnInit {
 
   paginar(e: any) {
     this.page = e.pageIndex + 1;
-    //this.obtenerInfractores();
-    //this.cargarAdjuntos();
   }
 
 
@@ -281,26 +273,6 @@ export class MantenimientocustodiosComponent implements OnInit {
     (error) => {
       this.mostrarMsjError('No se puede descargar el archivo.', true);
     });
-  }
-
-  cargarAdjuntos(){
-    /* this._documentoService.getListadoAdjuntos(this.titular.titularId!, this.page, 1000).subscribe((data: any) => {
-      switch (data.result_code){
-        case 200 : {
-          this.documento = data;
-          if(data.content && data.content.length>0) {
-            this.totalAdjuntos = data.content[0].totalRegistros;
-          } else {
-            this.totalAdjuntos = 0;
-          }
-          this.adjuntos = this.documento.content!;
-          break;
-        }
-        default: {  
-          break; 
-       } 
-      }
-    }); */
   }
 
   nuevoDocumento(){
@@ -347,7 +319,6 @@ export class MantenimientocustodiosComponent implements OnInit {
        
         this._documentoService.eliminarDocumento(adjunto).subscribe((data: any) => {
             this.page = 1;
-            //zthis.cargarAdjuntos();
         },
         (error) => {
           this.mostrarMsjError('Ocurrió un error al eliminar el documento', true);
@@ -406,7 +377,6 @@ export class MantenimientocustodiosComponent implements OnInit {
     let cerrar: string = localStorage.getItem(strItem) || '';
     if (cerrar === '1'){
       this.page = 1;
-      this.cargarAdjuntos();
     }
 
     localStorage.removeItem(strItem);
@@ -421,13 +391,16 @@ export class MantenimientocustodiosComponent implements OnInit {
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+        this.abrirCargando();
         this.contratoService.desactivaActivaContrato(contrato).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.crearTablaContratos();
+              this.mostrarMsjError('Registro Activado', false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo', true);
               break; 
           } 
           }
@@ -440,19 +413,24 @@ export class MantenimientocustodiosComponent implements OnInit {
   desactivarContrato(contrato: ContratoModel){
     contrato.accion = 'D'
     Swal.fire({
-      title: '¿Seguro de ACTIVAR el registro?',
+      title: '¿Seguro de DESACTIVAR el registro?',
       showCancelButton: true,
       icon: 'error',
       confirmButtonText: 'SI',
     }).then((result) => {
       if(result.isConfirmed){
+
+        this.abrirCargando();
+
         this.contratoService.desactivaActivaContrato(contrato).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
               this.crearTablaContratos();
+              this.mostrarMsjError('Registro Desactivado', false);
               break;
             }
             default: { 
+              this.mostrarMsjError('Vuelva a intentarlo', true);
               break; 
           } 
           }
@@ -500,16 +478,18 @@ guardarDocumentoCapacitacion(){
   let extension = '';
   if(this.adjuntoCapacitacion!=null) extension = this.adjuntoCapacitacion.name.split('.').pop()!;
   this.custodio.capacitacionNombre = this.adjuntoCapacitacion.name;                                                             
+
+  this.abrirCargando();
                                                                          /* 1 = origen = capacitacion */
   this._documentoService.uploadAdjuntoCustodio(this.adjuntoCapacitacion, this.custodio.custodioId!, '1', extension!, this.custodio.capacitacionNombre!).subscribe((data: any) => {                          
     switch (data.result_code){
       case 200 : {
-        console.log('guardado adjunto primera instancia');
-        /* this.cargarAdjuntoPrimeraInstancia(); */
+        
+        this.mostrarMsjError('Archivo guardado',false);
         break;
       }
         default: { 
-          /* this.cargarAdjuntoPrimeraInstancia(); */
+          this.mostrarMsjError('Vuelva a intentarlo',true);
           break; 
       } 
     }
@@ -586,14 +566,18 @@ guardarDocumentoReconocimiento(){
   let extension = '';
   if(this.adjuntoReconocimiento!=null) extension = this.adjuntoReconocimiento.name.split('.').pop()!;
   this.custodio.reconocimientoNombre = this.adjuntoReconocimiento.name;
+
+  this.abrirCargando();
                                                                                         /* 2 = origen = segunda instancia */
   this._documentoService.uploadAdjuntoCustodio(this.adjuntoReconocimiento, this.custodio.custodioId!, '2', extension!, this.custodio.reconocimientoNombre!).subscribe((data: any) => {
     switch (data.result_code){
       case 200 : {
-        console.log('guardado adjunto segunda instancia');
+        this.mostrarMsjError('Archivo Subido', false);
+        
         break;
       }
         default: { 
+          this.mostrarMsjError('Vuelva a intentarlo', true);
           break; 
       } 
     }
@@ -616,8 +600,6 @@ eliminarDocumentoReconocimiento(){
     if (result.isConfirmed) {
      
       this._documentoService.eliminarDocumentoCustodio(this.adjuntoModelReconocimiento).subscribe((data: any) => {
-          //this.page = 1;
-          //this.cargarAdjuntos();
           this.custodio.reconocimientoNombre = '';
       },
       (error) => {
@@ -671,18 +653,17 @@ guardarDocumentoCarnet(){
   if(this.adjuntoCarnet!=null) extension = this.adjuntoCarnet.name.split('.').pop()!;
   this.custodio.carneNombre = this.adjuntoCarnet.name;                                                              /* 1 = origen = primera instancia */
   
-  
-  console.log(this.custodio);
+  this.abrirCargando();
   this._documentoService.uploadAdjuntoCustodio(this.adjuntoCarnet, this.custodio.custodioId!, '3', extension!, this.custodio.carneNombre!).subscribe((data: any) => {
                                         
     switch (data.result_code){
       case 200 : {
-        console.log('guardado adjunto primera instancia');
-        /* this.cargarAdjuntoPrimeraInstancia(); */
+        
+        this.mostrarMsjError('Archivo Subido', false);
         break;
       }
         default: { 
-          /* this.cargarAdjuntoPrimeraInstancia(); */
+          this.mostrarMsjError('Vuelva a intentarlo', true);
           break; 
       } 
     }
@@ -757,14 +738,17 @@ guardarDocumentoPerdidaActo(){
   let extension = '';
   if(this.adjuntoPerdidaActo!=null) extension = this.adjuntoPerdidaActo.name.split('.').pop()!;
   this.custodio.perdidaActoAdmNombre = this.adjuntoPerdidaActo.name;
+
+  this.abrirCargando();
                                                                                         /*  = origen = segunda instancia */
   this._documentoService.uploadAdjuntoCustodio(this.adjuntoPerdidaActo, this.custodio.custodioId!, '4', extension!, this.custodio.perdidaActoAdmNombre!).subscribe((data: any) => {
     switch (data.result_code){
       case 200 : {
-        console.log('guardado adjunto segunda instancia');
+        this.mostrarMsjError('Adjusnto subido!', false);
         break;
       }
         default: { 
+          this.mostrarMsjError('Vuelva a intentarlo', true);
           break; 
       } 
     }
@@ -788,8 +772,6 @@ eliminarDocumentoPerdidaActo(){
     if (result.isConfirmed) {
      
       this._documentoService.eliminarDocumentoCustodio(this.adjuntoModelPerdidaActo).subscribe((data: any) => {
-          //this.page = 1;
-          //this.cargarAdjuntos();
           this.custodio.perdidaActoAdmNombre = '';
       },
       (error) => {
@@ -825,5 +807,17 @@ descargarDocumentoPerdidaActo(){
   });
 }
 
+abrirCargando(){
+  Swal.fire({
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    icon: 'info',
+    text: 'Espere por favor...'
+  });
+}
+
+cerrarCargando(){
+  Swal.close();
+}
 
 }

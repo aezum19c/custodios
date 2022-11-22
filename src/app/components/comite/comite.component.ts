@@ -80,8 +80,9 @@ export class ComiteComponent implements OnInit {
 
     this.comite.titularId = this.titularId;    
     this.comite.accion = this.accion;
-    console.log('ComiteGuardar');
-    console.log(this.comite);
+  
+    this.abrirCargando();
+
     this.custodioService.modificarTitular(this.comite).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
@@ -90,6 +91,7 @@ export class ComiteComponent implements OnInit {
 
           /* localStorage.removeItem('comite');
           localStorage.setItem('comite', JSON.stringify(this.comite)); */
+          Swal.close();
           Swal.fire('Guardado!', '', 'success');
         }
       }
@@ -137,18 +139,10 @@ seleccion_archivo_solicitud_reconocimiento(event: any){
 }
 
 guardarDocumentoSolicitudRenococimiento(){
-  console.log('GuardarAdjunto');
+  //console.log('GuardarAdjunto');
   let extension = '';
   if(this.adjuntoSolicitudReconomiento!=null) extension = this.adjuntoSolicitudReconomiento.name.split('.').pop()!;
   this.comite.nombreAdjunto = this.adjuntoSolicitudReconomiento.name;
-  
-  console.log('TitularId:');
-  console.log(this.titularId);
-  console.log('Extension:');
-  console.log(extension!);
-  console.log('NombreAdjunto:');
-  console.log(this.comite.nombreAdjunto);
-
     this._documentoService.uploadAdjuntoTitular(this.adjuntoSolicitudReconomiento, this.titularId!, extension!, this.comite.nombreAdjunto!).subscribe((data: any) => {
       console.log(data);                                
       switch (data.result_code){
@@ -212,5 +206,17 @@ descargarDocumentoSolicitudRenococimiento(){
   (error) => {
     this.mostrarMsjError('No se puede descargar el archivo.', true);
   });
+}
+abrirCargando(){
+  Swal.fire({
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    icon: 'info',
+    text: 'Espere por favor...'
+  });
+}
+
+cerrarCargando(){
+  Swal.close();
 }
 }

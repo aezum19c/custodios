@@ -65,28 +65,7 @@ export class ContratoComponent implements OnInit {
       vigenciaDesde : [this.contrato.vigenciaDesde],
       vigenciaHasta : [this.contrato.vigenciaHasta],
     });
-
-    console.log('contrato');
-      console.log(this.contrato);
-      console.log('contratoFIN');
   }
-
-
-  /* get asuntoNoValido() {
-    return this.formContrato.get('flagRenovacion')?.invalid && this.formContrato.get('flagRenovacion')?.touched;
-  } */
-
-  /* preGuardarContrato(){
-    if (this.formContrato.invalid) {
-      return Object.values(this.formContrato.controls).forEach( control => {
-        if (control instanceof FormGroup) {
-          Object.values(control.controls).forEach(control => control.markAsTouched() );
-        } else {
-          control.markAsTouched();
-        }
-      });
-    }
-  } */
 
   guardarContrato(){
     this.contrato.flagRenovacion = this.formContrato.get('flagRenovacion')?.value;
@@ -99,15 +78,18 @@ export class ContratoComponent implements OnInit {
     if (this.accion === 'I'){
       this.contrato.accion = 'I';
       this.contrato.secuenciaId = 0;
-      /* this.contrato.custodioId = this.custodioId; */
+      
+      this.cerrarCargando();
       
       this._contratoService.insertarContrato(this.contrato).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
+            this.mostrarMsjError('Registro creado exitosamente', false);
             this.cerrar_modal(true);
             break;
           }
             default: { 
+              this.mostrarMsjError('Vuelva a intentar', true);
               this.cerrar_modal(true);
               break; 
           } 
@@ -124,33 +106,23 @@ export class ContratoComponent implements OnInit {
       this.contrato.vigenciaDesde = this.formContrato.get('vigenciaDesde')?.value;
       this.contrato.vigenciaHasta = this.formContrato.get('vigenciaHasta')?.value;
 
+      this.abrirCargando();
+
       this._contratoService.updateContrato(this.contrato).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
-            //this.mostrarMsjError('Actualización exitosa', false);
+            this.mostrarMsjError('Actualización exitosa', false);
             this.cerrar_modal(true);
             break;
           }
             default: { 
+              this.mostrarMsjError('Vuelva a intentar', true);
               this.cerrar_modal(true);
               break; 
           } 
         }
       });
     }
-  }
-
-  mostrarMsjError(mensaje: string, esError: boolean){
-    //Swal.close();
-    Swal.fire({
-      text: mensaje,
-      width: 350,
-      padding: 15,
-      timer: 2000,
-      allowOutsideClick: false,
-      showConfirmButton: false,
-      icon: (esError ? 'error' : 'success')
-    });
   }
 
   cerrar_modal(exito: boolean){
@@ -166,4 +138,31 @@ export class ContratoComponent implements OnInit {
   onSelected(value:string): void {
 		this.tieneRenovacion = value;
 	}
+
+
+  mostrarMsjError(mensaje: string, esError: boolean){
+    //Swal.close();
+    Swal.fire({
+      text: mensaje,
+      width: 350,
+      padding: 15,
+      timer: 2000,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: (esError ? 'error' : 'success')
+    });
+  }
+
+  abrirCargando(){
+    Swal.fire({
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      icon: 'info',
+      text: 'Espere por favor...'
+    });
+  }
+
+  cerrarCargando(){
+    Swal.close();
+  }
 }
