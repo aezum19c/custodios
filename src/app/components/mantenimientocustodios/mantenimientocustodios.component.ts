@@ -189,6 +189,8 @@ export class MantenimientocustodiosComponent implements OnInit {
           
           this.abrirCargando();
           this.custodioService.crearCustodio(this.custodio).subscribe((data: any) => {
+            console.log('InsertCustodio');
+            console.log(data);
             switch (data.result_code){
               case 200 : {
                 this.mostrar = true;
@@ -204,6 +206,8 @@ export class MantenimientocustodiosComponent implements OnInit {
           this.custodio.accion = 'U';
           this.custodio.usuarioRegistro = this.usuarioSession.usuarioId;
           this.custodioService.modificarCustodio(this.custodio).subscribe((data: any) => {
+            console.log('UpdateCustodio');
+            console.log(data);
             switch (data.result_code){
               case 200 : {
                 this.mostrarMsjError('Guardado!', false);
@@ -224,7 +228,7 @@ export class MantenimientocustodiosComponent implements OnInit {
   }
 
   regresar(){
-    if(this.custodio.comiteRenovacionId == 0 ){
+    if(this.custodio.tipoCustodio === '01' ){
       this.router.navigate(['/titulares/:id']);    
       localStorage.removeItem('titulares');
     } else {
@@ -338,7 +342,11 @@ export class MantenimientocustodiosComponent implements OnInit {
       disableClose: true
     });
 
+    console.log('RenovacionNUEVO')
+    console.log(contrato);
+
     dialogRef.componentInstance.contrato = contrato;
+
     /* dialogRef.componentInstance.contrato.tipoCustodio = this.custodioSelected; */
     dialogRef.componentInstance.accion = 'I';
 
@@ -351,6 +359,8 @@ export class MantenimientocustodiosComponent implements OnInit {
     const dialogRef = this._dialog.open(ContratoComponent, {
       disableClose: true
     });
+
+    contrato.tipoCustodio = this.custodioSelected;
 
     dialogRef.componentInstance.contrato = contrato;
     dialogRef.componentInstance.accion = 'M';

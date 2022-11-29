@@ -1,16 +1,16 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appOnlyNumeric]'
+  selector: '[appOnlyInteger]'
 })
-export class OnlyNumericDirective {
+export class OnlyIntegerDirective {
 
     constructor(private readonly elRef: ElementRef) { }
     @HostListener('input', ['$event.target.value'])
     onChangeInput(): void {
-        const integerOnly = /[^\d*\.\d+$/]*/g
+        const numbersOnly = /[^0-9]*/g
         const initValue = this.elRef.nativeElement.value;
-        this.elRef.nativeElement.value = initValue.replace(integerOnly, '')
+        this.elRef.nativeElement.value = initValue.replace(numbersOnly, '')
     }
 
 }

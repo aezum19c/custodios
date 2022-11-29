@@ -13,7 +13,6 @@ import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { DocumentosComponent } from '../documento/documentos/documentos.component';
 import { TitularModel } from 'src/app/models/titular.model';
-import { ContratoModel } from 'src/app/models/contrato.model';
 import { ComunidadModel } from 'src/app/models/comunidad.model';
 import { ComunidadService } from 'src/app/service/comunidad.service';
 import { ComunidadComponent } from '../comunidad/comunidad.component';
@@ -23,7 +22,6 @@ import { RespuestaServicio } from 'src/app/models/respuesta_servicio.model';
 import { TituloModel } from 'src/app/models/titulos.model';
 import { RespuestaCustodioModel } from 'src/app/models/respuesta_custodio.model';
 import { ComiteService } from 'src/app/service/comite.service';
-import { RespuestaRenovacionModel } from 'src/app/models/respuesta_renovacion.model';
 import { ComiteComponent } from '../comite/comite.component';
 import { TitularRenovacionModel } from 'src/app/models/titular_renovacion.model';
 import { ComiteRenovacionComponent } from '../comite-renovacion/comite-renovacion.component';
@@ -214,7 +212,7 @@ export class TitularesComponent implements OnInit {
         case 200 : {
           this.respuestaServicio = data;
           this.dominioTipoCustodio = this.respuestaServicio.detalle;
-          this.custodioSelected = this.titular.tipoCustodio!;
+          //this.custodioSelected = this.titular.tipoCustodio!;
           break;
         }
         default: { 
@@ -230,84 +228,97 @@ export class TitularesComponent implements OnInit {
   }
 
   guardar(){
-    if(this.departamentoSelected != '00'){
-      if(this.titular.ubigeoId != '0'){
-        if(this.custodioSelected!=''){
-          Swal.fire({
-            title: '¿Quieres guardar los cambios?',
-            showCancelButton: true,
-            confirmButtonText: 'Guardar',
-          }).then((result) => {
-            
-            if (result.isConfirmed) {
-              this.titular.tipoCustodio = this.formTitulares.get('tipoCustodio')?.value;
-              this.titular.nroTituloHabilitante = this.formTitulares.get('nroTituloHabilitante')?.value;
-              this.titular.nombreTituloHabilitante = this.formTitulares.get('nombreTituloHabilitante')?.value;
-              this.titular.tipoPersona = this.formTitulares.get('tipoPersona')?.value;
-              this.titular.dniRucTitular = this.formTitulares.get('dniRucTitular')?.value;
-              this.titular.nombreTitularComunidad = this.formTitulares.get('nombreTitularComunidad')?.value;
-              this.titular.ambitoTerritorial = this.formTitulares.get('ambitoTerritorial')?.value;
-              this.titular.extension = this.formTitulares.get('extension')?.value;
-              this.titular.departamento = this.formTitulares.get('departamento')?.value;
-              this.titular.provincia = this.formTitulares.get('provincia')?.value;
-              this.titular.distrito = this.formTitulares.get('distrito')?.value;
-              this.titular.fechaSolicitud = this.formTitulares.get('fechaSolicitud')?.value;
-              this.titular.comiteActoReconocimiento = this.formTitulares.get('comiteActoReconocimiento')?.value;
-              this.titular.fechaActoReconocimiento = this.formTitulares.get('fechaActoReconocimiento')?.value;
-              this.titular.vigencia = this.formTitulares.get('vigencia')?.value;
-              this.titular.vigenciaInicio = this.formTitulares.get('vigenciaInicio')?.value;
-              this.titular.vigenciaFin = this.formTitulares.get('vigenciaFin')?.value;
-      
-              this.titular.tipoCustodio = this.custodioSelected;
-      
-              if(this.titular.titularId == 0){
-                this.titular.accion = 'I';
-                this.custodioService.crearTitular(this.titular).subscribe((data: any) => {
-                  switch (data.result_code){
-                    case 200 : {
-                      this.titular.titularId = data.code;
-                      this.accion_titular = 'U';
-                      this.titular.accion = 'U';
-                      this.mostrar = true;
-      
-                      localStorage.removeItem('titular');
-                      localStorage.setItem('titular', JSON.stringify(this.titular));
-                      Swal.fire('Guardado!', '', 'success');
-                    }
-                  }
-                });
-              } else {
-                this.titular.accion = 'U';
-                this.custodioService.modificarTitular(this.titular).subscribe((data: any) => {
-                  switch (data.result_code){
-                    case 200 : {
-                      this.mostrar = true;
-                      this.titular.titularId = data.code;
-                      this.accion_titular = 'U';
-                      this.titular.accion = 'U';
-      
-                      localStorage.removeItem('titular');
-                      localStorage.setItem('titular', JSON.stringify(this.titular));
-                      Swal.fire('Guardado!', '', 'success');
-                    }
-                  }
-                });
-              }
-      
-              
-            } else if (result.isDenied) {
-              Swal.fire('Volver a cargar', '', 'info');
-            }
-          })
-        } else {
-          Swal.fire('Eliga el Tipo de Custodio', '', 'info');
+    if(this.titular.tipoCustodio =='02'){
+      if(this.departamentoSelected != '00'){
+        if(this.titular.ubigeoId != '0'){
+          if(this.custodioSelected!=''){
+            this.guardarTitular();
+          }
         }
       } else {
-        Swal.fire('Eliga Distrito', '', 'info');
+        Swal.fire('Eliga Departamento', '', 'info');
       }
     } else {
-      Swal.fire('Eliga Departamento', '', 'info');
+      this.guardarTitular();
     }
+  }
+
+  guardarTitular(){
+    Swal.fire({
+      title: '¿Quieres guardar los cambios?',
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+    }).then((result) => {
+      
+      if (result.isConfirmed) {
+        this.titular.tipoCustodio = this.formTitulares.get('tipoCustodio')?.value;
+        this.titular.nroTituloHabilitante = this.formTitulares.get('nroTituloHabilitante')?.value;
+        this.titular.nombreTituloHabilitante = this.formTitulares.get('nombreTituloHabilitante')?.value;
+        this.titular.tipoPersona = this.formTitulares.get('tipoPersona')?.value;
+        this.titular.dniRucTitular = this.formTitulares.get('dniRucTitular')?.value;
+        this.titular.nombreTitularComunidad = this.formTitulares.get('nombreTitularComunidad')?.value;
+        this.titular.ambitoTerritorial = this.formTitulares.get('ambitoTerritorial')?.value;
+        this.titular.extension = this.formTitulares.get('extension')?.value;
+        this.titular.departamento = this.formTitulares.get('departamento')?.value;
+        this.titular.provincia = this.formTitulares.get('provincia')?.value;
+        this.titular.distrito = this.formTitulares.get('distrito')?.value;
+        this.titular.fechaSolicitud = this.formTitulares.get('fechaSolicitud')?.value;
+        this.titular.comiteActoReconocimiento = this.formTitulares.get('comiteActoReconocimiento')?.value;
+        this.titular.fechaActoReconocimiento = this.formTitulares.get('fechaActoReconocimiento')?.value;
+        this.titular.vigencia = this.formTitulares.get('vigencia')?.value;
+        this.titular.vigenciaInicio = this.formTitulares.get('vigenciaInicio')?.value;
+        this.titular.vigenciaFin = this.formTitulares.get('vigenciaFin')?.value;
+
+        this.titular.tipoCustodio = this.custodioSelected;
+
+        if(this.titular.titularId == 0){
+          console.log('TitularId = 0');
+          this.titular.accion = 'I';
+          console.log(this.titular);
+          this.custodioService.crearTitular(this.titular).subscribe((data: any) => {
+            //console.log('Data');
+            //console.log(data);
+
+            switch (data.result_code){
+              case 200 : {
+                //console.log('Data');
+                //console.log(data);
+                this.titular.titularId = data.code;
+                this.titular.comiteRenovacionId = data.code_adittional;
+                this.accion_titular = 'U';
+                this.titular.accion = 'U';
+                this.mostrar = true;
+
+                localStorage.removeItem('titular');
+                localStorage.setItem('titular', JSON.stringify(this.titular));
+                Swal.fire('Guardado!', '', 'success');
+              }
+            }
+          });
+        } else {
+          //console.log('TitularId diferente de 0');
+          this.titular.accion = 'U';
+          this.custodioService.modificarTitular(this.titular).subscribe((data: any) => {
+            switch (data.result_code){
+              case 200 : {
+                this.mostrar = true;
+                this.titular.titularId = data.code;
+                this.accion_titular = 'U';
+                this.titular.accion = 'U';
+
+                localStorage.removeItem('titular');
+                localStorage.setItem('titular', JSON.stringify(this.titular));
+                Swal.fire('Guardado!', '', 'success');
+              }
+            }
+          });
+        }
+
+        
+      } else if (result.isDenied) {
+        Swal.fire('Volver a cargar', '', 'info');
+      }
+    })
   }
 
   get fechaSesionNoValido() {
@@ -479,7 +490,7 @@ export class TitularesComponent implements OnInit {
 
     custodio.custodioId = 0;
     custodio.titularId = this.titular.titularId;
-    custodio.comiteRenovacionId = 0;
+    custodio.comiteRenovacionId = this.titular.comiteRenovacionId;
     custodio.tipoCustodio = '01'  //01 Titulo Habilitante
 
     custodio.estadoRenovacionComite = 1;
@@ -497,7 +508,7 @@ export class TitularesComponent implements OnInit {
   verCustodio(custodio: CustodioModel){
 
     custodio.titularId = this.titular.titularId;
-    custodio.comiteRenovacionId = 0;
+    custodio.comiteRenovacionId = this.titular.comiteRenovacionId;
     custodio.tipoCustodio = '01'  //01 Titulo Habilitante
 
     custodio.estadoRenovacionComite = 1;

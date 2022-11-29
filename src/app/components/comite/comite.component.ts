@@ -81,9 +81,11 @@ export class ComiteComponent implements OnInit {
     this.comite.titularId = this.titularId;    
     this.comite.accion = this.accion;
   
-    this.abrirCargando();
+    //this.abrirCargando();
 
     this.custodioService.modificarTitular(this.comite).subscribe((data: any) => {
+      console.log('DATA');
+      console.log(data);
       switch (data.result_code){
         case 200 : {
           this.comite.accion = 'A';
@@ -91,7 +93,7 @@ export class ComiteComponent implements OnInit {
 
           /* localStorage.removeItem('comite');
           localStorage.setItem('comite', JSON.stringify(this.comite)); */
-          Swal.close();
+          //Swal.close();
           Swal.fire('Guardado!', '', 'success');
         }
       }

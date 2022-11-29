@@ -46,7 +46,7 @@
                     </div>
                     <div class="col-md-8">
                         <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
-                            <input type="number" appOnlyNumeric matInput formControlName="resolucionVigencia" name="resolucionVigencia">
+                            <input type="number" appOnlyInteger matInput formControlName="resolucionVigencia" name="resolucionVigencia">
                         </mat-form-field>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                 </div>
             </div>
             
-            <br/><br/>
+            <br/>
             <div class="row" *ngIf="accion_titular!='V'">
                 <div class="col-md-12" style="text-align: center;">
                     <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>

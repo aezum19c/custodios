@@ -57,7 +57,7 @@
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-6">
                             <label class="form_label">Nro. Título Habilitante</label>
-                            <input type="text" class="form-control form-imput" formControlName="nroTituloHabilitante" name="nroTituloHabilitante" maxlength="30">
+                            <input type="text" class="form-control form-imput" formControlName="nroTituloHabilitante" name="nroTituloHabilitante" maxlength="60">
                         </div>
 
                         <div class="col-md-6">
@@ -78,7 +78,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form_label">DNI o RUC</label>
-                            <input type="text" class="form-control" formControlName="dniRucTitular" name="dniRucTitular" maxlength="11">
+                            <input type="text" appOnlyInteger class="form-control" formControlName="dniRucTitular" name="dniRucTitular" maxlength="11">
                         </div>
                     </div>
 
@@ -90,7 +90,7 @@
 
                         <div class="col-md-6">
                             <label class="form_label">Ruc Representante Legal</label>
-                            <input type="text" class="form-control" formControlName="dniRucRepLegal" name="dniRucRepLegal" maxlength="150">
+                            <input type="text" class="form-control" appOnlyInteger formControlName="dniRucRepLegal" name="dniRucRepLegal" maxlength="11">
                         </div>
                     </div>
                 </div>

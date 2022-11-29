@@ -45,16 +45,16 @@
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Nombres</label>
-                            <input type="text" class="form-control" formControlName="nombre" name="nombre">
+                            <input type="text" appNamelastCharacter class="form-control" formControlName="nombre" name="nombre" maxlength="60">
                         </div>
 
                         <div class="col-md-4">
                             <label class="form_label">Apellidos</label>
-                            <input type="text" class="form-control" formControlName="apellidos" name="apellidos">
+                            <input type="text" appNamelastCharacter class="form-control" formControlName="apellidos" name="apellidos" maxlength="100">
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">DNI o CE</label>
-                            <input type="text" class="form-control" formControlName="dni" name="dni">
+                            <input type="text" class="form-control" formControlName="dni" name="dni" appOnlyInteger maxlength="16">
                         </div>
                     </div>
                     <br>
@@ -75,7 +75,7 @@
 
                         <div class="col-md-4">
                             <label class="form_label">Número de Constancia de capacitación</label>
-                            <input type="text" class="form-control" formControlName="capacitacionNumero" name="capacitacionNumero">
+                            <input type="text" appAllowCharacter class="form-control" formControlName="capacitacionNumero" name="capacitacionNumero" maxlength="30">
                         </div>
                     </div>
                     <br>
@@ -100,8 +100,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row" *ngIf="custodio.capacitacionNombre  != ''">
+                            <div class="col-md-8" style="margin-left: 10px;">
+                                <label class="form_label">Archivo adjunto - Constancia de capacitación:</label>
+                            </div>
+                        </div>
                         <div class="row" *ngIf="custodio.capacitacionNombre != ''">
-                            <div class="col-md-4" style="background: #8A9597;">
+                            <div class="col-md-4" style="background: #8A9597; margin-left: 30px;">
                                 {{ custodio.capacitacionNombre }}
                             </div>
                             <div class="col-md-3">
@@ -137,7 +142,7 @@
 
                         <div class="row" *ngIf="custodio.reconocimientoNombre  != ''">
                             <div class="col-md-8" style="margin-left: 10px;">
-                                <label class="form_label">Archivo adjunto - Constancia de capacitación:</label>
+                                <label class="form_label">Archivo adjunto - Solicitud de reconocimiento:</label>
                             </div>
                         </div>
                         <div class="row" *ngIf="custodio.reconocimientoNombre != ''">
@@ -159,7 +164,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">Acto Administrativo</label>
-                            <input type="text" class="form-control" formControlName="actoAdministrativo" name="actoAdministrativo">
+                            <input type="text" class="form-control" formControlName="actoAdministrativo" name="actoAdministrativo" maxlength="150">
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">Fecha Acto Administrativo</label>
@@ -170,7 +175,7 @@
                         
                         <div class="col-md-4">
                             <label class="form_label">Vigencia</label>
-                            <input type="number" appOnlyNumeric class="form-control" formControlName="actoAdministrativoVigencia" name="actoAdministrativoVigencia">
+                            <input type="number" appOnlyInteger class="form-control" formControlName="actoAdministrativoVigencia" name="actoAdministrativoVigencia">
                         </div>
                         <div class="col-md-4">
                             <label class="form_label">Periodo de Vigencia:Desde</label>
@@ -186,7 +191,7 @@
                         
                         <div class="col-md-4">
                             <label class="form_label">Código Carné de acreditación</label>
-                            <input type="text" class="form-control" formControlName="carneCodigo" name="carneCodigo">
+                            <input type="text" class="form-control" formControlName="carneCodigo" name="carneCodigo" maxlength="150">
                         </div>
                     </div>
                     <br>
@@ -298,17 +303,17 @@
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Nombres</label>
-                            <input type="text" class="form-control" formControlName="nombre" name="nombre">
+                            <input type="text" class="form-control" formControlName="nombre" name="nombre" appAllowCharacter maxlength="60">
                         </div>
 
                         <div class="col-md-4">
                             <label class="form_label">DNI</label>
-                            <input type="text" class="form-control" formControlName="dni" name="dni">
+                            <input type="text" class="form-control" formControlName="dni" name="dni" appOnlyNumeric maxlength="16">
                         </div>
 
                         <div class="col-md-4">
                             <label class="form_label">Cargo</label>
-                            <input type="text" class="form-control" formControlName="cargo" name="cargo">
+                            <input type="text" class="form-control" formControlName="cargo" name="cargo" maxlength="150">
                         </div>
                     </div>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
@@ -319,12 +324,12 @@
 
                         <div class="col-md-4">
                             <label class="form_label">Número de Constancia de Capacitación</label>
-                            <input type="text" class="form-control" formControlName="capacitacionNumero" name="capacitacionNumero">
+                            <input type="text" class="form-control" formControlName="capacitacionNumero" name="capacitacionNumero" maxlength="30">
                         </div>
 
                         <div class="col-md-4">
                             <label class="form_label">Código Carné Acreditación</label>
-                            <input type="text" class="form-control" formControlName="carneCodigo" name="carneCodigo">
+                            <input type="text" class="form-control" formControlName="carneCodigo" name="carneCodigo" maxlength="150">
                         </div>
                     </div>
                     <br>

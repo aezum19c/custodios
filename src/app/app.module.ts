@@ -29,6 +29,9 @@ import { ConsultaPublicaComponent } from './components/consulta-publica/consulta
 import { ComiteComponent } from './components/comite/comite.component';
 import { CustodiosComiteComponent } from './components/custodios-comite/custodios-comite.component';
 import { ComiteRenovacionComponent } from './components/comite-renovacion/comite-renovacion.component';
+import { OnlyIntegerDirective } from './directive/only-integer.directive';
+import { AllowCharacterDirective } from './directive/alow-character.directive';
+import { OnlyNameslastDirective } from './directive/only-namelast.directive';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,9 @@ import { ComiteRenovacionComponent } from './components/comite-renovacion/comite
     ContratoComponent,
     ComunidadComponent,
     OnlyNumericDirective,
+    OnlyIntegerDirective,
+    AllowCharacterDirective,
+    OnlyNameslastDirective,
     ConsultaPublicaComponent,
     ComiteComponent,
     CustodiosComiteComponent,

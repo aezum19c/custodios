@@ -17,7 +17,7 @@
                 </div>
             </div>
             <br>
-            <div *ngIf="tieneRenovacion=='1'">
+            <div *ngIf="tieneRenovacion==='1'">
                 <div class="row" *ngIf="contrato.tipoCustodio=='01'">
                     <div class="col-md-4">
                         <label for="resolucion" style="color: #000;">Resolución renovación de:</label>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="col-md-8">
                         <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
-                            <input type="number" appOnlyNumeric matInput formControlName="resolucionVigencia" name="resolucionVigencia">
+                            <input type="number" appOnlyInteger matInput formControlName="resolucionVigencia" name="resolucionVigencia">
                         </mat-form-field>
                     </div>
                 </div>
