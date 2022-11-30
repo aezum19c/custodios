@@ -81,7 +81,7 @@ export class TitularesComponent implements OnInit {
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private _dialog: MatDialog,
-
+    private custodiosServices: CustodiosService,
     ) { 
       
       /* this.titularRenovacion =[{titularId:1, comiteRenovacionId:1, flagRenovacion:0, resolucion:'resolucion', resolucionFecha:'2022-05-16',
@@ -112,6 +112,8 @@ export class TitularesComponent implements OnInit {
     this.custodioSelected = this.titular.tipoCustodio ?? '01';
 
     this.departamentoSelected = this.titular.departamento!;
+    this.dominioProvincias = [{provincia:'00', nombre:'-- Seleccionar --'}];
+    this.dominioDistritos = [{ubigeoId:0, nombre:'-- Seleccionar --'}];
 
     if(this.accion_titular == 'N' ){ this.mostrar =false; } else { this.mostrar = true}; 
 
@@ -152,6 +154,9 @@ export class TitularesComponent implements OnInit {
 
 
     if(this.accion_titular != 'N'){
+      
+      this.selectedTipoPersona = this.titular.tipoPersona!;
+
       this.dominiosService.getProvincias('P', this.titular.departamento!).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
@@ -256,6 +261,8 @@ export class TitularesComponent implements OnInit {
         this.titular.nombreTituloHabilitante = this.formTitulares.get('nombreTituloHabilitante')?.value;
         this.titular.tipoPersona = this.formTitulares.get('tipoPersona')?.value;
         this.titular.dniRucTitular = this.formTitulares.get('dniRucTitular')?.value;
+        this.titular.nombreRepLegal = this.formTitulares.get('nombreRepLegal')?.value;
+        this.titular.dniRucRepLegal = this.formTitulares.get('dniRucRepLegal')?.value;
         this.titular.nombreTitularComunidad = this.formTitulares.get('nombreTitularComunidad')?.value;
         this.titular.ambitoTerritorial = this.formTitulares.get('ambitoTerritorial')?.value;
         this.titular.extension = this.formTitulares.get('extension')?.value;
@@ -879,8 +886,8 @@ descargarDocumentoSolicitudRenococimiento(){
         case 200 : {
           this.comiteRespuestaServicio = data;
           this.titularRenovacion = this.comiteRespuestaServicio.content;
-          console.log('TiturlarRenovación');
-          console.log(this.titularRenovacion);
+          //console.log('TiturlarRenovación');
+          //console.log(this.titularRenovacion);
           this.totalComites = this.titularRenovacion.length ?? 0;
           break;
         }
@@ -965,10 +972,33 @@ descargarDocumentoSolicitudRenococimiento(){
   validarAntesDeListarComite(strItem: string){
     let cerrar: string = localStorage.getItem(strItem) || '';
     if (cerrar === '1'){
-      this.obtenerComites();
+      //Es necesario actualizar los campos del titular, luego de grabar Nuevo Comite(Para la primera vez).
+      //Y poder verComite con estos valores.
+    this.obtenerTitulares();
+      //this.obtenerComites();
     }
 
     localStorage.removeItem(strItem);
+  }
+
+  obtenerTitulares(){
+    this.custodiosServices.getTitular(this.titular.titularId!).subscribe((data: any) => {
+      switch (data.result_code){
+        case 200 : {
+          
+          this.respuestaServicio = data;
+          
+          localStorage.removeItem('titular');
+          localStorage.setItem('titular', JSON.stringify(this.respuestaServicio.titular));
+
+          this.obtenerComites();
+          break;
+        }
+        default: { 
+          break; 
+       } 
+      }
+    });
   }
 
   activarComite(comite: TitularRenovacionModel){

@@ -74,11 +74,11 @@
 
             <div class="row" >
                 <div class="col-md-4">
-                    <label for="vigencia" style="color: #000;">Vigencia</label>
+                    <label for="vigencia" style="color: #000;">Vigencia(meses)</label>
                 </div>
                 <div class="col-md-8">
                     <mat-form-field appearance="outline" style="width: 90%; margin-top: -17px; color: #000;">
-                        <input type="text" matInput formControlName="vigencia" name="vigencia">
+                        <input type="text" appOnlyInteger  matInput formControlName="vigencia" name="vigencia">
                     </mat-form-field>
                 </div>
             </div>

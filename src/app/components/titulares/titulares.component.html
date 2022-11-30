@@ -266,14 +266,14 @@
                 <h4>Comite y sus Renovaciones</h4>
                 <div class="row " *ngIf="accion_titular!='V'">
                     <!-- text-right -->
-                    <div class="col text-right" *ngIf="totalComites == 0"> <!--   -->
+                    <div class="col text-right" *ngIf="totalComites == 0">
                         <button type="button" (click)="nuevoComite()" class="btn btn-primary">
                             <i class="fa fa-plus"> </i>
                             CREAR COMITE
                         </button>
                     </div>
 
-                    <div class="col text-right" *ngIf="totalComites != 0"> <!--  -->
+                    <div class="col text-right" *ngIf="totalComites != 0">
                         <button type="button" (click)="nuevaRenovacionComite()" class="btn btn-primary">
                             <i class="fa fa-plus"> </i>
                             RENOVACION

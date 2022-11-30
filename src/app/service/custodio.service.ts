@@ -93,4 +93,10 @@ export class CustodiosService {
         })
       );
   }
+
+  getTitular( titularId : Number ){
+    let url = URL_API + 'titularById?titularId=' + titularId;
+    
+    return this.http.get(url);
+  }
 }

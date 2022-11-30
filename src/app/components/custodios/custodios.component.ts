@@ -34,7 +34,7 @@ export class CustodiosComponent implements OnInit {
   page: number = 1;
   regxpag: number = 10;
   totalRegistros: number = 0;
-  selectedTipoCustodio: string = '';
+  selectedTipoCustodio: string = '00';
   filtro: string='';
 
   constructor( 
@@ -71,12 +71,15 @@ export class CustodiosComponent implements OnInit {
 
   obtenerTitulares(){
     this.custodiosServices.getTitulares(0, this.filtro,  this.selectedTipoCustodio, this.page, this.regxpag).subscribe((data: any) => {
+      console.log('data');
+      console.log(data);
       switch (data.result_code){
         case 200 : {
           
           this.respuestaServicio = data;
           this.titulares = this.respuestaServicio.content;
-          this.totalRegistros = this.titulares[0].totalRegistros!;
+          //this.totalRegistros = this.titulares[0].totalRegistros!;
+          this.totalRegistros = this.titulares.length ?? 0;
 
           console.log('Titulares');
           console.log(this.titulares);
@@ -211,7 +214,6 @@ export class CustodiosComponent implements OnInit {
   }
 
   obtenerDominios(){
-
     this.dominiosServices.getDominioTiposCustodio().subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
@@ -223,9 +225,6 @@ export class CustodiosComponent implements OnInit {
           });
           localStorage.removeItem('tipoCustodio');
           localStorage.setItem('tipoCustodio', JSON.stringify(this.dominioTipoCustodio));
-
-          this.selectedTipoCustodio = '00';
-          this.crearFormulario();
           break;
         }
         default: { 

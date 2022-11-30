@@ -14,4 +14,5 @@ export class RespuestaServicio {
     detalle!: DominioModel[];
     ubigeos!: UbigeoModel[];
     titulos!: ComunidadModel[];
+    titular!: TitularModel;
 }

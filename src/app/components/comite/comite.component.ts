@@ -83,6 +83,9 @@ export class ComiteComponent implements OnInit {
   
     //this.abrirCargando();
 
+    console.log('COMITE');
+    console.log(this.comite);
+
     this.custodioService.modificarTitular(this.comite).subscribe((data: any) => {
       console.log('DATA');
       console.log(data);
