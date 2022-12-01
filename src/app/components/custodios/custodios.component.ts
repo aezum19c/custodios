@@ -11,6 +11,7 @@ import { CustodiosService } from 'src/app/service/custodio.service';
 import { DocumentoService } from 'src/app/service/documento.service';
 import { DominiosService } from 'src/app/service/dominio.service';
 import Swal from 'sweetalert2';
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: 'app-custodios',
@@ -70,7 +71,9 @@ export class CustodiosComponent implements OnInit {
   }
 
   obtenerTitulares(){
-    this.custodiosServices.getTitulares(0, this.filtro,  this.selectedTipoCustodio, this.page, this.regxpag).subscribe((data: any) => {
+    this.llamarServicios();
+
+    /* this.custodiosServices.getTitulares(0, this.filtro,  this.selectedTipoCustodio, this.page, this.regxpag).subscribe((data: any) => {
       console.log('data');
       console.log(data);
       switch (data.result_code){
@@ -88,6 +91,61 @@ export class CustodiosComponent implements OnInit {
         default: { 
           break; 
        } 
+      }
+    }); */
+  }
+
+
+  llamarServicios(){
+    this.abrirCargando();
+    forkJoin([
+      this.dominiosServices.getDominioTiposCustodio(),
+      this.dominiosServices.getDominioTiposPersona(),
+      this.dominiosServices.getDominioMotivosPerdida(),
+      this.custodiosServices.getTitulares(0, this.filtro,  this.selectedTipoCustodio, this.page, this.regxpag),
+    ]).subscribe({
+      next: ([
+        data0,
+        data1,
+        data2,
+        data3,
+      ]: [
+        any,
+        any,
+        any,
+        any,
+      ]) => {
+        this.dominioTipoCustodio = data0.detalle!;
+        this.dominioObservacion = data1.detalle!;
+        this.dominioMotivos = data2.detalle!;
+        this.titulares = data3.content!;
+      },
+      error: (error: any) => {
+        //this.alertService.error(`${error.codigo} - ${error.mensaje}`);
+        //this.changeDetectorRef.markForCheck();
+        this.mostrarMsjError('Vuelva a intentarlo',true);
+      },
+      complete: () => {
+        //Datos corrrectos del servicio getDominioTipoCustodio
+        this.dominioTipoCustodio.unshift({
+          codigoDetalle: '00',
+          valorDetalle: '-- Todos --'
+        });
+        localStorage.removeItem('tipoCustodio');
+        localStorage.setItem('tipoCustodio', JSON.stringify(this.dominioTipoCustodio));
+
+        //Datos corrrectos del servicio getDominioTiposPersona
+        localStorage.removeItem('tipoPersona');
+        localStorage.setItem('tipoPersona', JSON.stringify(this.dominioObservacion));
+
+        //Datos corrrectos del servicio getDominioMotivosPerdida
+        localStorage.removeItem('motivosPerdida');
+        localStorage.setItem('motivosPerdida', JSON.stringify(this.dominioMotivos));
+
+        //Datos corrrectos del servicio getTitulares
+        this.totalRegistros = this.titulares.length ?? 0;
+      
+        this.mostrarMsjError('¡Listado Custodios!',false);
       }
     });
   }

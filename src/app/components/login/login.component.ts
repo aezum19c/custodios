@@ -40,7 +40,8 @@ export class LoginComponent implements OnInit {
 
             this.router.navigate( ['/custodios']) ;
 
-            this.mostrarMsjError('Bienvenido al Sistema de Custodios',false);
+            this.cerrarCargando();
+            //this.mostrarMsjError('Bienvenido al Sistema de Custodios',false);
            break; 
         } 
         case 401: { 

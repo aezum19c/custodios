@@ -105,13 +105,16 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12" style="text-align: center;">
-                    <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
-                    <button *ngIf="comite.estado != 0" type="button" class="btn btn-success" mat-raised-button (click)="guardarComite()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
-                </div>
-            </div>
-            <input type="button" #btncerrarComite mat-dialog-close class="ocultar">
+            
         </form>
     </div>
+</div>
+<div mat-dialog-content style="background-color: #fff;">
+    <div class="row">
+        <div class="col-md-12" style="text-align: center;">
+            <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
+            <button *ngIf="comite.estado != 0" type="button" class="btn btn-success" mat-raised-button (click)="guardarComite()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+        </div>
+    </div>
+    <input type="button" #btncerrarComite mat-dialog-close class="ocultar">
 </div>
