@@ -379,7 +379,7 @@
                 <div *ngIf=" accion_custodio!='V'">
                     <div class="col"*ngIf="custodio.estadoRenovacionComite != 0 ">
                         <div class="form-group text-right">
-                            <button type="button" (click)="guardar()" class="btn btn-primary w-25">
+                            <button *ngIf="!ocultarBtnGuardar" type="button" (click)="guardar()" class="btn btn-primary w-25">
                                 <i class="fa fa-save"></i>
                                 Guardar
                             </button>

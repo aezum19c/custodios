@@ -57,6 +57,7 @@ export class MantenimientocustodiosComponent implements OnInit {
   custodioSelected: string = '01';
 
   selectedMotivoPerdida: string = '';
+  ocultarBtnGuardar!: boolean;
 
   constructor( 
     private _documentoService: DocumentoService,
@@ -157,6 +158,8 @@ export class MantenimientocustodiosComponent implements OnInit {
   }
 
   guardar(){
+    this.ocultarBtnGuardar = true;
+
     Swal.fire({
       title: '¿Quieres guardar los cambios?',
       showCancelButton: true,
@@ -189,8 +192,6 @@ export class MantenimientocustodiosComponent implements OnInit {
           
           this.abrirCargando();
           this.custodioService.crearCustodio(this.custodio).subscribe((data: any) => {
-            console.log('InsertCustodio');
-            console.log(data);
             switch (data.result_code){
               case 200 : {
                 this.mostrar = true;
@@ -201,23 +202,24 @@ export class MantenimientocustodiosComponent implements OnInit {
                 this.mostrarMsjError('Guardado!', false);
               }
             }
+            this.ocultarBtnGuardar = false;
           });
         } else {
           this.custodio.accion = 'U';
           this.custodio.usuarioRegistro = this.usuarioSession.usuarioId;
           this.custodioService.modificarCustodio(this.custodio).subscribe((data: any) => {
-            console.log('UpdateCustodio');
-            console.log(data);
             switch (data.result_code){
               case 200 : {
                 this.mostrarMsjError('Guardado!', false);
               }
             }
+            this.ocultarBtnGuardar = false;
           });
         }
 
-      } else if (result.isDenied) {
-        Swal.fire('Volver a cargar', '', 'info')
+      } else {
+        this.ocultarBtnGuardar = false;
+        Swal.fire('Cancelado', '', 'info')
       }
     })
 

@@ -73,7 +73,7 @@ export class ConsultaPublicaComponent implements OnInit {
         case 200 : {
           
           this.respuestaServicio = data;
-          this.totalRegistros = data.content[0].totalRegistros!;
+          this.totalRegistros = data.content[0].totalRegistros ?? 0;
           this.titulares = this.respuestaServicio.content;
 
           console.log('Titulares');

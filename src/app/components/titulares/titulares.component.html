@@ -192,7 +192,7 @@
                 <br>
                 <div class="col" *ngIf="accion_titular!='V'">
                     <div class="form-group text-right">
-                        <button type="button" (click)="guardar()" class="btn btn-primary w-25">
+                        <button *ngIf="!ocultarBtnGuardar"  type="button" (click)="guardar()" class="btn btn-primary w-25">
                             <i class="fa fa-save"></i>
                             Guardar
                         </button>

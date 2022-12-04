@@ -71,6 +71,8 @@ export class TitularesComponent implements OnInit {
 
   totalComites: number = 0;
 
+  ocultarBtnGuardar!: boolean;
+
   constructor( 
     private _documentoService: DocumentoService,
     private custodioService: CustodiosService,
@@ -253,6 +255,7 @@ export class TitularesComponent implements OnInit {
   }
 
   guardarTitular(){
+    this.ocultarBtnGuardar = true;
     Swal.fire({
       title: '¿Quieres guardar los cambios?',
       showCancelButton: true,
@@ -287,9 +290,9 @@ export class TitularesComponent implements OnInit {
         this.titular.tipoCustodio = this.custodioSelected;
 
         if(this.titular.titularId == 0){
-          console.log('TitularId = 0');
+          //console.log('TitularId = 0');
           this.titular.accion = 'I';
-          console.log(this.titular);
+          //console.log(this.titular);
           this.custodioService.crearTitular(this.titular).subscribe((data: any) => {
             //console.log('Data');
             //console.log(data);
@@ -309,6 +312,8 @@ export class TitularesComponent implements OnInit {
                 Swal.fire('Guardado!', '', 'success');
               }
             }
+
+            this.ocultarBtnGuardar = false;
           });
         } else {
           //console.log('TitularId diferente de 0');
@@ -326,12 +331,14 @@ export class TitularesComponent implements OnInit {
                 Swal.fire('Guardado!', '', 'success');
               }
             }
+            this.ocultarBtnGuardar = false;
           });
         }
 
         
-      } else if (result.isDenied) {
-        Swal.fire('Volver a cargar', '', 'info');
+      } else {
+        this.ocultarBtnGuardar = false;
+        Swal.fire('Cancelado', '', 'info');
       }
     })
   }
