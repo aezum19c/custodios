@@ -61,13 +61,16 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form_label">Nombres del Título Habilitante</label>
+                            <label class="form_label">Nombre del Título Habilitante</label>
                             <input type="text" class="form-control" formControlName="nombreTituloHabilitante" name="nombreTituloHabilitante" maxlength="150">
                         </div>
                     </div>
-                    <br>
                     <div class="row" style="padding: 10px 10px 10px 10px;">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label class="form_label">Nombre del titular del título habilitante</label>
+                            <input type="text" class="form-control" formControlName="nombreTitularComunidad" name="nombreTitularComunidad" maxlength="30">
+                        </div>
+                        <div class="col-md-4">
                             <label class="form_label">Tipo Persona</label>
                             <select class="form-control" (change)="onSelectTipoPersona($event)" formControlName="tipoPersona" name="tipoPersona"> 
                                 <option *ngFor="let tipoPersona of dominioTipoPersona" value={{tipoPersona.codigoDetalle}}>
@@ -76,7 +79,7 @@
                             </select>
 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form_label">DNI o RUC</label>
                             <input type="text" appOnlyInteger class="form-control" formControlName="dniRucTitular" name="dniRucTitular" maxlength="11">
                         </div>
@@ -94,25 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="custodioSelected==='02'">
-                    <h2>Datos de la Comunidad</h2>
-                    <div class="row" style="padding: 10px 10px 10px 10px;">
-                        <div class="col-md-4">
-                            <label class="form_label">Nombre de la Comunidad</label>
-                            <input type="text" class="form-control" formControlName="nombreTitularComunidad" name="nombreTitularComunidad" maxlength="30">
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form_label">Extensión</label>
-                            <input type="text" class="form-control" formControlName="extension" name="extension" maxlength="150">
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form_label">Sector</label>
-                            <input type="text" class="form-control" formControlName="ambitoTerritorial" name="ambitoTerritorial" maxlength="150">
-                        </div>
-                    </div>
-                    <br>
+                <div *ngIf="custodioSelected==='01'">
                     <div class="row" style="padding: 10px 10px 10px 10px;">
                         <div class="col-md-4">
                             <label class="form_label">Departamento</label>
@@ -140,79 +125,71 @@
                             </select>
                         </div>
                     </div>
-                    <br>
-                    <!-- <h2>Datos de Comité de Vigilancia y Control Reconocido</h2>
-                    <div *ngIf="mostrar">
-                        <div class="row" *ngIf="titular.nombreAdjunto === '' && accion_titular!='V'">
-                            <div class="col-md-4">
-                                <label class="form_label">Solicitud de reconocimiento del comité de vigilancia:</label>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" formControlName="adjuntodocprimera" name="adjuntodocprimera">
-                            </div>
-                            <div class="col-md-4">
-                                <div style="display: grid; grid-template-columns: 50px 500px ">
-                                    <div>
-                                        <mat-icon (click)="elegirArchivoSolicitudRenococimiento()" style="font-size: 33px; cursor: pointer;" color="warn" matTooltip="Cargar archivo" matTooltipClass="tooltip-red">add_circle</mat-icon>
-                                        <input #btnselectSolicitudRenocomiento style="display: none;" (change)="seleccion_archivo_solicitud_reconocimiento($event)" type="file">
-                                    </div>
-                                    <div>
-                                        <button type="button" class="btn btn-success" mat-raised-button (click)="guardarDocumentoSolicitudRenococimiento()">Subir Archivo</button>
-                                 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" *ngIf="titular.nombreAdjunto != ''">
-                            <div class="col-md-8" style="margin-left: 10px;">
-                                <label class="form_label">Archivo adjunto - Solicitud de reconocimiento del comité de vigilancia:</label>
-                            </div>
-                        </div>
-                        <div class="row" *ngIf="titular.nombreAdjunto != ''">
-                            <div class="col-md-4" style="background: #8A9597; margin-left: 30px;">
-                                {{ titular.nombreAdjunto }}
-                            </div>
-                            <div class="col-md-3">
-                                <button class="btn btn-info mr-1" (click)="descargarDocumentoSolicitudRenococimiento()"> <i class="fa fa-download"></i></button>
-                                <button class="btn btn-danger mr-1" type="button" (click)="eliminarDocumentoSolicitudRenococimiento()" *ngIf="accion_titular!='V'"> <i class="fa fa-trash"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row" style="padding: 10px 10px 10px 10px;">
-                        <div class="col-md-4">
-                            <label class="form_label">Fecha Solicitud</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaSolicitud" name="fechaSolicitud">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form_label">Acto Administrativo de renocimiento del Comité</label>
-                            <input type="text" class="form-control" formControlName="comiteActoReconocimiento" name="comiteActoReconocimiento" maxlength="150">
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form_label">Fecha de la Resolución de reconocimiento del Comité</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="fechaActoReconocimiento" name="fechaActoReconocimiento">
-                        </div>
-                    </div>
-
-                    <div class="row" style="padding: 10px 10px 10px 10px;">
-                        <div class="col-md-4">
-                            <label class="form_label">Vigencia</label>
-                            <input type="text" class="form-control" formControlName="vigencia" name="vigencia" maxlength="150">
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form_label">Periodo de Vigencia del permiso: Inicio</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaInicio" name="vigenciaInicio">
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form_label">Fin</label>
-                            <input type="date" data-date-format="yyyy-dd-MM" matInput class="form-control" formControlName="vigenciaFin" name="vigenciaFin">
-                        </div>
-                    </div>
-                    <br> -->
                 </div>
+                <div *ngIf="custodioSelected==='02'">
+                    <h2>Datos de la Comunidad</h2>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-4">
+                            <label class="form_label">Nombre de la Comunidad</label>
+                            <input type="text" class="form-control" formControlName="nombreTitularComunidad" name="nombreTitularComunidad" maxlength="30">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form_label">Extensión</label>
+                            <input type="text" class="form-control" formControlName="extension" name="extension" maxlength="150">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form_label">Sector</label>
+                            <input type="text" class="form-control" formControlName="ambitoTerritorial" name="ambitoTerritorial" maxlength="150">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 10px 10px 10px 10px;">
+                        <div class="col-md-4">
+                            <label class="form_label">Departamento</label>
+                            <select class="form-control" (change)="onSelectDepartamento($event)" formControlName="departamento" name="departamento">
+                                <option *ngFor="let departamento of dominioDepartamentos" value={{departamento.departamento}}>
+                                    {{departamento.nombre}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form_label">Provincia</label>
+                            <select class="form-control" (change)="onSelectProvincia($event)" formControlName="provincia" name="provincia">
+                                <option *ngFor="let provincias of dominioProvincias" value={{provincias.provincia}}>
+                                    {{provincias.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form_label">Distrito</label>
+                            <select class="form-control" (change)="onSelectDistrito($event)" formControlName="distrito" name="distrito"> 
+                                <option *ngFor="let distritos of dominioDistritos" value={{distritos.ubigeoId}}>
+                                    {{distritos.nombre}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row" style="padding: 10px 10px 10px 10px;">
+                    <div class="col-md-4">
+                        <label class="form_label">Correo de la comunidad</label>
+                        <input type="text" class="form-control" formControlName="correoTitular" name="correoTitular" maxlength="150">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form_label">Número celular de contacto</label>
+                        <input type="text" class="form-control" formControlName="celularTitular" name="celularTitular" maxlength="20">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form_label">Fecha Actualización del registro</label>
+                        <input type="date" data-date-format="yyyy-dd-MM" class="form-control" formControlName="fechaActualizacion" name="fechaActualizacion" maxlength="10">
+                    </div>
+                </div>
+                <br>
                 <div class="col" *ngIf="accion_titular!='V'">
                     <div class="form-group text-right">
                         <button type="button" (click)="guardar()" class="btn btn-primary w-25">

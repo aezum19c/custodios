@@ -150,6 +150,10 @@ export class TitularesComponent implements OnInit {
       periodoHasta: [this.titular.periodoHasta], */
 
       adjuntodocprimera: '',
+
+      correoTitular: [this.titular.correoTitular],
+      celularTitular: [this.titular.celularTitular],
+      fechaActualizacion: [this.titular.fechaActualizacion],
     });
 
 
@@ -275,6 +279,10 @@ export class TitularesComponent implements OnInit {
         this.titular.vigencia = this.formTitulares.get('vigencia')?.value;
         this.titular.vigenciaInicio = this.formTitulares.get('vigenciaInicio')?.value;
         this.titular.vigenciaFin = this.formTitulares.get('vigenciaFin')?.value;
+
+        this.titular.correoTitular = this.formTitulares.get('correoTitular')?.value;
+        this.titular.celularTitular = this.formTitulares.get('celularTitular')?.value;
+        this.titular.fechaActualizacion = this.formTitulares.get('fechaActualizacion')?.value;
 
         this.titular.tipoCustodio = this.custodioSelected;
 

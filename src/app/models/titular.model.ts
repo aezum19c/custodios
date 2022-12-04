@@ -45,4 +45,8 @@ export class TitularModel {
     
     custodio?: CustodioModel[];
     comiteRenovacionId?: number;
+    
+    correoTitular?: string;
+    celularTitular?: string;
+    fechaActualizacion?: string;
 }
