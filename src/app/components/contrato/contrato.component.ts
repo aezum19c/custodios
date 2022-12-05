@@ -21,6 +21,7 @@ export class ContratoComponent implements OnInit {
   custodioId: number=0;
   
   tieneRenovacion: string = '1';
+  ocultarBtnGuardar!: boolean;
 
   constructor(
     private _contratoService: ContratoService,
@@ -77,25 +78,30 @@ export class ContratoComponent implements OnInit {
 
     this.contrato.usuarioRegistro = this.usuarioSession.usuarioId;
 
+    this.ocultarBtnGuardar = true;
+
     if (this.accion === 'I'){
       this.contrato.accion = 'I';
       this.contrato.secuenciaId = 0;
       
-      this.cerrarCargando();
+      this.abrirCargando();
       
       this._contratoService.insertarContrato(this.contrato).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
             this.mostrarMsjError('Registro creado exitosamente', false);
-            this.cerrar_modal(true);
             break;
           }
             default: { 
               this.mostrarMsjError('Vuelva a intentar', true);
-              this.cerrar_modal(true);
               break; 
           } 
         }
+        this.cerrar_modal(true);
+        this.ocultarBtnGuardar = false;
+      },  error => {
+        this.ocultarBtnGuardar = false;
+        this.mostrarMsjError('Ingrese los campos y vuelva a intentarlo',true);
       });
     }
 
@@ -114,15 +120,18 @@ export class ContratoComponent implements OnInit {
         switch (data.result_code){
           case 200 : {
             this.mostrarMsjError('Actualización exitosa', false);
-            this.cerrar_modal(true);
             break;
           }
             default: { 
               this.mostrarMsjError('Vuelva a intentar', true);
-              this.cerrar_modal(true);
               break; 
           } 
         }
+        this.cerrar_modal(true);
+        this.ocultarBtnGuardar = false;
+      },  error => {
+        this.ocultarBtnGuardar = false;
+        this.mostrarMsjError('Ingrese los campos y vuelva a intentarlo',true);
       });
     }
   }

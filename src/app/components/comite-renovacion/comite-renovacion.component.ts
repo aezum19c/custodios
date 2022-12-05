@@ -24,6 +24,8 @@ export class ComiteRenovacionComponent implements OnInit {
   
   tieneRenovacion: string = '1';
 
+  ocultarBtnGuardar!: boolean;
+
   constructor(
     private _comiteService: ComiteService,
     private fb: FormBuilder,
@@ -73,6 +75,8 @@ export class ComiteRenovacionComponent implements OnInit {
     this.titularRenovacion.tipoRenovacion = 'R';
     this.titularRenovacion.usuarioRegistro = this.usuarioSession.usuarioId;
 
+    this.ocultarBtnGuardar = true;
+
     if (this.accion === 'I'){
       this.titularRenovacion.accion = 'I';
       
@@ -90,6 +94,10 @@ export class ComiteRenovacionComponent implements OnInit {
               break; 
           } 
         }
+        this.ocultarBtnGuardar = false;
+      },  error => {
+        this.ocultarBtnGuardar = false;
+        this.mostrarMsjError('Ingrese los campos y vuelva a intentarlo',true);
       });
     }
 
@@ -117,6 +125,10 @@ export class ComiteRenovacionComponent implements OnInit {
               break; 
           } 
         }
+        this.ocultarBtnGuardar = false;
+      },  error => {
+        this.ocultarBtnGuardar = false;
+        this.mostrarMsjError('Ingrese los campos y vuelva a intentarlo',true);
       });
     }
   }

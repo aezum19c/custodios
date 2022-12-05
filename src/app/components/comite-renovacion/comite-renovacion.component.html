@@ -72,7 +72,7 @@
             <div class="row" *ngIf="accion_titular!='V'">
                 <div class="col-md-12" style="text-align: center;">
                     <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
-                    <button *ngIf="titularRenovacion.estado != 0" type="button" class="btn btn-success" mat-raised-button (click)="guardarComiteRenovacion()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                    <button *ngIf="titularRenovacion.estado != 0 && !ocultarBtnGuardar" type="button" class="btn btn-success" mat-raised-button (click)="guardarComiteRenovacion()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
                 </div>
             </div>
 

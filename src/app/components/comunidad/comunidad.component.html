@@ -66,7 +66,7 @@
             <div class="row">
                 <div class="col-md-12" style="text-align: center;">
                     <button type="button" class="btn btn-danger" style="margin-right: 5px;" mat-stroked-button (click)="cerrar_modal(false)">Cancelar</button>
-                    <button type="button" class="btn btn-success" mat-raised-button (click)="guardarComunidad()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
+                    <button *ngIf="!ocultarBtnGuardar" type="button" class="btn btn-success" mat-raised-button (click)="guardarComunidad()">Guardar</button> <!-- *ngIf="menu.permiteActualizar === '1'" -->
                 </div>
             </div>
             <input type="button" #btncerrarComu mat-dialog-close class="ocultar">

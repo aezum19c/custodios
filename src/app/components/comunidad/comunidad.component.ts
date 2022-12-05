@@ -21,6 +21,8 @@ export class ComunidadComponent implements OnInit {
   titularId!: number;
   tieneRenovacion: string = '1';
 
+  ocultarBtnGuardar!: boolean;
+
   constructor(private _comunidadService: ComunidadService) { }
 
   ngOnInit(): void {
@@ -76,6 +78,8 @@ export class ComunidadComponent implements OnInit {
 
     this.comunidad.usuarioRegistro = this.usuarioSession.usuarioId;
 
+    this.ocultarBtnGuardar = true;
+
     if (this.accion === 'I'){
       this.comunidad.accion = 'I';
       this.comunidad.secuenciaId = 0;
@@ -95,6 +99,10 @@ export class ComunidadComponent implements OnInit {
               break; 
           } 
         }
+        this.ocultarBtnGuardar = false;
+      },  error => {
+        this.ocultarBtnGuardar = false;
+        this.mostrarMsjError('Ingrese los campos y vuelva a intentarlo',true);
       });
     }
 
@@ -119,6 +127,10 @@ export class ComunidadComponent implements OnInit {
               break; 
           } 
         }
+        this.ocultarBtnGuardar = false;
+      },  error => {
+        this.ocultarBtnGuardar = false;
+        this.mostrarMsjError('Ingrese los campos y vuelva a intentarlo',true);
       });
     }
   }

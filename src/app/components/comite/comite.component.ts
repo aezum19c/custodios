@@ -29,7 +29,8 @@ export class ComiteComponent implements OnInit {
 
   adjuntoModelSolicitudReconomiento : AdjuntoModel = new AdjuntoModel; 
   adjuntoSolicitudReconomiento!: File;
-  
+  ocultarBtnGuardar!: boolean;
+
   constructor(
     private _documentoService: DocumentoService,
     private custodioService: CustodiosService,
@@ -82,14 +83,9 @@ export class ComiteComponent implements OnInit {
     this.comite.accion = this.accion;
     this.comite.usuarioRegistro = this.usuarioSession.usuarioId;
     
-    //this.abrirCargando();
-
-    console.log('COMITE');
-    console.log(this.comite);
-
+    this.abrirCargando();
+    this.ocultarBtnGuardar = true;
     this.custodioService.modificarTitular(this.comite).subscribe((data: any) => {
-      console.log('DATA');
-      console.log(data);
       switch (data.result_code){
         case 200 : {
           this.comite.accion = 'A';
@@ -98,10 +94,15 @@ export class ComiteComponent implements OnInit {
           /* localStorage.removeItem('comite');
           localStorage.setItem('comite', JSON.stringify(this.comite)); */
           //Swal.close();
-          Swal.fire('Guardado!', '', 'success');
+          //Swal.fire('Guardado!', '', 'success');
+          this.mostrarMsjError('Guardado',false);
         }
       }
-    });
+      this.ocultarBtnGuardar = false;
+    },  error => {
+      this.ocultarBtnGuardar = false;
+      this.mostrarMsjError('Ingrese los campos y vuelva a intentarlo',true);
+    })
   }
 
   mostrarMsjError(mensaje: string, esError: boolean){
