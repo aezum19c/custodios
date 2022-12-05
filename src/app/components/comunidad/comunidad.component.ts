@@ -74,11 +74,13 @@ export class ComunidadComponent implements OnInit {
     this.comunidad.vigenciaInicio = this.formComunidad.get('fechaPeriodoInicio')?.value;
     this.comunidad.vigenciaFin = this.formComunidad.get('fechaPeriodoFin')?.value;
 
+    this.comunidad.usuarioRegistro = this.usuarioSession.usuarioId;
+
     if (this.accion === 'I'){
       this.comunidad.accion = 'I';
       this.comunidad.secuenciaId = 0;
       this.comunidad.titularId = this.titularId;
-      
+
       this.abrirCargando();
       this._comunidadService.insertarComunidad(this.comunidad).subscribe((data: any) => {
         switch (data.result_code){

@@ -75,6 +75,8 @@ export class ContratoComponent implements OnInit {
     this.contrato.vigenciaDesde = this.formContrato.get('vigenciaDesde')?.value;
     this.contrato.vigenciaHasta = this.formContrato.get('vigenciaHasta')?.value;
 
+    this.contrato.usuarioRegistro = this.usuarioSession.usuarioId;
+
     if (this.accion === 'I'){
       this.contrato.accion = 'I';
       this.contrato.secuenciaId = 0;

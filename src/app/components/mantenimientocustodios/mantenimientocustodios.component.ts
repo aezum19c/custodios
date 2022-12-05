@@ -185,6 +185,7 @@ export class MantenimientocustodiosComponent implements OnInit {
         this.custodio.perdidaFecha = this.formCustodio.get('perdidaFecha')?.value;
         this.custodio.estado = this.formCustodio.get('estado')?.value;
         this.custodio.cargo = this.formCustodio.get('cargo')?.value;
+        this.custodio.usuarioRegistro = this.usuarioSession.usuarioId;
 
         if(this.custodio.custodioId == 0){
           this.custodio.accion = 'I';

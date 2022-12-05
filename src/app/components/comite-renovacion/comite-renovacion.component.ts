@@ -71,6 +71,7 @@ export class ComiteRenovacionComponent implements OnInit {
 
     this.titularRenovacion.titularId = this.titularId;
     this.titularRenovacion.tipoRenovacion = 'R';
+    this.titularRenovacion.usuarioRegistro = this.usuarioSession.usuarioId;
 
     if (this.accion === 'I'){
       this.titularRenovacion.accion = 'I';

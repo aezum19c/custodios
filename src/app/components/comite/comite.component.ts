@@ -80,7 +80,8 @@ export class ComiteComponent implements OnInit {
 
     this.comite.titularId = this.titularId;    
     this.comite.accion = this.accion;
-  
+    this.comite.usuarioRegistro = this.usuarioSession.usuarioId;
+    
     //this.abrirCargando();
 
     console.log('COMITE');

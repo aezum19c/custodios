@@ -87,7 +87,7 @@ export class DocumentosComponent implements OnInit {
     let extension = '';
     if(this.adjunto!=null) extension = this.adjunto.name.split('.').pop()!;
     let nombre = this.formDocumento.get('asunto')?.value;
-    
+
     if (this.accion === 'I'){
       this._documentoService.uploadAdjunto(this.adjunto, this.custodioId!, this.formDocumento.get('asunto')?.value, extension!, nombre!).subscribe((data: any) => {
         switch (data.result_code){
