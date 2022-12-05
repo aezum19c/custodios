@@ -72,27 +72,6 @@ export class CustodiosComponent implements OnInit {
 
   obtenerTitulares(){
     this.llamarServicios();
-
-    /* this.custodiosServices.getTitulares(0, this.filtro,  this.selectedTipoCustodio, this.page, this.regxpag).subscribe((data: any) => {
-      console.log('data');
-      console.log(data);
-      switch (data.result_code){
-        case 200 : {
-          
-          this.respuestaServicio = data;
-          this.titulares = this.respuestaServicio.content;
-          //this.totalRegistros = this.titulares[0].totalRegistros!;
-          this.totalRegistros = this.titulares.length ?? 0;
-
-          console.log('Titulares');
-          console.log(this.titulares);
-          break;
-        }
-        default: { 
-          break; 
-       } 
-      }
-    }); */
   }
 
 

@@ -47,7 +47,7 @@ export class TitularesComponent implements OnInit {
   usuarioSession : UserModel = new UserModel();
 
   custodios! : CustodioModel[]; 
-  comunidades! : ComunidadModel[];
+  titulosHabilitantes! : ComunidadModel[];
 
   page: number = 1;
   regxpag: number = 10;
@@ -96,7 +96,7 @@ export class TitularesComponent implements OnInit {
     //const 
     this.cargarDepartamentos();
     this.crearFormulario();
-    this.obtenerComunidades();
+    this.obtenerListadoTitulosHabilitantes();
     this.obtenerCustodios();
     this.obtenerComites();
     
@@ -288,6 +288,7 @@ export class TitularesComponent implements OnInit {
         this.titular.fechaActualizacion = this.formTitulares.get('fechaActualizacion')?.value;
 
         this.titular.tipoCustodio = this.custodioSelected;
+        this.titular.usuarioRegistro = this.usuarioSession.usuarioId;
 
         if(this.titular.titularId == 0){
           //console.log('TitularId = 0');
@@ -605,13 +606,13 @@ export class TitularesComponent implements OnInit {
   }
 
   /************** Titulares Habilitantes ************/
-  obtenerComunidades(){
+  obtenerListadoTitulosHabilitantes(){
     this.comunidadService.getComunidad(this.titular.titularId!).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
           this.tituloServicio = data;
           console.log(this.tituloServicio);
-          this.comunidades = this.tituloServicio.content;
+          this.titulosHabilitantes = this.tituloServicio.content;
           break;
         }
         default: { 
@@ -654,7 +655,7 @@ export class TitularesComponent implements OnInit {
   validarAntesDeListarComunidad(strItem: string){
     let cerrar: string = localStorage.getItem(strItem) || '';
     if (cerrar === '1'){
-      this.obtenerComunidades();
+      this.obtenerListadoTitulosHabilitantes();
     }
 
     localStorage.removeItem(strItem);
@@ -674,7 +675,7 @@ export class TitularesComponent implements OnInit {
         this.comunidadService.desactivaActivaComunidad(comunidad).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
-              this.obtenerComunidades();
+              this.obtenerListadoTitulosHabilitantes();
               this.mostrarMsjError('Titulo Habilitante Activado',false);
               break;
             }
@@ -702,7 +703,7 @@ export class TitularesComponent implements OnInit {
         this.comunidadService.desactivaActivaComunidad(comunidad).subscribe((data: any) => {
           switch (data.result_code){
             case 200 : {
-              this.obtenerComunidades();
+              this.obtenerListadoTitulosHabilitantes();
               this.mostrarMsjError('Titulo Habilitante Desactivado',false);
               break;
             }
