@@ -171,11 +171,11 @@
                             </select>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="row" style="padding: 10px 10px 10px 10px;">
                     <div class="col-md-4">
-                        <label class="form_label">Correo de la comunidad</label>
+                        <label class="form_label">Correo del titular del título habilitante</label>
                         <input type="text" class="form-control" formControlName="correoTitular" name="correoTitular" maxlength="150">
                     </div>
 
@@ -192,7 +192,7 @@
                 <br>
                 <div class="col" *ngIf="accion_titular!='V'">
                     <div class="form-group text-right">
-                        <button *ngIf="!ocultarBtnGuardar"  type="button" (click)="guardar()" class="btn btn-primary w-25">
+                        <button *ngIf="!ocultarBtnGuardar" type="button" (click)="guardar()" class="btn btn-primary w-25">
                             <i class="fa fa-save"></i>
                             Guardar
                         </button>
@@ -205,7 +205,7 @@
                 <br>
                 <div class="row " *ngIf="accion_titular!='V'">
                     <!-- text-right -->
-                    <div class="col text-right" >
+                    <div class="col text-right">
                         <button type="button" class="btn btn-primary" (click)="nuevaComunidad()">
                             <i class="fa fa-plus"> </i>
                             Agregar
@@ -271,7 +271,7 @@
                             <td>{{ renovacionComite.resolucion }}</td>
                             <td>{{ renovacionComite.vigenciaDesde | ddMMyyyy}}</td>
                             <td>{{ renovacionComite.vigenciaHasta | ddMMyyyy}}</td>
-                            <td  *ngIf="accion_titular!='V'">
+                            <td *ngIf="accion_titular!='V'">
                                 <button *ngIf="renovacionComite.estado == 1" class="btn btn-success mr-1" (click)="verComite(renovacionComite)"> <i class="fa fa-pencil"></i></button>
                                 <button *ngIf="renovacionComite.estado == 0" class="btn btn-primary mr-1" (click)="verComite(renovacionComite)"> <i class="fa fa-eye"></i></button>
                                 <button *ngIf="renovacionComite.estado == 1" class="btn btn-success mr-1" (click)="abrirCustodiosxComite(renovacionComite)"> <i class="fa fa-user-plus"></i></button>
@@ -279,7 +279,7 @@
                                 <!-- <button *ngIf="renovacionComite.estado == 1" class="btn btn-danger mr-1" type="button" (click)="desactivarComite(renovacionComite)"> <i class="fa fa-trash"></i></button>
                                 <button *ngIf="renovacionComite.estado == 0" class="btn btn-primary mr-1" type="button" (click)="activarComite(renovacionComite)"> <i class="fa fa-check"></i></button> -->
                             </td>
-                            <td  *ngIf="accion_titular=='V'">
+                            <td *ngIf="accion_titular=='V'">
                                 <button class="btn btn-primary mr-1" (click)="verComite(renovacionComite)"> <i class="fa fa-eye"></i></button>
                                 <button class="btn btn-info mr-1" (click)="abrirCustodiosxComite(renovacionComite)"> <i class="fa fa-user"></i></button>
                             </td>
