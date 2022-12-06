@@ -100,8 +100,6 @@ export class CustodiosComponent implements OnInit {
         this.titulares = data3.content!;
       },
       error: (error: any) => {
-        //this.alertService.error(`${error.codigo} - ${error.mensaje}`);
-        //this.changeDetectorRef.markForCheck();
         this.mostrarMsjError('Vuelva a intentarlo',true);
       },
       complete: () => {
@@ -160,8 +158,6 @@ export class CustodiosComponent implements OnInit {
 
   desactivarRegistro(titular: TitularModel){
     titular.accion ='D';
-    console.log('Titular:Descativar');
-    console.log(titular);
     Swal.fire({
       title: '¿Seguro de DESACTIVAR el registro?',
       showCancelButton: true,
@@ -182,7 +178,9 @@ export class CustodiosComponent implements OnInit {
               break; 
           } 
           }
-        })
+        }, error => {
+          this.mostrarMsjError('Ocurrio un error vuelva a intentarlo',true);
+        });
       }
     })
   }
@@ -210,7 +208,9 @@ export class CustodiosComponent implements OnInit {
               break; 
           } 
           }
-        })
+        }, error => {
+          this.mostrarMsjError('Ocurrio un error vuelva a intentarlo',true);
+        });
       }
     })
   }
@@ -228,6 +228,8 @@ export class CustodiosComponent implements OnInit {
           anchor.click();
 
           this.cerrarCargando();
+      }, error => {
+        this.mostrarMsjError('Ocurrio un error vuelva a intentarlo',true);
       });
     }else{
       Swal.fire('Eliga el Tipo de Custodio', '', 'info');
@@ -247,6 +249,8 @@ export class CustodiosComponent implements OnInit {
       anchor.click();
 
       this.cerrarCargando();
+    }, error => {
+      this.mostrarMsjError('Ocurrio un error vuelva a intentarlo',true);
     });
   }
 
@@ -265,7 +269,6 @@ export class CustodiosComponent implements OnInit {
           break;
         }
         default: { 
-          //statements; 
           break; 
        } 
       }
@@ -282,7 +285,6 @@ export class CustodiosComponent implements OnInit {
           break;
         }
         default: { 
-          //statements; 
           break; 
        } 
       }
@@ -300,7 +302,6 @@ export class CustodiosComponent implements OnInit {
           break;
         }
         default: { 
-          //statements; 
           break; 
        } 
       }

@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
 
   usermodel : UsuarioModel = new UsuarioModel();
   respuestaServicio : RespuestaServicio = new RespuestaServicio();
+  ocultarBtnGuardar!: boolean;
 
   constructor(
     private router: Router,
@@ -28,7 +29,9 @@ export class LoginComponent implements OnInit {
     
     if( form.invalid ) { return; }
 
+    this.ocultarBtnGuardar = true;
     this.abrirCargando();
+    
     this.usarioService.getUsuario( this.usermodel ).subscribe( ( data: any ) => {
   
       switch( data.result_code ) { 
@@ -41,7 +44,6 @@ export class LoginComponent implements OnInit {
             this.router.navigate( ['/custodios']) ;
 
             this.cerrarCargando();
-            //this.mostrarMsjError('Bienvenido al Sistema de Custodios',false);
            break; 
         } 
         case 401: { 
@@ -61,7 +63,11 @@ export class LoginComponent implements OnInit {
           this.mostrarMsjError('No se ha podido iniciar la sesión, vuelva a intentar',true);
            break; 
         } 
-     } 
+     }
+     this.ocultarBtnGuardar = false;
+    }, error => {
+      this.ocultarBtnGuardar = false;
+      this.mostrarMsjError('Ocurrio un error vuelva a intentarlo',true);
     });
   }
 

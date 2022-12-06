@@ -71,13 +71,9 @@ export class ConsultaPublicaComponent implements OnInit {
     this.custodiosServices.getTitulares(0, this.filtro,  this.selectedTipoCustodio, this.page, this.regxpag).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
-          
           this.respuestaServicio = data;
           this.totalRegistros = data.content[0].totalRegistros ?? 0;
           this.titulares = this.respuestaServicio.content;
-
-          console.log('Titulares');
-          console.log(this.titulares);
           break;
         }
         default: { 
@@ -117,6 +113,8 @@ export class ConsultaPublicaComponent implements OnInit {
           anchor.click();
 
           this.cerrarCargando();
+      },  error => {
+        this.mostrarMsjError('Ingrese los campos y vuelva a intentarlo',true);
       });
     }else{
       Swal.fire('Eliga el Tipo de Custodio', '', 'info');
@@ -136,6 +134,8 @@ export class ConsultaPublicaComponent implements OnInit {
       anchor.click();
 
       this.cerrarCargando();
+    },  error => {
+      this.mostrarMsjError('Ingrese los campos y vuelva a intentarlo',true);
     });
   }
 
@@ -158,7 +158,6 @@ export class ConsultaPublicaComponent implements OnInit {
           break;
         }
         default: { 
-          //statements; 
           break; 
        } 
       }
@@ -175,7 +174,6 @@ export class ConsultaPublicaComponent implements OnInit {
           break;
         }
         default: { 
-          //statements; 
           break; 
        } 
       }
@@ -217,7 +215,7 @@ export class ConsultaPublicaComponent implements OnInit {
   }
 
   mostrarMsjError(mensaje: string, esError: boolean){
-    //Swal.close();
+    Swal.close();
     Swal.fire({
       text: mensaje,
       width: 350,

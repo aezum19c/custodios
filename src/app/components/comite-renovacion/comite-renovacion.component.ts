@@ -114,7 +114,6 @@ export class ComiteRenovacionComponent implements OnInit {
       this._comiteService.updateComite(this.titularRenovacion).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
-            //this.mostrarMsjError('Actualización exitosa', false);
             this.cerrar_modal(true);
             this.mostrarMsjError('Comite actualizado correctamente!',false);
             break;
@@ -134,7 +133,7 @@ export class ComiteRenovacionComponent implements OnInit {
   }
 
   mostrarMsjError(mensaje: string, esError: boolean){
-    //Swal.close();
+    Swal.close();
     Swal.fire({
       text: mensaje,
       width: 350,

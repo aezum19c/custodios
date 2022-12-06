@@ -72,7 +72,6 @@ export class MantenimientocustodiosComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    //const 
     this.crearFormulario();
     this.crearTablaContratos();
   }
@@ -113,10 +112,6 @@ export class MantenimientocustodiosComponent implements OnInit {
       cargo : [this.custodio.cargo],
       estado : [this.custodio.estado],
 
-      /* adjuntodoccapacitacion: [this.custodio.capacitacionNombre] ?? '',
-      adjuntodocreconocimiento: [this.custodio.reconocimientoNombre] ?? '',
-      adjuntodoccarnet : [this.custodio.carneNombre] ?? '',
-      adjuntodocperdidaacto : [this.custodio.perdidaActoAdmNombre] ?? '', */
       adjuntodoccapacitacion: '',
       adjuntodocreconocimiento: '',
       adjuntodoccarnet :  '',
@@ -125,7 +120,6 @@ export class MantenimientocustodiosComponent implements OnInit {
   }
 
   crearTablaContratos(){
-    //this.usuarioSession = JSON.parse( localStorage.getItem('usuariosession') || '{}' );
     this.obtenerContratos();
   }
 
@@ -165,7 +159,6 @@ export class MantenimientocustodiosComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Guardar',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.custodio.nombre = this.formCustodio.get('nombre')?.value;
         this.custodio.apellidos = this.formCustodio.get('apellidos')?.value;
@@ -204,6 +197,9 @@ export class MantenimientocustodiosComponent implements OnInit {
               }
             }
             this.ocultarBtnGuardar = false;
+          }, error => {
+            this.ocultarBtnGuardar = false;
+            this.mostrarMsjError('Ocurrio un error vuelva a intentarlo',true);
           });
         } else {
           this.custodio.accion = 'U';
@@ -215,6 +211,9 @@ export class MantenimientocustodiosComponent implements OnInit {
               }
             }
             this.ocultarBtnGuardar = false;
+          }, error => {
+            this.ocultarBtnGuardar = false;
+            this.mostrarMsjError('Ocurrio un error vuelva a intentarlo',true);
           });
         }
 
@@ -291,8 +290,6 @@ export class MantenimientocustodiosComponent implements OnInit {
 
     dialogRef.componentInstance.documento = doc;
     dialogRef.componentInstance.accion = 'I';
-    /* dialogRef.componentInstance.custodioId = this.titular.titularId!; */
-
     dialogRef.afterClosed().subscribe(result => {
       this.validarAntesDeListar('cerrarDocumento');
     });
@@ -304,7 +301,6 @@ export class MantenimientocustodiosComponent implements OnInit {
     });
 
     dialogRef.componentInstance.documento = adjunto;
-    /* dialogRef.componentInstance.custodioId = this.titular.titularId!; */
     dialogRef.componentInstance.accion = 'M';
 
     dialogRef.afterClosed().subscribe(result => {
@@ -345,12 +341,9 @@ export class MantenimientocustodiosComponent implements OnInit {
       disableClose: true
     });
 
-    console.log('RenovacionNUEVO')
-    console.log(contrato);
-
     dialogRef.componentInstance.contrato = contrato;
 
-    /* dialogRef.componentInstance.contrato.tipoCustodio = this.custodioSelected; */
+  
     dialogRef.componentInstance.accion = 'I';
 
     dialogRef.afterClosed().subscribe(result => {
@@ -376,7 +369,6 @@ export class MantenimientocustodiosComponent implements OnInit {
   validarAntesDeListarContrato(strItem: string){
     let cerrar: string = localStorage.getItem(strItem) || '';
     if (cerrar === '1'){
-      //this.page = 1;
       this.crearTablaContratos();
     }
 
@@ -415,9 +407,12 @@ export class MantenimientocustodiosComponent implements OnInit {
             default: { 
               this.mostrarMsjError('Vuelva a intentarlo', true);
               break; 
-          } 
+            } 
           }
-        })
+        },
+        (error) => {
+          this.mostrarMsjError('Ocurrió un error al eliminar el documento', true);
+        });
       }
     })
   }
@@ -445,9 +440,12 @@ export class MantenimientocustodiosComponent implements OnInit {
             default: { 
               this.mostrarMsjError('Vuelva a intentarlo', true);
               break; 
-          } 
+            } 
           }
-        })
+        },
+        (error) => {
+          this.mostrarMsjError('Ocurrió un error al eliminar el documento', true);
+        });
       }
     })
   }

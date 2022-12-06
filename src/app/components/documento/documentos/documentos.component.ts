@@ -31,10 +31,6 @@ export class DocumentosComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuarioSession = JSON.parse( localStorage.getItem('usuariosession') || '{}' );
-    
-    //this.inicio = JSON.parse( localStorage.getItem('inicio') || '{}' );
-    //this.usuario = JSON.parse( localStorage.getItem('usuario') || '{}' );
-    //this.menu = JSON.parse( localStorage.getItem('menu') || '{}' );
 
     this.crearFormulario();
 

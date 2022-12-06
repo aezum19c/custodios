@@ -65,7 +65,7 @@
             </span>
             <input type="password" id="password" class="fadeIn third" name="pass" required placeholder="Password" [(ngModel)]="usermodel.clave">
 
-            <input type="submit" class="fadeIn fourth" value="INGRESAR">
+            <input *ngIf="!ocultarBtnGuardar" type="submit" class="fadeIn fourth" value="INGRESAR">
             <br>
             <div id="formFooter">
              <a class="underlineHover" [routerLink]="['/consulta-publica']">Consulta Pública</a>

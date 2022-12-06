@@ -37,28 +37,28 @@ export class CustodiosComiteComponent implements OnInit {
   }
 
   obtenerCustodios(){
-    /* this.titularId = JSON.parse( localStorage.getItem('titularId')!); */
-    /* this.comiteRenovacionId = JSON.parse( localStorage.getItem('comiteRenovacionId')!); */
     this.renovacionComite = JSON.parse( localStorage.getItem('renovacionComite')  || '{}' );
     this.accion_custodio = JSON.parse( localStorage.getItem('accion_custodio') || '' );
   
     this.titularId = this.renovacionComite.titularId!;
     this.comiteRenovacionId = this.renovacionComite.comiteRenovacionId!;
     
+    this.abrirCargando();
+
     this.custodioService.getCustodios(this.titularId!, this.comiteRenovacionId,'', this.page, this.regxpag).subscribe((data: any) => {
       switch (data.result_code){
         case 200 : {
           this.custodioServicio = data;
-          /* this.totalRegistros = data.content[0].totalRegistros; */
-          /* console.log('custodioServicio');
-          console.log(this.custodioServicio.content); */
           this.custodios = this.custodioServicio.content;
+          this.mostrarMsjError('Custodios por Comite',false);
           break;
         }
         default: { 
           break; 
        } 
       }
+    }, (error) => {
+      this.mostrarMsjError('Ocurrió un error vuelva a intentarlo', true);
     });
   }
 
@@ -103,8 +103,7 @@ export class CustodiosComiteComponent implements OnInit {
   
   desactivarCustodio(custodio: CustodioModel){
     custodio.accion ='D';
-    //console.log('Custodio:Descativar');
-    //console.log(custodio);
+
     Swal.fire({
       title: '¿Seguro de DESACTIVAR el registro?',
       showCancelButton: true,
@@ -127,7 +126,9 @@ export class CustodiosComiteComponent implements OnInit {
               break; 
           } 
           }
-        })
+        }, (error) => {
+          this.mostrarMsjError('Ocurrió un error vuelva a intentarlo', true);
+        });
       }
     })
   }
@@ -156,7 +157,9 @@ export class CustodiosComiteComponent implements OnInit {
               break; 
           } 
           }
-        })
+        }, (error) => {
+          this.mostrarMsjError('Ocurrió un error vuelva a intentarlo', true);
+        });
       }
     })
   }

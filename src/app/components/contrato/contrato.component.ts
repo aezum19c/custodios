@@ -34,11 +34,7 @@ export class ContratoComponent implements OnInit {
     if(this.contrato.flagRenovacion == 0){
       this.tieneRenovacion = '0';
     }
-    
-    //this.inicio = JSON.parse( localStorage.getItem('inicio') || '{}' );
-    //this.usuario = JSON.parse( localStorage.getItem('usuario') || '{}' );
-    //this.menu = JSON.parse( localStorage.getItem('menu') || '{}' );
-
+  
     this.crearFormulario();
 
     if (this.accion === 'M') {
@@ -53,11 +49,6 @@ export class ContratoComponent implements OnInit {
 
 
   crearFormulario() {
-    /* this.formContrato = new FormGroup({
-      asunto: new FormControl('', [Validators.required]),
-      adjuntodoc: new FormControl('', [Validators.required])
-    }); */
-
     this.formContrato = this.fb.group({
       flagRenovacion : [this.contrato.flagRenovacion],
       resolucion : [this.contrato.resolucion],
@@ -152,7 +143,7 @@ export class ContratoComponent implements OnInit {
 
 
   mostrarMsjError(mensaje: string, esError: boolean){
-    //Swal.close();
+    Swal.close();
     Swal.fire({
       text: mensaje,
       width: 350,

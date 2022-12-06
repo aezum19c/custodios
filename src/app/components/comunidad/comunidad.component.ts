@@ -27,10 +27,6 @@ export class ComunidadComponent implements OnInit {
 
   ngOnInit(): void {
     this.usuarioSession = JSON.parse( localStorage.getItem('usuariosession') || '{}' );
-    
-    //this.inicio = JSON.parse( localStorage.getItem('inicio') || '{}' );
-    //this.usuario = JSON.parse( localStorage.getItem('usuario') || '{}' );
-    //this.menu = JSON.parse( localStorage.getItem('menu') || '{}' );
 
     this.crearFormulario();
 
@@ -116,7 +112,6 @@ export class ComunidadComponent implements OnInit {
       this._comunidadService.updateComunidad(this.comunidad).subscribe((data: any) => {
         switch (data.result_code){
           case 200 : {
-            //this.mostrarMsjError('Actualización exitosa', false);
             this.mostrarMsjError('Titulo Habilitante Actualizado',false);
             this.cerrar_modal(true);
             break;
@@ -136,7 +131,7 @@ export class ComunidadComponent implements OnInit {
   }
 
   mostrarMsjError(mensaje: string, esError: boolean){
-    //Swal.close();
+    Swal.close();
     Swal.fire({
       text: mensaje,
       width: 350,
