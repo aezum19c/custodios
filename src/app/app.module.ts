@@ -51,12 +51,22 @@ import { OnlyNameslastDirective } from './directive/only-namelast.directive';
     ConsultaPublicaComponent,
     ComiteComponent,
     CustodiosComiteComponent,
+    ComiteRenovacionComponent,
+    
+    OnlyNumericDirective,
+    OnlyIntegerDirective,
+    AllowCharacterDirective,
+    OnlyNameslastDirective,
+    ConsultaPublicaComponent,
+    ComiteComponent,
+    CustodiosComiteComponent,
     ComiteRenovacionComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    
     HttpClientModule,
     ReactiveFormsModule,
     NgxPaginationModule,
@@ -68,7 +78,7 @@ import { OnlyNameslastDirective } from './directive/only-namelast.directive';
     MatTabsModule,
     BrowserAnimationsModule,
   ],
-  providers: [OnlyNumericDirective],
+  providers: [OnlyNumericDirective, OnlyIntegerDirective, AllowCharacterDirective, OnlyNameslastDirective],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

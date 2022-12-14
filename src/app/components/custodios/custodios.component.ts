@@ -120,7 +120,13 @@ export class CustodiosComponent implements OnInit {
         localStorage.setItem('motivosPerdida', JSON.stringify(this.dominioMotivos));
 
         //Datos corrrectos del servicio getTitulares
-        this.totalRegistros = this.titulares[0].totalRegistros ?? 0;
+
+        if(this.titulares != null && this.titulares[0] ){
+          this.totalRegistros = this.titulares[0].totalRegistros ?? 0;
+        } else {
+          this.totalRegistros = 0;
+        }
+        
       
         this.mostrarMsjError('¡Listado Custodios!',false);
       }
